@@ -23,6 +23,7 @@
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         body {
@@ -35,7 +36,6 @@
             overflow: hidden;
         }
 
-        /* Оболочка мобильного приложения / сайта */
         .app-container {
             width: 100%;
             max-width: 430px;
@@ -49,7 +49,7 @@
             overflow: hidden;
         }
 
-        /* --- ЗАГРУЗОЧНЫЙ ЭКРАН (SPLASH SCREEN) --- */
+        /* --- SPLASH SCREEN --- */
         #splash-screen {
             position: absolute;
             inset: 0;
@@ -63,13 +63,13 @@
         }
 
         .logo-title {
-            font-size: 3rem;
+            font-size: 3.2rem;
             font-weight: 800;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px var(--glow-blue);
+            text-shadow: 0 0 25px var(--glow-blue);
             animation: pulse 2s infinite ease-in-out;
         }
 
@@ -80,7 +80,6 @@
             border-radius: 10px;
             margin-top: 30px;
             overflow: hidden;
-            position: relative;
         }
 
         .loader-progress {
@@ -88,29 +87,21 @@
             height: 100%;
             background: var(--accent-cyan);
             box-shadow: 0 0 10px var(--accent-cyan);
-            border-radius: 10px;
-            animation: load 2.5s forwards ease-in-out;
+            animation: load 2.2s forwards ease-in-out;
         }
 
-        @keyframes load {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
+        @keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-        }
-
-        /* --- ВЕРХНЯЯ ПАНЕЛЬ (HEADER) --- */
+        /* --- HEADER --- */
         header {
             padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(11, 19, 43, 0.8);
+            background: rgba(11, 19, 43, 0.9);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(72, 202, 228, 0.1);
+            border-bottom: 1px solid rgba(72, 202, 228, 0.15);
             z-index: 10;
         }
 
@@ -128,7 +119,7 @@
 
         .currency-badge {
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             padding: 6px 12px;
             border-radius: 20px;
             display: flex;
@@ -142,21 +133,12 @@
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            display: inline-block;
         }
 
-        .icon-lumen {
-            background: var(--lumen-color);
-            box-shadow: 0 0 8px var(--lumen-color);
-        }
+        .icon-lumen { background: var(--lumen-color); box-shadow: 0 0 8px var(--lumen-color); }
+        .icon-shard { background: var(--shard-color); box-shadow: 0 0 8px var(--shard-color); transform: rotate(45deg); }
 
-        .icon-shard {
-            background: var(--shard-color);
-            box-shadow: 0 0 8px var(--shard-color);
-            transform: rotate(45deg);
-        }
-
-        /* --- ОСНОВНОЙ КОНТЕНТ --- */
+        /* --- MAIN CONTENT & TABS --- */
         main {
             flex: 1;
             padding: 20px;
@@ -166,6 +148,9 @@
             gap: 20px;
         }
 
+        .tab-content { display: none; flex-direction: column; gap: 16px; }
+        .tab-content.active { display: flex; }
+
         .section-title {
             font-size: 1.1rem;
             color: var(--text-muted);
@@ -173,21 +158,18 @@
             letter-spacing: 1px;
         }
 
-        /* Карточка новеллы */
+        /* Карточка историй */
         .story-card {
             background: var(--card-bg);
             border-radius: 16px;
             overflow: hidden;
             border: 1px solid rgba(72, 202, 228, 0.2);
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            transition: transform 0.2s, border-color 0.2s;
             cursor: pointer;
-            position: relative;
+            transition: transform 0.2s;
         }
 
-        .story-card:active {
-            transform: scale(0.98);
-        }
+        .story-card:active { transform: scale(0.98); }
 
         .story-cover {
             width: 100%;
@@ -209,37 +191,13 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .story-info {
-            padding: 16px;
-        }
+        .story-info { padding: 16px; }
+        .story-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; }
+        .story-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 14px; }
+        .story-meta { display: flex; justify-content: space-between; align-items: center; }
+        .episodes-count { font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600; }
 
-        .story-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #fff;
-        }
-
-        .story-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-            margin-bottom: 14px;
-        }
-
-        .story-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .episodes-count {
-            font-size: 0.8rem;
-            color: var(--accent-cyan);
-            font-weight: 600;
-        }
-
-        .btn-open {
+        .btn-action {
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
             color: #fff;
             border: none;
@@ -251,14 +209,32 @@
             box-shadow: 0 0 12px var(--glow-blue);
         }
 
-        /* --- НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (NAVBAR) --- */
+        /* Список мини-игр */
+        .game-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(72, 202, 228, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .game-info-box { display: flex; align-items: center; gap: 14px; }
+        .game-icon { font-size: 2rem; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; }
+        .game-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 4px; }
+        .game-reward { font-size: 0.75rem; color: var(--accent-cyan); }
+
+        /* --- NAVBAR (НИЖНЯЯ ПАНЕЛЬ) --- */
         nav {
             background: rgba(11, 19, 43, 0.95);
             backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(72, 202, 228, 0.1);
+            border-top: 1px solid rgba(72, 202, 228, 0.15);
             display: flex;
             justify-content: space-around;
             padding: 12px 0;
+            z-index: 20;
         }
 
         .nav-item {
@@ -267,27 +243,21 @@
             align-items: center;
             gap: 4px;
             color: var(--text-muted);
-            text-decoration: none;
             font-size: 0.7rem;
             cursor: pointer;
-            transition: color 0.2s;
             width: 20%;
+            transition: color 0.2s;
         }
 
-        .nav-item.active, .nav-item:hover {
-            color: var(--accent-cyan);
-        }
+        .nav-item.active { color: var(--accent-cyan); }
+        .nav-icon { font-size: 1.2rem; }
 
-        .nav-icon {
-            font-size: 1.2rem;
-        }
-
-        /* --- МОДАЛЬНОЕ ОКНО ОКРУЖЕНИЯ --- */
+        /* --- MODALS & SCREENS --- */
         .modal {
             position: absolute;
             inset: 0;
             background: rgba(11, 19, 43, 0.95);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             z-index: 50;
             display: flex;
             flex-direction: column;
@@ -299,10 +269,7 @@
             transition: opacity 0.3s ease;
         }
 
-        .modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal.active { opacity: 1; pointer-events: auto; }
 
         .modal-card {
             background: var(--card-bg);
@@ -310,22 +277,15 @@
             border-radius: 20px;
             padding: 24px;
             width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
             text-align: center;
+            position: relative;
         }
 
-        .modal-title {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            color: var(--accent-cyan);
-        }
-
-        .modal-body {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
+        .modal-title { font-size: 1.3rem; margin-bottom: 12px; color: var(--accent-cyan); }
+        .modal-body { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.4; }
+        
         .btn-close {
             background: transparent;
             border: 1px solid var(--accent-cyan);
@@ -333,14 +293,101 @@
             padding: 8px 24px;
             border-radius: 20px;
             cursor: pointer;
+            margin-top: 15px;
         }
+
+        /* Список серий */
+        .episode-list { display: flex; flex-direction: column; gap: 10px; text-align: left; margin-bottom: 15px; }
+        .episode-item {
+            background: rgba(255,255,255,0.05);
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .episode-item.unlocked { border-color: var(--accent-cyan); }
+
+        /* ЭКРАН ЧТЕНИЯ НОВЕЛЛЫ */
+        #reader-screen {
+            position: absolute;
+            inset: 0;
+            background: #000;
+            z-index: 80;
+            display: none;
+            flex-direction: column;
+            justify-content: flex-end;
+            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop') center/cover;
+        }
+
+        #reader-screen.active { display: flex; }
+
+        .dialog-box {
+            background: rgba(11, 19, 43, 0.92);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid var(--accent-cyan);
+            padding: 20px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .character-name { font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px; }
+        .dialog-text { font-size: 0.95rem; line-height: 1.5; color: #fff; margin-bottom: 15px; }
+        .dialog-choices { display: flex; flex-direction: column; gap: 8px; }
+        .choice-btn {
+            background: rgba(72, 202, 228, 0.15);
+            border: 1px solid var(--accent-cyan);
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: left;
+        }
+        .choice-btn.shard-choice {
+            border-color: var(--shard-color);
+            background: rgba(199, 125, 255, 0.15);
+        }
+
+        /* --- ИГРОВЫЕ СТИЛИ --- */
+        #game-canvas {
+            background: #080d1a;
+            border-radius: 12px;
+            border: 1px solid rgba(72, 202, 228, 0.2);
+            touch-action: none;
+        }
+
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+        .memory-card {
+            aspect-ratio: 1;
+            background: #152238;
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .memory-card.flipped { background: var(--accent-blue); }
+
+        .sequence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+        .seq-btn { height: 90px; border-radius: 12px; opacity: 0.6; cursor: pointer; }
+        .seq-btn.active { opacity: 1; transform: scale(0.96); box-shadow: 0 0 20px #fff; }
+        #seq-0 { background: #48cae4; }
+        #seq-1 { background: #c77dff; }
+        #seq-2 { background: #ffb703; }
+        #seq-3 { background: #00f5d4; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
 
-        <!-- 1. Экран загрузки -->
+        <!-- 1. SplashScreen -->
         <div id="splash-screen">
             <div class="logo-title">Narrati</div>
             <div class="loader-bar">
@@ -348,105 +395,503 @@
             </div>
         </div>
 
-        <!-- 2. Верхняя панель -->
+        <!-- 2. Шапка -->
         <header>
             <div class="app-title">Narrati</div>
             <div class="currencies">
                 <div class="currency-badge" title="Люмены (доступ к сериям)">
                     <span class="currency-icon icon-lumen"></span>
-                    <span id="lumens-count">12</span>
+                    <span id="lumens-count">10</span>
                 </div>
                 <div class="currency-badge" title="Осколки (выборы в историях)">
                     <span class="currency-icon icon-shard"></span>
-                    <span id="shards-count">150</span>
+                    <span id="shards-count">100</span>
                 </div>
             </div>
         </header>
 
-        <!-- 3. Основное содержимое (Список новелл) -->
+        <!-- 3. Основной контент -->
         <main>
-            <div class="section-title">Каталог историй</div>
-
-            <!-- Карточка истории REMnant -->
-            <div class="story-card" onclick="openStoryModal()">
-                <div class="story-cover">
-                    <div class="story-badge">Новинка</div>
-                </div>
-                <div class="story-info">
-                    <div class="story-title">REMnant</div>
-                    <div class="story-desc">Грань между снами и реальностью начинает рушиться. Что скрывается в глубинах человеческого сознания?</div>
-                    <div class="story-meta">
-                        <span class="episodes-count">1 Сезон • 8 Серий</span>
-                        <button class="btn-open">Открыть</button>
+            <!-- Вкладка: Истории -->
+            <div id="tab-stories" class="tab-content active">
+                <div class="section-title">Каталог историй</div>
+                <div class="story-card" onclick="openStoryEpisodes()">
+                    <div class="story-cover">
+                        <div class="story-badge">Новинка</div>
                     </div>
+                    <div class="story-info">
+                        <div class="story-title">REMnant</div>
+                        <div class="story-desc">Грань между снами и реальностью начинает рушиться. Что скрывается в глубинах человеческого сознания?</div>
+                        <div class="story-meta">
+                            <span class="episodes-count">1 Сезон • 3 Серии</span>
+                            <button class="btn-action">Открыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Вкладка: Мини-игры -->
+            <div id="tab-games" class="tab-content">
+                <div class="section-title">Заработок валюты</div>
+
+                <div class="game-card" onclick="startShardCatcher()">
+                    <div class="game-info-box">
+                        <span class="game-icon">💎</span>
+                        <div>
+                            <div class="game-title">Ловец Осколков</div>
+                            <div class="game-reward">Награда: Осколки</div>
+                        </div>
+                    </div>
+                    <button class="btn-action">Играть</button>
+                </div>
+
+                <div class="game-card" onclick="startMemoryGame()">
+                    <div class="game-info-box">
+                        <span class="game-icon">🌙</span>
+                        <div>
+                            <div class="game-title">Память Снов</div>
+                            <div class="game-reward">Награда: +25 Осколков</div>
+                        </div>
+                    </div>
+                    <button class="btn-action">Играть</button>
+                </div>
+
+                <div class="game-card" onclick="startSequenceGame()">
+                    <div class="game-info-box">
+                        <span class="game-icon">🔮</span>
+                        <div>
+                            <div class="game-title">Взлом Сознания</div>
+                            <div class="game-reward">Награда: +1 Люмен</div>
+                        </div>
+                    </div>
+                    <button class="btn-action">Играть</button>
                 </div>
             </div>
         </main>
 
-        <!-- 4. Нижнее меню навигации -->
+        <!-- 4. НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ -->
         <nav>
-            <div class="nav-item active" onclick="switchTab('stories')">
+            <div class="nav-item active" id="nav-stories" onclick="switchTab('stories')">
                 <span class="nav-icon">📖</span>
                 <span>Истории</span>
             </div>
-            <div class="nav-item" onclick="showModal('Мини-игры', 'Играйте в ежедневные мини-игры, чтобы заработать дополнительные Люмены и Осколки!')">
+            <div class="nav-item" id="nav-games" onclick="switchTab('games')">
                 <span class="nav-icon">🎮</span>
                 <span>Игры</span>
             </div>
-            <div class="nav-item" onclick="showModal('Магазин', 'Пополнение запасов Люменов и уникальные наряды для персонажей.')">
+            <div class="nav-item" id="nav-shop" onclick="openShop()">
                 <span class="nav-icon">💎</span>
                 <span>Магазин</span>
             </div>
-            <div class="nav-item" onclick="showModal('Профиль', 'Ваша статистика, достижения и сохраненный прогресс.')">
+            <div class="nav-item" id="nav-profile" onclick="openProfile()">
                 <span class="nav-icon">👤</span>
                 <span>Профиль</span>
             </div>
-            <div class="nav-item" onclick="showModal('Настройки', 'Параметры звука, уведомлений и оформление приложения.')">
+            <div class="nav-item" id="nav-settings" onclick="openSettings()">
                 <span class="nav-icon">⚙️</span>
                 <span>Опции</span>
             </div>
         </nav>
 
-        <!-- Модальное окно для разделов / карточки -->
+        <!-- Универсальное Модальное Окно -->
         <div class="modal" id="info-modal">
             <div class="modal-card">
                 <div class="modal-title" id="modal-title">Заголовок</div>
-                <div class="modal-body" id="modal-body">Описание модального окна</div>
+                <div class="modal-body" id="modal-body">Описание</div>
+                <div id="modal-custom-content"></div>
                 <button class="btn-close" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+
+        <!-- 5. Экран чтения визуальной новеллы -->
+        <div id="reader-screen">
+            <div style="position: absolute; top: 15px; right: 15px;">
+                <button class="btn-action" style="padding: 5px 12px;" onclick="closeReader()">Выйти</button>
+            </div>
+            <div class="dialog-box">
+                <div>
+                    <div class="character-name" id="char-name">Персонаж</div>
+                    <div class="dialog-text" id="dialog-text">Текст диалога...</div>
+                </div>
+                <div class="dialog-choices" id="dialog-choices">
+                    <!-- Кнопки выборов создаются через JS -->
+                </div>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Эмуляция загрузочного экрана
+        // Игровое состояние
+        let lumens = 10;
+        let shards = 100;
+        let episodeUnlocked = false;
+
+        function updateCurrencyUI() {
+            document.getElementById('lumens-count').innerText = lumens;
+            document.getElementById('shards-count').innerText = shards;
+        }
+
+        // Загрузочный экран
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.visibility = 'hidden';
-                }, 800);
-            }, 2500); // 2.5 секунды длится загрузка
+                setTimeout(() => splash.style.visibility = 'hidden', 800);
+            }, 2000);
         });
 
-        // Функция открытия новеллы
-        function openStoryModal() {
-            showModal(
-                'REMnant',
-                'Вы уверены, что хотите начать прохождение? 1-я серия потребует 1 Люмен.'
-            );
+        // Навигация по вкладкам
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            const navBtn = document.getElementById(`nav-${tabName}`);
+            if (navBtn) navBtn.classList.add('active');
         }
 
-        // Универсальные функции управления модальным окном
-        function showModal(title, text) {
+        // Управление модальными окнами
+        function showModal(title, text, customHTML = '') {
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-body').innerText = text;
+            document.getElementById('modal-custom-content').innerHTML = customHTML;
             document.getElementById('info-modal').classList.add('active');
         }
 
         function closeModal() {
             document.getElementById('info-modal').classList.remove('active');
+            document.getElementById('modal-custom-content').innerHTML = '';
+            if (gameLoopId) cancelAnimationFrame(gameLoopId);
+        }
+
+        /* --- ОКНО ИСТОРИИ REMNANT И СЕРИИ --- */
+        function openStoryEpisodes() {
+            const btnText = episodeUnlocked ? 'Читать' : 'Открыть (1 Люмен)';
+            const statusText = episodeUnlocked ? 'Доступно' : 'Заблокировано';
+
+            const html = `
+                <div class="episode-list">
+                    <div class="episode-item ${episodeUnlocked ? 'unlocked' : ''}">
+                        <div>
+                            <div style="font-weight:600;">1 Серия: Пробуждение</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">${statusText}</div>
+                        </div>
+                        <button class="btn-action" onclick="startEpisode(1)">${btnText}</button>
+                    </div>
+                    <div class="episode-item" style="opacity:0.5;">
+                        <div>
+                            <div style="font-weight:600;">2 Серия: Вспышка</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">Скоро</div>
+                        </div>
+                        <button class="btn-action" disabled style="background:#555;">Закрыто</button>
+                    </div>
+                </div>
+            `;
+            showModal('REMnant — Сезон 1', 'Выберите серию для прохождения:', html);
+        }
+
+        function startEpisode(epNum) {
+            if (!episodeUnlocked) {
+                if (lumens >= 1) {
+                    lumens -= 1;
+                    episodeUnlocked = true;
+                    updateCurrencyUI();
+                } else {
+                    alert('Недостаточно Люменов! Сыграйте в мини-игры или зайдите в Магазин.');
+                    return;
+                }
+            }
+            closeModal();
+            launchReader();
+        }
+
+        /* --- ПЛЕЕР ВИЗУАЛЬНОЙ НОВЕЛЛЫ --- */
+        function launchReader() {
+            document.getElementById('reader-screen').classList.add('active');
+            showScene(1);
+        }
+
+        function closeReader() {
+            document.getElementById('reader-screen').classList.remove('active');
+        }
+
+        function showScene(sceneId) {
+            const charName = document.getElementById('char-name');
+            const dialogText = document.getElementById('dialog-text');
+            const choicesBox = document.getElementById('dialog-choices');
+            choicesBox.innerHTML = '';
+
+            if (sceneId === 1) {
+                charName.innerText = 'Неизвестный';
+                dialogText.innerText = 'Ты открываешь глаза. Вокруг лишь туман и мерцающие осколки воспоминаний. Чей-то голос зовет тебя из темноты...';
+                choicesBox.innerHTML = `
+                    <button class="choice-btn" onclick="showScene(2)">Оглядеться по сторонам</button>
+                    <button class="choice-btn shard-choice" onclick="makeShardChoice(3, 20)">🔮 Сконцентрироваться на голосе (20 Осколков)</button>
+                `;
+            } else if (sceneId === 2) {
+                charName.innerText = 'Главный герой';
+                dialogText.innerText = 'Туман слишком густой. Вы делаете шаг вперед, но земля уходит из-под ног... Конец демо-версии 1 серии!';
+                choicesBox.innerHTML = `<button class="choice-btn" onclick="closeReader()">Завершить прохождение</button>`;
+            } else if (sceneId === 3) {
+                charName.innerText = 'Силуэт Сна';
+                dialogText.innerText = '«Ты вспомнил меня!» — силуэт засиял ярким светом, и туман рассеялся. Вы получили особое воспоминание. Конец 1 серии!';
+                choicesBox.innerHTML = `<button class="choice-btn" onclick="closeReader()">Завершить прохождение</button>`;
+            }
+        }
+
+        function makeShardChoice(nextScene, cost) {
+            if (shards >= cost) {
+                shards -= cost;
+                updateCurrencyUI();
+                showScene(nextScene);
+            } else {
+                alert('Недостаточно Осколков! Вы можете заработать их в мини-играх.');
+            }
+        }
+
+        /* --- НИЖНИЕ РАЗДЕЛЫ --- */
+        function openShop() {
+            const html = `
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <button class="choice-btn" onclick="buyLumens(100)">Обменять 100 Осколков ➔ 1 Люмен</button>
+                    <button class="choice-btn" onclick="alert('Спасибо за просмотр! Зачислено +10 Осколков.'); shards+=10; updateCurrencyUI();">📺 Посмотреть рекламу (+10 Осколков)</button>
+                </div>
+            `;
+            showModal('Магазин', 'Пополнение баланса ресурсов:', html);
+        }
+
+        function buyLumens(cost) {
+            if (shards >= cost) {
+                shards -= cost;
+                lumens += 1;
+                updateCurrencyUI();
+                alert('Успешно куплен 1 Люмен!');
+                openShop();
+            } else {
+                alert('Недостаточно Осколков для обмена.');
+            }
+        }
+
+        function openProfile() {
+            const html = `
+                <div style="text-align:left; font-size:0.9rem; display:flex; flex-direction:column; gap:8px;">
+                    <div><b>Имя:</b> Странник Снов</div>
+                    <div><b>Прочитано серий:</b> ${episodeUnlocked ? 1 : 0}</div>
+                    <div><b>Баланс Люменов:</b> ${lumens}</div>
+                    <div><b>Баланс Осколков:</b> ${shards}</div>
+                </div>
+            `;
+            showModal('Профиль Игрока', 'Ваша статистика в Narrati:', html);
+        }
+
+        function openSettings() {
+            const html = `
+                <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
+                    <label style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Звуковые эффекты</span>
+                        <input type="checkbox" checked>
+                    </label>
+                    <label style="display:flex; justify-content:space-between; align-items:center;">
+                        <span>Музыка в новеллах</span>
+                        <input type="checkbox" checked>
+                    </label>
+                </div>
+            `;
+            showModal('Настройки', 'Параметры приложения:', html);
+        }
+
+        /* --- МИНИ-ИГРЫ --- */
+        let gameLoopId = null;
+
+        function startShardCatcher() {
+            const html = `
+                <canvas id="game-canvas" width="300" height="300"></canvas>
+                <div style="margin-top:10px; font-weight:600; color:var(--accent-cyan)">Счет: <span id="catcher-score">0</span></div>
+            `;
+            showModal('Ловец Осколков', 'Ловите фиолетовые кристаллы, избегайте красных помех! Управляйте платформой мышью или пальцем.', html);
+
+            const canvas = document.getElementById('game-canvas');
+            const ctx = canvas.getContext('2d');
+            let score = 0;
+            let basketX = 120;
+            let items = [];
+            let timer = 15;
+
+            const updatePos = (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                basketX = clientX - rect.left - 30;
+            };
+
+            canvas.addEventListener('touchmove', updatePos);
+            canvas.addEventListener('mousemove', updatePos);
+
+            const interval = setInterval(() => {
+                timer--;
+                if (timer <= 0) {
+                    clearInterval(interval);
+                    cancelAnimationFrame(gameLoopId);
+                    shards += score;
+                    updateCurrencyUI();
+                    showModal('Время вышло!', `Вы заработали +${score} Осколков!`);
+                }
+            }, 1000);
+
+            function gameLoop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ctx.fillStyle = '#48cae4';
+                ctx.fillRect(basketX, 270, 60, 10);
+
+                if (Math.random() < 0.06) {
+                    items.push({
+                        x: Math.random() * 280,
+                        y: 0,
+                        type: Math.random() > 0.3 ? 'shard' : 'bomb',
+                        speed: 2 + Math.random() * 2
+                    });
+                }
+
+                items.forEach((item, index) => {
+                    item.y += item.speed;
+                    ctx.fillStyle = item.type === 'shard' ? '#c77dff' : '#ff4d6d';
+                    ctx.beginPath();
+                    ctx.arc(item.x, item.y, 8, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    if (item.y >= 265 && item.y <= 280 && item.x >= basketX && item.x <= basketX + 60) {
+                        if (item.type === 'shard') score += 5;
+                        else score = Math.max(0, score - 5);
+                        document.getElementById('catcher-score').innerText = score;
+                        items.splice(index, 1);
+                    }
+                });
+
+                gameLoopId = requestAnimationFrame(gameLoop);
+            }
+            gameLoop();
+        }
+
+        function startMemoryGame() {
+            const icons = ['🌙', '🔮', '⭐', '🗝️', '🌙', '🔮', '⭐', '🗝️'];
+            icons.sort(() => Math.random() - 0.5);
+
+            let gridHTML = '<div class="memory-grid">';
+            icons.forEach((icon, idx) => {
+                gridHTML += `<div class="memory-card" data-icon="${icon}" onclick="flipCard(this)">?</div>`;
+            });
+            gridHTML += '</div>';
+
+            showModal('Память Снов', 'Найдите все парные карточки!', gridHTML);
+        }
+
+        let firstCard = null;
+        let lockGrid = false;
+        let matches = 0;
+
+        function flipCard(card) {
+            if (lockGrid || card === firstCard || card.classList.contains('flipped')) return;
+
+            card.innerText = card.dataset.icon;
+            card.classList.add('flipped');
+
+            if (!firstCard) {
+                firstCard = card;
+                return;
+            }
+
+            if (firstCard.dataset.icon === card.dataset.icon) {
+                firstCard = null;
+                matches++;
+                if (matches === 4) {
+                    shards += 25;
+                    updateCurrencyUI();
+                    setTimeout(() => showModal('Победа!', 'Вы нашли все пары и получили +25 Осколков!'), 400);
+                    matches = 0;
+                }
+            } else {
+                lockGrid = true;
+                setTimeout(() => {
+                    firstCard.innerText = '?';
+                    card.innerText = '?';
+                    firstCard.classList.remove('flipped');
+                    card.classList.remove('flipped');
+                    firstCard = null;
+                    lockGrid = false;
+                }, 700);
+            }
+        }
+
+        let sequence = [];
+        let playerSequence = [];
+        let round = 0;
+
+        function startSequenceGame() {
+            const html = `
+                <div class="sequence-grid">
+                    <div class="seq-btn" id="seq-0" onclick="handleSeqClick(0)"></div>
+                    <div class="seq-btn" id="seq-1" onclick="handleSeqClick(1)"></div>
+                    <div class="seq-btn" id="seq-2" onclick="handleSeqClick(2)"></div>
+                    <div class="seq-btn" id="seq-3" onclick="handleSeqClick(3)"></div>
+                </div>
+                <div id="seq-status" style="color:var(--accent-cyan); font-weight:600;">Смотрите на комбинацию...</div>
+            `;
+            showModal('Взлом Сознания', 'Повторите подсвеченную цепочку элементов.', html);
+            sequence = [];
+            round = 0;
+            nextSeqRound();
+        }
+
+        function nextSeqRound() {
+            playerSequence = [];
+            round++;
+            sequence.push(Math.floor(Math.random() * 4));
+            playSequence();
+        }
+
+        function playSequence() {
+            let i = 0;
+            const status = document.getElementById('seq-status');
+            if (status) status.innerText = `Уровень ${round} из 3`;
+
+            const interval = setInterval(() => {
+                if (i >= sequence.length) {
+                    clearInterval(interval);
+                    return;
+                }
+                flashBtn(sequence[i]);
+                i++;
+            }, 600);
+        }
+
+        function flashBtn(id) {
+            const btn = document.getElementById(`seq-${id}`);
+            if (btn) {
+                btn.classList.add('active');
+                setTimeout(() => btn.classList.remove('active'), 300);
+            }
+        }
+
+        function handleSeqClick(id) {
+            flashBtn(id);
+            playerSequence.push(id);
+
+            const index = playerSequence.length - 1;
+            if (playerSequence[index] !== sequence[index]) {
+                showModal('Ошибка', 'Неверная комбинация! Попробуйте снова.');
+                return;
+            }
+
+            if (playerSequence.length === sequence.length) {
+                if (round === 3) {
+                    lumens += 1;
+                    updateCurrencyUI();
+                    showModal('Успех!', 'Вы взломали сознание и получили +1 Люмен!');
+                } else {
+                    setTimeout(nextSeqRound, 800);
+                }
+            }
         }
     </script>
 </body>
