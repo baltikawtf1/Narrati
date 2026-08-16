@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Narrati - Интерактивные истории</title>
+    <style>
+        /* Базовые настройки для мобильного экрана */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #0b0612;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #ffffff;
+        }
+        /* Главный контейнер (имитация экрана телефона) */
+        .screen-container {
+            width: 100%;
+            height: 100%;
+            max-width: 450px; /* Ограничение для ПК, на телефоне будет во весь экран */
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            background: #130a22;
+        }
+        /* Общий класс для экранов */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+        }
+        .active {
+            display: flex;
+        }
+
+        /* 1. ЗАГРУЗОЧНЫЙ ЭКРАН (СПЛЕШ) */
+        #loading-screen {
+            background: linear-gradient(135deg, #1d0a34 0%, #0b0612 100%);
+        }
+        .logo {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #d4af37; /* Золотой цвет */
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            margin-bottom: 30px;
+            animation: pulse 2s infinite alternate;
+        }
+        .progress-bar-container {
+            width: 70%;
+            height: 6px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff007f, #d4af37);
+            transition: width 0.1s linear;
+        }
+        .loading-text {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #a08bb9;
+        }
+
+        /* 2. ГЛАВНОЕ МЕНЮ (ВЫБОР ИСТОРИЙ) */
+        #catalog-screen {
+            background: #130a22;
+            justify-content: flex-start;
+            overflow-y: auto;
+            padding-top: 40px;
+        }
+        .catalog-title {
+            font-size: 24px;
+            margin-bottom: 25px;
+            color: #fff;
+            font-weight: 600;
+        }
+        /* Карточка истории */
+        .story-card {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.85)), url('https://picsum.photos') center/cover;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-start;
+            padding: 15px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .story-card:active {
+            transform: scale(0.98);
+        }
+        .story-tag {
+            background: #ff007f;
+            font-size: 10px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .story-name {
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+        .story-desc {
+            font-size: 12px;
+            color: #ccc;
+            margin-top: 4px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* Анимация пульсации для логотипа */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="screen-container">
+
+        <!-- ЭКРАН 1: ЗАГРУЗКА -->
+        <div id="loading-screen" class="screen active">
+            <div class="logo">NARRATI</div>
+            <div class="progress-bar-container">
+                <div id="progress" class="progress-bar"></div>
+            </div>
+            <div id="loading-status" class="loading-text">Загрузка ресурсов...</div>
+        </div>
+
+        <!-- ЭКРАН 2: ВЫБОР ИСТОРИЙ (КАТАЛОГ) -->
+        <div id="catalog-screen" class="screen">
+            <h1 class="catalog-title">Выберите историю</h1>
+            
+            <!-- Карточка Истории 1 -->
+            <div class="story-card" onclick="startStory('Секрет Вампира')">
+                <span class="story-tag" style="background: #9400d3;">Мистика</span>
+                <div class="story-name">Секрет Вампира</div>
+                <div class="story-desc">Переезд в старинный замок оборачивается опасным романом...</div>
+            </div>
+
+            <!-- Карточка Истории 2 -->
+            <div class="story-card" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.85)), url('https://picsum.photos') center/cover;" onclick="startStory('Тайны Академии')">
+                <span class="story-tag" style="background: #00bfff;">Детектив</span>
+                <div class="story-name">Тайны Академии</div>
+                <div class="story-desc">Распутайте исчезновение студентки элитного колледжа.</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Логика загрузочного экрана
+        window.addEventListener('DOMContentLoaded', () => {
+            const progressBar = document.getElementById('progress');
+            const loadingStatus = document.getElementById('loading-status');
+            let width = 0;
+
+            // Имитируем загрузку (3 секунды)
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    loadingStatus.innerText = "Готово!";
+                    setTimeout(showCatalog, 500); // Переключаем экран через полсекунды после 100%
+                } else {
+                    width += 2; // Скорость заполнения
+                    progressBar.style.width = width + '%';
+                    
+                    // Меняем текст по мере загрузки
+                    if (width === 40) loadingStatus.innerText = "Загрузка сценариев...";
+                    if (width === 80) loadingStatus.innerText = "Прорисовка персонажей...";
+                }
+            }, 50); // Интервал обновления
+        });
+
+        // Переключение на экран каталога
+        function showCatalog() {
+            document.getElementById('loading-screen').classList.remove('active');
+            document.getElementById('catalog-screen').classList.add('active');
+        }
+
+        // Клик по истории
+        function startStory(storyName) {
+            alert('Вы выбрали историю: "' + storyName + '". В следующем шаге мы создадим игровой экран для неё!');
+        }
+    </script>
+</body>
+</html>
