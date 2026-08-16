@@ -2,212 +2,451 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Narrati - Интерактивные истории</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narrati — Визуальные Новеллы</title>
     <style>
-        /* Базовые настройки для мобильного экрана */
+        :root {
+            --bg-color: #0b132b;
+            --card-bg: #1c2541;
+            --accent-cyan: #48cae4;
+            --accent-blue: #0077b6;
+            --glow-blue: rgba(72, 202, 228, 0.3);
+            --text-main: #edf2f4;
+            --text-muted: #8d99ae;
+            --lumen-color: #90e0ef;
+            --shard-color: #c77dff;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            user-select: none;
-        }
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #0b0612;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            color: #ffffff;
-        }
-        /* Главный контейнер (имитация экрана телефона) */
-        .screen-container {
-            width: 100%;
-            height: 100%;
-            max-width: 450px; /* Ограничение для ПК, на телефоне будет во весь экран */
-            margin: 0 auto;
-            position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-            background: #130a22;
-        }
-        /* Общий класс для экранов */
-        .screen {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            text-align: center;
-        }
-        .active {
-            display: flex;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 1. ЗАГРУЗОЧНЫЙ ЭКРАН (СПЛЕШ) */
-        #loading-screen {
-            background: linear-gradient(135deg, #1d0a34 0%, #0b0612 100%);
-        }
-        .logo {
-            font-size: 42px;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #d4af37; /* Золотой цвет */
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
-            margin-bottom: 30px;
-            animation: pulse 2s infinite alternate;
-        }
-        .progress-bar-container {
-            width: 70%;
-            height: 6px;
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 3px;
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             overflow: hidden;
         }
-        .progress-bar {
+
+        /* Оболочка мобильного приложения / сайта */
+        .app-container {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            max-height: 932px;
+            background: radial-gradient(circle at top, #152238 0%, #0b132b 100%);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            overflow: hidden;
+        }
+
+        /* --- ЗАГРУЗОЧНЫЙ ЭКРАН (SPLASH SCREEN) --- */
+        #splash-screen {
+            position: absolute;
+            inset: 0;
+            background: var(--bg-color);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+
+        .logo-title {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px var(--glow-blue);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .loader-bar {
+            width: 160px;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-top: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-progress {
             width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #ff007f, #d4af37);
-            transition: width 0.1s linear;
-        }
-        .loading-text {
-            margin-top: 10px;
-            font-size: 12px;
-            color: #a08bb9;
+            background: var(--accent-cyan);
+            box-shadow: 0 0 10px var(--accent-cyan);
+            border-radius: 10px;
+            animation: load 2.5s forwards ease-in-out;
         }
 
-        /* 2. ГЛАВНОЕ МЕНЮ (ВЫБОР ИСТОРИЙ) */
-        #catalog-screen {
-            background: #130a22;
-            justify-content: flex-start;
-            overflow-y: auto;
-            padding-top: 40px;
+        @keyframes load {
+            0% { width: 0%; }
+            100% { width: 100%; }
         }
-        .catalog-title {
-            font-size: 24px;
-            margin-bottom: 25px;
-            color: #fff;
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        /* --- ВЕРХНЯЯ ПАНЕЛЬ (HEADER) --- */
+        header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 19, 43, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(72, 202, 228, 0.1);
+            z-index: 10;
+        }
+
+        .app-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+        }
+
+        .currencies {
+            display: flex;
+            gap: 12px;
+        }
+
+        .currency-badge {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
             font-weight: 600;
         }
-        /* Карточка истории */
-        .story-card {
-            width: 100%;
-            height: 180px;
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.85)), url('https://picsum.photos') center/cover;
-            border-radius: 12px;
-            margin-bottom: 20px;
+
+        .currency-icon {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .icon-lumen {
+            background: var(--lumen-color);
+            box-shadow: 0 0 8px var(--lumen-color);
+        }
+
+        .icon-shard {
+            background: var(--shard-color);
+            box-shadow: 0 0 8px var(--shard-color);
+            transform: rotate(45deg);
+        }
+
+        /* --- ОСНОВНОЙ КОНТЕНТ --- */
+        main {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            align-items: flex-start;
-            padding: 15px;
-            text-align: left;
-            border: 1px solid rgba(255,255,255,0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
+            gap: 20px;
         }
+
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Карточка новеллы */
+        .story-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(72, 202, 228, 0.2);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: transform 0.2s, border-color 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+
         .story-card:active {
             transform: scale(0.98);
         }
-        .story-tag {
-            background: #ff007f;
-            font-size: 10px;
-            text-transform: uppercase;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .story-name {
-            font-size: 20px;
-            font-weight: bold;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-        .story-desc {
-            font-size: 12px;
-            color: #ccc;
-            margin-top: 4px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+
+        .story-cover {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(to bottom, transparent, var(--card-bg)),
+                        url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop') center/cover;
+            position: relative;
         }
 
-        /* Анимация пульсации для логотипа */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.9; }
-            100% { transform: scale(1.05); opacity: 1; }
+        .story-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .story-info {
+            padding: 16px;
+        }
+
+        .story-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #fff;
+        }
+
+        .story-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+            margin-bottom: 14px;
+        }
+
+        .story-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .episodes-count {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .btn-open {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            box-shadow: 0 0 12px var(--glow-blue);
+        }
+
+        /* --- НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (NAVBAR) --- */
+        nav {
+            background: rgba(11, 19, 43, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(72, 202, 228, 0.1);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            width: 20%;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            color: var(--accent-cyan);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        /* --- МОДАЛЬНОЕ ОКНО ОКРУЖЕНИЯ --- */
+        .modal {
+            position: absolute;
+            inset: 0;
+            background: rgba(11, 19, 43, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 20px;
+            padding: 24px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--accent-cyan);
+        }
+
+        .modal-body {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn-close {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 8px 24px;
+            border-radius: 20px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="screen-container">
+    <div class="app-container">
 
-        <!-- ЭКРАН 1: ЗАГРУЗКА -->
-        <div id="loading-screen" class="screen active">
-            <div class="logo">NARRATI</div>
-            <div class="progress-bar-container">
-                <div id="progress" class="progress-bar"></div>
+        <!-- 1. Экран загрузки -->
+        <div id="splash-screen">
+            <div class="logo-title">Narrati</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
             </div>
-            <div id="loading-status" class="loading-text">Загрузка ресурсов...</div>
         </div>
 
-        <!-- ЭКРАН 2: ВЫБОР ИСТОРИЙ (КАТАЛОГ) -->
-        <div id="catalog-screen" class="screen">
-            <h1 class="catalog-title">Выберите историю</h1>
-            
-            <!-- Карточка Истории 1 -->
-            <div class="story-card" onclick="startStory('Секрет Вампира')">
-                <span class="story-tag" style="background: #9400d3;">Мистика</span>
-                <div class="story-name">Секрет Вампира</div>
-                <div class="story-desc">Переезд в старинный замок оборачивается опасным романом...</div>
+        <!-- 2. Верхняя панель -->
+        <header>
+            <div class="app-title">Narrati</div>
+            <div class="currencies">
+                <div class="currency-badge" title="Люмены (доступ к сериям)">
+                    <span class="currency-icon icon-lumen"></span>
+                    <span id="lumens-count">12</span>
+                </div>
+                <div class="currency-badge" title="Осколки (выборы в историях)">
+                    <span class="currency-icon icon-shard"></span>
+                    <span id="shards-count">150</span>
+                </div>
             </div>
+        </header>
 
-            <!-- Карточка Истории 2 -->
-            <div class="story-card" style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.85)), url('https://picsum.photos') center/cover;" onclick="startStory('Тайны Академии')">
-                <span class="story-tag" style="background: #00bfff;">Детектив</span>
-                <div class="story-name">Тайны Академии</div>
-                <div class="story-desc">Распутайте исчезновение студентки элитного колледжа.</div>
+        <!-- 3. Основное содержимое (Список новелл) -->
+        <main>
+            <div class="section-title">Каталог историй</div>
+
+            <!-- Карточка истории REMnant -->
+            <div class="story-card" onclick="openStoryModal()">
+                <div class="story-cover">
+                    <div class="story-badge">Новинка</div>
+                </div>
+                <div class="story-info">
+                    <div class="story-title">REMnant</div>
+                    <div class="story-desc">Грань между снами и реальностью начинает рушиться. Что скрывается в глубинах человеческого сознания?</div>
+                    <div class="story-meta">
+                        <span class="episodes-count">1 Сезон • 8 Серий</span>
+                        <button class="btn-open">Открыть</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 4. Нижнее меню навигации -->
+        <nav>
+            <div class="nav-item active" onclick="switchTab('stories')">
+                <span class="nav-icon">📖</span>
+                <span>Истории</span>
+            </div>
+            <div class="nav-item" onclick="showModal('Мини-игры', 'Играйте в ежедневные мини-игры, чтобы заработать дополнительные Люмены и Осколки!')">
+                <span class="nav-icon">🎮</span>
+                <span>Игры</span>
+            </div>
+            <div class="nav-item" onclick="showModal('Магазин', 'Пополнение запасов Люменов и уникальные наряды для персонажей.')">
+                <span class="nav-icon">💎</span>
+                <span>Магазин</span>
+            </div>
+            <div class="nav-item" onclick="showModal('Профиль', 'Ваша статистика, достижения и сохраненный прогресс.')">
+                <span class="nav-icon">👤</span>
+                <span>Профиль</span>
+            </div>
+            <div class="nav-item" onclick="showModal('Настройки', 'Параметры звука, уведомлений и оформление приложения.')">
+                <span class="nav-icon">⚙️</span>
+                <span>Опции</span>
+            </div>
+        </nav>
+
+        <!-- Модальное окно для разделов / карточки -->
+        <div class="modal" id="info-modal">
+            <div class="modal-card">
+                <div class="modal-title" id="modal-title">Заголовок</div>
+                <div class="modal-body" id="modal-body">Описание модального окна</div>
+                <button class="btn-close" onclick="closeModal()">Закрыть</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Логика загрузочного экрана
-        window.addEventListener('DOMContentLoaded', () => {
-            const progressBar = document.getElementById('progress');
-            const loadingStatus = document.getElementById('loading-status');
-            let width = 0;
-
-            // Имитируем загрузку (3 секунды)
-            const interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    loadingStatus.innerText = "Готово!";
-                    setTimeout(showCatalog, 500); // Переключаем экран через полсекунды после 100%
-                } else {
-                    width += 2; // Скорость заполнения
-                    progressBar.style.width = width + '%';
-                    
-                    // Меняем текст по мере загрузки
-                    if (width === 40) loadingStatus.innerText = "Загрузка сценариев...";
-                    if (width === 80) loadingStatus.innerText = "Прорисовка персонажей...";
-                }
-            }, 50); // Интервал обновления
+        // Эмуляция загрузочного экрана
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.visibility = 'hidden';
+                }, 800);
+            }, 2500); // 2.5 секунды длится загрузка
         });
 
-        // Переключение на экран каталога
-        function showCatalog() {
-            document.getElementById('loading-screen').classList.remove('active');
-            document.getElementById('catalog-screen').classList.add('active');
+        // Функция открытия новеллы
+        function openStoryModal() {
+            showModal(
+                'REMnant',
+                'Вы уверены, что хотите начать прохождение? 1-я серия потребует 1 Люмен.'
+            );
         }
 
-        // Клик по истории
-        function startStory(storyName) {
-            alert('Вы выбрали историю: "' + storyName + '". В следующем шаге мы создадим игровой экран для неё!');
+        // Универсальные функции управления модальным окном
+        function showModal(title, text) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = text;
+            document.getElementById('info-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('info-modal').classList.remove('active');
         }
     </script>
 </body>
