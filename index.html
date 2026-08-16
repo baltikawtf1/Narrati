@@ -36,7 +36,6 @@
             min-height: 100dvh;
         }
 
-        /* Адаптивный мобильный контейнер */
         .app-container {
             width: 100%;
             max-width: 430px;
@@ -50,7 +49,7 @@
             overflow: hidden;
         }
 
-        /* --- НОВЫЙ КРАСИВЫЙ ЗАГРУЗОЧНЫЙ ЭКРАН --- */
+        /* --- ЗАГРУЗОЧНЫЙ ЭКРАН --- */
         #splash-screen {
             position: absolute;
             inset: 0;
@@ -64,7 +63,6 @@
             overflow: hidden;
         }
 
-        /* Анимация портала */
         .portal-container {
             position: relative;
             width: 180px;
@@ -111,7 +109,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 30px var(--glow-blue);
-            z-index: 2;
         }
 
         .splash-subtitle {
@@ -126,7 +123,7 @@
         @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
         @keyframes pulse-core { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1.2); opacity: 0.9; } }
 
-        /* --- ВЕРХНЯЯ ПАНЕЛЬ (HEADER) --- */
+        /* --- ХЕДЕР --- */
         header {
             padding: 14px 20px;
             display: flex;
@@ -139,15 +136,8 @@
             flex-shrink: 0;
         }
 
-        .app-title {
-            font-size: 1.3rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: var(--accent-cyan);
-        }
-
+        .app-title { font-size: 1.3rem; font-weight: 800; letter-spacing: 2px; color: var(--accent-cyan); }
         .currencies { display: flex; gap: 10px; }
-
         .currency-badge {
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -159,12 +149,11 @@
             font-size: 0.8rem;
             font-weight: 700;
         }
-
         .currency-icon { width: 9px; height: 9px; border-radius: 50%; }
         .icon-lumen { background: var(--lumen-color); box-shadow: 0 0 8px var(--lumen-color); }
         .icon-shard { background: var(--shard-color); box-shadow: 0 0 8px var(--shard-color); transform: rotate(45deg); }
 
-        /* --- ОСНОВНАЯ ЗОНА --- */
+        /* --- КОНТЕНТ --- */
         main {
             flex: 1;
             padding: 16px 20px;
@@ -176,16 +165,8 @@
 
         .tab-content { display: none; flex-direction: column; gap: 16px; }
         .tab-content.active { display: flex; }
+        .section-title { font-size: 0.95rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
-        .section-title {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        /* Карточка историй */
         .story-card {
             background: var(--card-bg);
             border-radius: 18px;
@@ -193,28 +174,20 @@
             border: 1px solid rgba(72, 202, 228, 0.2);
             box-shadow: 0 10px 25px rgba(0,0,0,0.4);
             cursor: pointer;
-            transition: transform 0.2s;
         }
-
-        .story-card:active { transform: scale(0.98); }
 
         .story-cover {
             width: 100%;
-            height: 200px;
+            height: 180px;
             background: linear-gradient(to bottom, transparent, var(--card-bg)),
                         url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop') center/cover;
             position: relative;
         }
 
         .story-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
+            position: absolute; top: 12px; right: 12px;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(8px);
+            padding: 4px 10px; border-radius: 12px; font-size: 0.7rem;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
@@ -222,177 +195,160 @@
         .story-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
         .story-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 14px; }
         .story-meta { display: flex; justify-content: space-between; align-items: center; }
-        .episodes-count { font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600; }
 
         .btn-action {
             background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-            color: #fff;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
+            color: #fff; border: none; padding: 8px 18px; border-radius: 20px;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer;
             box-shadow: 0 0 12px var(--glow-blue);
         }
 
-        /* Список мини-игр */
         .game-card {
             background: var(--card-bg);
             border: 1px solid rgba(72, 202, 228, 0.2);
-            border-radius: 16px;
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
+            border-radius: 16px; padding: 14px 16px;
+            display: flex; align-items: center; justify-content: space-between; cursor: pointer;
         }
 
         .game-info-box { display: flex; align-items: center; gap: 12px; }
         .game-icon { font-size: 1.8rem; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 12px; }
-        .game-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
-        .game-reward { font-size: 0.75rem; color: var(--accent-cyan); }
 
-        /* --- ИСПРАВЛЕННАЯ НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ --- */
+        /* --- НИЖНЯЯ ПАНЕЛЬ --- */
         nav {
             background: rgba(8, 13, 26, 0.95);
             backdrop-filter: blur(12px);
             border-top: 1px solid rgba(72, 202, 228, 0.2);
-            display: flex;
-            justify-content: space-around;
+            display: flex; justify-content: space-around;
             padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 10px)) 0;
-            z-index: 30;
-            flex-shrink: 0;
-            width: 100%;
+            z-index: 30; flex-shrink: 0; width: 100%;
         }
 
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            cursor: pointer;
-            width: 20%;
-            transition: color 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: var(--text-muted); font-size: 0.75rem; cursor: pointer; width: 20%;
         }
-
         .nav-item.active { color: var(--accent-cyan); }
         .nav-icon { font-size: 1.2rem; }
 
-        /* --- МОДАЛЬНЫЕ ОКНА И ЧТЕНИЕ --- */
-        .modal {
-            position: absolute;
-            inset: 0;
-            background: rgba(8, 13, 26, 0.95);
-            backdrop-filter: blur(12px);
-            z-index: 50;
+        /* --- ЭКРАН ПРОФИЛЯ --- */
+        .profile-container {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            padding: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.active { opacity: 1; pointer-events: auto; }
-
-        .modal-card {
             background: var(--card-bg);
-            border: 1px solid rgba(72, 202, 228, 0.3);
+            border: 1px solid rgba(72, 202, 228, 0.25);
             border-radius: 20px;
             padding: 20px;
-            width: 100%;
-            max-height: 80vh;
-            overflow-y: auto;
+            gap: 12px;
             text-align: center;
+            position: relative;
         }
 
-        .modal-title { font-size: 1.2rem; margin-bottom: 10px; color: var(--accent-cyan); }
-        .modal-body { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; line-height: 1.4; }
-        
-        .btn-close {
-            background: transparent;
-            border: 1px solid var(--accent-cyan);
+        .profile-avatar-wrap {
+            position: relative;
+            width: 90px;
+            height: 90px;
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-cyan);
+            box-shadow: 0 0 15px var(--glow-blue);
+        }
+
+        .profile-id {
+            font-size: 0.75rem;
             color: var(--accent-cyan);
-            padding: 8px 22px;
-            border-radius: 20px;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-
-        .episode-list { display: flex; flex-direction: column; gap: 10px; text-align: left; }
-        .episode-item {
-            background: rgba(255,255,255,0.05);
-            padding: 12px;
+            background: rgba(72, 202, 228, 0.1);
+            padding: 3px 10px;
             border-radius: 12px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .profile-username { font-size: 1.3rem; font-weight: 800; }
+        .profile-bio { font-size: 0.85rem; color: var(--text-muted); line-height: 1.3; font-style: italic; }
+
+        .profile-stats {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .episode-item.unlocked { border-color: var(--accent-cyan); }
-
-        #reader-screen {
-            position: absolute;
-            inset: 0;
-            z-index: 80;
-            display: none;
-            flex-direction: column;
-            justify-content: flex-end;
-            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop') center/cover;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 10px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
 
-        #reader-screen.active { display: flex; }
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-val { font-weight: 700; color: var(--text-main); }
+        .stat-lbl { font-size: 0.7rem; color: var(--text-muted); }
 
-        .dialog-box {
-            background: rgba(8, 13, 26, 0.92);
-            backdrop-filter: blur(10px);
-            border-top: 2px solid var(--accent-cyan);
-            padding: 18px;
-            min-height: 200px;
+        /* --- ФОРМЫ ВВОДА --- */
+        .input-group {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .character-name { font-weight: 700; color: var(--accent-cyan); margin-bottom: 6px; }
-        .dialog-text { font-size: 0.9rem; line-height: 1.4; color: #fff; margin-bottom: 12px; }
-        .dialog-choices { display: flex; flex-direction: column; gap: 8px; }
-        .choice-btn {
-            background: rgba(72, 202, 228, 0.15);
-            border: 1px solid var(--accent-cyan);
-            color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.8rem;
-            cursor: pointer;
+            gap: 6px;
             text-align: left;
-        }
-        .choice-btn.shard-choice {
-            border-color: var(--shard-color);
-            background: rgba(199, 125, 255, 0.15);
+            width: 100%;
+            margin-bottom: 12px;
         }
 
-        /* Канвас и игры */
-        #game-canvas { background: #050812; border-radius: 12px; border: 1px solid rgba(72, 202, 228, 0.2); touch-action: none; }
-        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
-        .memory-card { aspect-ratio: 1; background: #131c33; border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; }
-        .memory-card.flipped { background: var(--accent-blue); }
-        .sequence-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
-        .seq-btn { height: 80px; border-radius: 12px; opacity: 0.6; cursor: pointer; }
-        .seq-btn.active { opacity: 1; transform: scale(0.96); box-shadow: 0 0 15px #fff; }
-        #seq-0 { background: #48cae4; } #seq-1 { background: #c77dff; } #seq-2 { background: #ffb703; } #seq-3 { background: #00f5d4; }
+        .input-label { font-size: 0.75rem; color: var(--text-muted); }
+        .app-input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(72, 202, 228, 0.3);
+            border-radius: 10px;
+            padding: 10px;
+            color: #fff;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .app-input:focus { border-color: var(--accent-cyan); }
+
+        .avatar-picker {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 5px 0;
+            width: 100%;
+        }
+
+        .avatar-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .avatar-option.selected { border-color: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); }
+
+        /* --- МОДАЛКИ И ВИНДОВС --- */
+        .modal {
+            position: absolute; inset: 0; background: rgba(8, 13, 26, 0.95);
+            backdrop-filter: blur(12px); z-index: 50; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-card { background: var(--card-bg); border: 1px solid rgba(72, 202, 228, 0.3); border-radius: 20px; padding: 20px; width: 100%; max-height: 85vh; overflow-y: auto; text-align: center; }
+        .btn-close { background: transparent; border: 1px solid var(--accent-cyan); color: var(--accent-cyan); padding: 8px 22px; border-radius: 20px; cursor: pointer; margin-top: 12px; }
+
+        /* Экран чтения */
+        #reader-screen { position: absolute; inset: 0; z-index: 80; display: none; flex-direction: column; justify-content: flex-end; background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop') center/cover; }
+        #reader-screen.active { display: flex; }
+        .dialog-box { background: rgba(8, 13, 26, 0.92); backdrop-filter: blur(10px); border-top: 2px solid var(--accent-cyan); padding: 18px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; }
+        .choice-btn { background: rgba(72, 202, 228, 0.15); border: 1px solid var(--accent-cyan); color: #fff; padding: 10px; border-radius: 10px; font-size: 0.8rem; cursor: pointer; text-align: left; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
 
-        <!-- 1. НОВЫЙ ЗАГРУЗОЧНЫЙ ЭКРАН -->
+        <!-- 1. ЗАГРУЗОЧНЫЙ ЭКРАН -->
         <div id="splash-screen">
             <div class="portal-container">
                 <div class="portal-ring"></div>
@@ -418,9 +374,9 @@
             </div>
         </header>
 
-        <!-- 3. Главный контент -->
+        <!-- 3. Контент -->
         <main>
-            <!-- Вкладка: Истории -->
+            <!-- Каталог -->
             <div id="tab-stories" class="tab-content active">
                 <div class="section-title">Каталог историй</div>
                 <div class="story-card" onclick="openStoryEpisodes()">
@@ -431,53 +387,60 @@
                         <div class="story-title">REMnant</div>
                         <div class="story-desc">Грань между снами и реальностью начинает рушиться. Что скрывается в глубинах человеческого сознания?</div>
                         <div class="story-meta">
-                            <span class="episodes-count">1 Сезон • 3 Серии</span>
+                            <span style="font-size: 0.8rem; color: var(--accent-cyan); font-weight: 600;">1 Сезон • 3 Серии</span>
                             <button class="btn-action">Открыть</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Вкладка: Мини-игры -->
+            <!-- Игры -->
             <div id="tab-games" class="tab-content">
                 <div class="section-title">Центр заработка</div>
-
-                <div class="game-card" onclick="startShardCatcher()">
+                <div class="game-card" onclick="alert('Запустите игру!')">
                     <div class="game-info-box">
                         <span class="game-icon">💎</span>
                         <div>
-                            <div class="game-title">Ловец Осколков</div>
-                            <div class="game-reward">Награда: Осколки</div>
-                        </div>
-                    </div>
-                    <button class="btn-action">Играть</button>
-                </div>
-
-                <div class="game-card" onclick="startMemoryGame()">
-                    <div class="game-info-box">
-                        <span class="game-icon">🌙</span>
-                        <div>
-                            <div class="game-title">Память Снов</div>
-                            <div class="game-reward">Награда: +25 Осколков</div>
-                        </div>
-                    </div>
-                    <button class="btn-action">Играть</button>
-                </div>
-
-                <div class="game-card" onclick="startSequenceGame()">
-                    <div class="game-info-box">
-                        <span class="game-icon">🔮</span>
-                        <div>
-                            <div class="game-title">Взлом Сознания</div>
-                            <div class="game-reward">Награда: +1 Люмен</div>
+                            <div style="font-weight:700;">Ловец Осколков</div>
+                            <div style="font-size:0.75rem; color:var(--accent-cyan);">Награда: Осколки</div>
                         </div>
                     </div>
                     <button class="btn-action">Играть</button>
                 </div>
             </div>
+
+            <!-- ПОЛНОЦЕННЫЙ ПРОФИЛЬ -->
+            <div id="tab-profile" class="tab-content">
+                <div class="section-title">Личный Профиль</div>
+                
+                <div class="profile-container" id="profile-view">
+                    <div class="profile-avatar-wrap">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" id="p-avatar" class="profile-avatar" alt="Avatar">
+                    </div>
+                    <div>
+                        <div class="profile-username" id="p-name">Странник Снов</div>
+                        <div class="profile-id" id="p-id">ID: #NR-849201</div>
+                    </div>
+                    <div class="profile-bio" id="p-bio">«Исследую неизведанные миры Narrati...»</div>
+
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-val" id="p-read-count">0</span>
+                            <span class="stat-lbl">Прочитано</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-val" id="p-status">Искатель</span>
+                            <span class="stat-lbl">Статус</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-action" style="width: 100%; margin-top: 10px;" onclick="openEditProfile()">Редактировать профиль</button>
+                    <button class="choice-btn" style="width: 100%; text-align: center;" onclick="logout()">Выйти из аккаунта</button>
+                </div>
+            </div>
         </main>
 
-        <!-- 4. Фиксированное нижнее меню -->
+        <!-- 4. Нижнее меню -->
         <nav>
             <div class="nav-item active" id="nav-stories" onclick="switchTab('stories')">
                 <span class="nav-icon">📖</span>
@@ -491,7 +454,7 @@
                 <span class="nav-icon">💎</span>
                 <span>Магазин</span>
             </div>
-            <div class="nav-item" id="nav-profile" onclick="openProfile()">
+            <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">
                 <span class="nav-icon">👤</span>
                 <span>Профиль</span>
             </div>
@@ -501,13 +464,31 @@
             </div>
         </nav>
 
-        <!-- Модалка -->
+        <!-- МОДАЛЬНОЕ ОКНО -->
         <div class="modal" id="info-modal">
             <div class="modal-card">
-                <div class="modal-title" id="modal-title">Заголовок</div>
-                <div class="modal-body" id="modal-body">Описание</div>
+                <div style="font-size:1.2rem; margin-bottom:10px; color:var(--accent-cyan);" id="modal-title">Заголовок</div>
+                <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;" id="modal-body">Описание</div>
                 <div id="modal-custom-content"></div>
                 <button class="btn-close" onclick="closeModal()">Закрыть</button>
+            </div>
+        </div>
+
+        <!-- ОКНО РЕГИСТРАЦИИ И ВХОДА -->
+        <div class="modal" id="auth-modal">
+            <div class="modal-card">
+                <div style="font-size:1.3rem; font-weight:800; color:var(--accent-cyan); margin-bottom:12px;">Аккаунт Narrati</div>
+                
+                <div class="input-group">
+                    <span class="input-label">Email / Почта</span>
+                    <input type="email" id="auth-email" class="app-input" placeholder="example@mail.com">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Пароль</span>
+                    <input type="password" id="auth-pass" class="app-input" placeholder="••••••••">
+                </div>
+
+                <button class="btn-action" style="width:100%; margin-top:10px;" onclick="registerOrLogin()">Войти / Зарегистрироваться</button>
             </div>
         </div>
 
@@ -518,33 +499,137 @@
             </div>
             <div class="dialog-box">
                 <div>
-                    <div class="character-name" id="char-name">Персонаж</div>
-                    <div class="dialog-text" id="dialog-text">Текст...</div>
+                    <div style="font-weight:700; color:var(--accent-cyan); margin-bottom:6px;" id="char-name">Персонаж</div>
+                    <div style="font-size:0.9rem; line-height:1.4;" id="dialog-text">Текст...</div>
                 </div>
-                <div class="dialog-choices" id="dialog-choices"></div>
+                <div style="display:flex; flex-direction:column; gap:8px;" id="dialog-choices"></div>
             </div>
         </div>
 
     </div>
 
     <script>
+        // База данных аккаунта
+        let userAccount = {
+            isLoggedIn: false,
+            email: "",
+            id: "#NR-000000",
+            name: "Странник Снов",
+            bio: "Исследую неизведанные миры Narrati...",
+            avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
+            readCount: 0
+        };
+
         let lumens = 10;
         let shards = 100;
         let episodeUnlocked = false;
 
-        function updateCurrencyUI() {
-            document.getElementById('lumens-count').innerText = lumens;
-            document.getElementById('shards-count').innerText = shards;
-        }
+        // Предустановленные аватарки
+        const presetAvatars = [
+            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=200&auto=format&fit=crop"
+        ];
 
-        // Анимация заставки
+        let selectedAvatarTemp = "";
+
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const splash = document.getElementById('splash-screen');
                 splash.style.opacity = '0';
-                setTimeout(() => splash.style.visibility = 'hidden', 800);
-            }, 2500);
+                setTimeout(() => {
+                    splash.style.visibility = 'hidden';
+                    checkAuth();
+                }, 800);
+            }, 2000);
         });
+
+        function checkAuth() {
+            if (!userAccount.isLoggedIn) {
+                document.getElementById('auth-modal').classList.add('active');
+            }
+        }
+
+        function registerOrLogin() {
+            const email = document.getElementById('auth-email').value;
+            const pass = document.getElementById('auth-pass').value;
+
+            if (!email || !pass) {
+                alert('Пожалуйста, заполните Email и пароль!');
+                return;
+            }
+
+            // Создаем уникальный ID аккаунта
+            const randomId = '#NR-' + Math.floor(100000 + Math.random() * 900000);
+            userAccount.isLoggedIn = true;
+            userAccount.email = email;
+            userAccount.id = randomId;
+            userAccount.name = email.split('@')[0];
+
+            updateProfileUI();
+            document.getElementById('auth-modal').classList.remove('active');
+        }
+
+        function updateProfileUI() {
+            document.getElementById('p-name').innerText = userAccount.name;
+            document.getElementById('p-id').innerText = `ID: ${userAccount.id}`;
+            document.getElementById('p-bio').innerText = `«${userAccount.bio}»`;
+            document.getElementById('p-avatar').src = userAccount.avatar;
+            document.getElementById('p-read-count').innerText = userAccount.readCount;
+        }
+
+        function openEditProfile() {
+            selectedAvatarTemp = userAccount.avatar;
+
+            let avatarsHTML = '<div class="avatar-picker">';
+            presetAvatars.forEach((url) => {
+                const isSel = url === selectedAvatarTemp ? 'selected' : '';
+                avatarsHTML += `<img src="${url}" class="avatar-option ${isSel}" onclick="selectAvatarOption(this, '${url}')">`;
+            });
+            avatarsHTML += '</div>';
+
+            const html = `
+                <div class="input-group">
+                    <span class="input-label">Выберите аватарку</span>
+                    ${avatarsHTML}
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Имя пользователя</span>
+                    <input type="text" id="edit-name" class="app-input" value="${userAccount.name}">
+                </div>
+                <div class="input-group">
+                    <span class="input-label">Описание / Статус</span>
+                    <textarea id="edit-bio" class="app-input" rows="3" style="resize:none;">${userAccount.bio}</textarea>
+                </div>
+                <button class="btn-action" style="width:100%; margin-top:10px;" onclick="saveProfile()">Сохранить изменения</button>
+            `;
+
+            showModal('Настройки Профиля', '', html);
+        }
+
+        function selectAvatarOption(el, url) {
+            document.querySelectorAll('.avatar-option').forEach(img => img.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedAvatarTemp = url;
+        }
+
+        function saveProfile() {
+            const newName = document.getElementById('edit-name').value;
+            const newBio = document.getElementById('edit-bio').value;
+
+            if (newName.trim()) userAccount.name = newName;
+            userAccount.bio = newBio;
+            userAccount.avatar = selectedAvatarTemp;
+
+            updateProfileUI();
+            closeModal();
+        }
+
+        function logout() {
+            userAccount.isLoggedIn = false;
+            document.getElementById('auth-modal').classList.add('active');
+        }
 
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
@@ -565,21 +650,17 @@
         function closeModal() {
             document.getElementById('info-modal').classList.remove('active');
             document.getElementById('modal-custom-content').innerHTML = '';
-            if (gameLoopId) cancelAnimationFrame(gameLoopId);
         }
 
         function openStoryEpisodes() {
-            const btnText = episodeUnlocked ? 'Читать' : 'Открыть (1 Люмен)';
-            const statusText = episodeUnlocked ? 'Доступно' : 'Заблокировано';
-
             const html = `
-                <div class="episode-list">
-                    <div class="episode-item ${episodeUnlocked ? 'unlocked' : ''}">
+                <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
+                    <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
                         <div>
                             <div style="font-weight:600;">1 Серия: Пробуждение</div>
-                            <div style="font-size:0.75rem; color:var(--text-muted);">${statusText}</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted);">${episodeUnlocked ? 'Доступно' : 'Заблокировано'}</div>
                         </div>
-                        <button class="btn-action" onclick="startEpisode(1)">${btnText}</button>
+                        <button class="btn-action" onclick="startEpisode(1)">${episodeUnlocked ? 'Читать' : 'Открыть (1 Люмен)'}</button>
                     </div>
                 </div>
             `;
@@ -591,13 +672,15 @@
                 if (lumens >= 1) {
                     lumens -= 1;
                     episodeUnlocked = true;
-                    updateCurrencyUI();
+                    document.getElementById('lumens-count').innerText = lumens;
                 } else {
-                    alert('Недостаточно Люменов! Сыграйте в мини-игры.');
+                    alert('Недостаточно Люменов!');
                     return;
                 }
             }
             closeModal();
+            userAccount.readCount++;
+            updateProfileUI();
             launchReader();
         }
 
@@ -618,251 +701,17 @@
 
             if (sceneId === 1) {
                 charName.innerText = 'Неизвестный';
-                dialogText.innerText = 'Ты открываешь глаза. Вокруг лишь туман и мерцающие осколки воспоминаний...';
-                choicesBox.innerHTML = `
-                    <button class="choice-btn" onclick="showScene(2)">Оглядеться по сторонам</button>
-                    <button class="choice-btn shard-choice" onclick="makeShardChoice(3, 20)">🔮 Сконцентрироваться на голосе (20 Осколков)</button>
-                `;
-            } else if (sceneId === 2) {
-                charName.innerText = 'Главный герой';
-                dialogText.innerText = 'Туман слишком густой. Земля уходит из-под ног... Конец демо-версии!';
+                dialogText.innerText = 'Ты открываешь глаза. Вокруг лишь туман...';
                 choicesBox.innerHTML = `<button class="choice-btn" onclick="closeReader()">Завершить</button>`;
-            } else if (sceneId === 3) {
-                charName.innerText = 'Силуэт Сна';
-                dialogText.innerText = '«Ты вспомнил меня!» — силуэт засиял ярким светом. Конец 1 серии!';
-                choicesBox.innerHTML = `<button class="choice-btn" onclick="closeReader()">Завершить</button>`;
-            }
-        }
-
-        function makeShardChoice(nextScene, cost) {
-            if (shards >= cost) {
-                shards -= cost;
-                updateCurrencyUI();
-                showScene(nextScene);
-            } else {
-                alert('Недостаточно Осколков!');
             }
         }
 
         function openShop() {
-            const html = `
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <button class="choice-btn" onclick="buyLumens(100)">100 Осколков ➔ 1 Люмен</button>
-                    <button class="choice-btn" onclick="alert('+10 Осколков зачислено!'); shards+=10; updateCurrencyUI();">📺 Посмотреть рекламу (+10 Осколков)</button>
-                </div>
-            `;
-            showModal('Магазин', 'Ресурсы:', html);
-        }
-
-        function buyLumens(cost) {
-            if (shards >= cost) {
-                shards -= cost;
-                lumens += 1;
-                updateCurrencyUI();
-                alert('Куплен 1 Люмен!');
-                openShop();
-            } else {
-                alert('Недостаточно Осколков.');
-            }
-        }
-
-        function openProfile() {
-            const html = `
-                <div style="text-align:left; font-size:0.85rem; display:flex; flex-direction:column; gap:6px;">
-                    <div><b>Имя:</b> Странник Снов</div>
-                    <div><b>Серий пройдено:</b> ${episodeUnlocked ? 1 : 0}</div>
-                    <div><b>Баланс Люменов:</b> ${lumens}</div>
-                    <div><b>Баланс Осколков:</b> ${shards}</div>
-                </div>
-            `;
-            showModal('Профиль', 'Ваш прогресс:', html);
+            showModal('Магазин', 'Покупка ресурсов временно недоступна.');
         }
 
         function openSettings() {
-            const html = `
-                <div style="display:flex; flex-direction:column; gap:8px; text-align:left; font-size:0.85rem;">
-                    <label style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>Звуковые эффекты</span>
-                        <input type="checkbox" checked>
-                    </label>
-                    <label style="display:flex; justify-content:space-between; align-items:center;">
-                        <span>Музыка</span>
-                        <input type="checkbox" checked>
-                    </label>
-                </div>
-            `;
-            showModal('Настройки', 'Параметры:', html);
-        }
-
-        /* --- ИГРЫ --- */
-        let gameLoopId = null;
-
-        function startShardCatcher() {
-            const html = `
-                <canvas id="game-canvas" width="280" height="260"></canvas>
-                <div style="margin-top:8px; font-weight:600; color:var(--accent-cyan); font-size:0.85rem;">Счет: <span id="catcher-score">0</span></div>
-            `;
-            showModal('Ловец Осколков', 'Двигайте платформу и ловите кристаллы!', html);
-
-            const canvas = document.getElementById('game-canvas');
-            const ctx = canvas.getContext('2d');
-            let score = 0;
-            let basketX = 110;
-            let items = [];
-            let timer = 15;
-
-            const updatePos = (e) => {
-                const rect = canvas.getBoundingClientRect();
-                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                basketX = clientX - rect.left - 30;
-            };
-
-            canvas.addEventListener('touchmove', updatePos);
-            canvas.addEventListener('mousemove', updatePos);
-
-            const interval = setInterval(() => {
-                timer--;
-                if (timer <= 0) {
-                    clearInterval(interval);
-                    cancelAnimationFrame(gameLoopId);
-                    shards += score;
-                    updateCurrencyUI();
-                    showModal('Время вышло!', `Заработано +${score} Осколков!`);
-                }
-            }, 1000);
-
-            function gameLoop() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#48cae4';
-                ctx.fillRect(basketX, 230, 60, 8);
-
-                if (Math.random() < 0.06) {
-                    items.push({ x: Math.random() * 260, y: 0, type: Math.random() > 0.3 ? 'shard' : 'bomb', speed: 2 + Math.random() * 2 });
-                }
-
-                items.forEach((item, index) => {
-                    item.y += item.speed;
-                    ctx.fillStyle = item.type === 'shard' ? '#c77dff' : '#ff4d6d';
-                    ctx.beginPath();
-                    ctx.arc(item.x, item.y, 7, 0, Math.PI * 2);
-                    ctx.fill();
-
-                    if (item.y >= 225 && item.y <= 240 && item.x >= basketX && item.x <= basketX + 60) {
-                        if (item.type === 'shard') score += 5;
-                        else score = Math.max(0, score - 5);
-                        document.getElementById('catcher-score').innerText = score;
-                        items.splice(index, 1);
-                    }
-                });
-
-                gameLoopId = requestAnimationFrame(gameLoop);
-            }
-            gameLoop();
-        }
-
-        function startMemoryGame() {
-            const icons = ['🌙', '🔮', '⭐', '🗝️', '🌙', '🔮', '⭐', '🗝️'];
-            icons.sort(() => Math.random() - 0.5);
-
-            let gridHTML = '<div class="memory-grid">';
-            icons.forEach((icon) => {
-                gridHTML += `<div class="memory-card" data-icon="${icon}" onclick="flipCard(this)">?</div>`;
-            });
-            gridHTML += '</div>';
-
-            showModal('Память Снов', 'Найдите одинаковые карточки!', gridHTML);
-        }
-
-        let firstCard = null, lockGrid = false, matches = 0;
-
-        function flipCard(card) {
-            if (lockGrid || card === firstCard || card.classList.contains('flipped')) return;
-
-            card.innerText = card.dataset.icon;
-            card.classList.add('flipped');
-
-            if (!firstCard) { firstCard = card; return; }
-
-            if (firstCard.dataset.icon === card.dataset.icon) {
-                firstCard = null;
-                matches++;
-                if (matches === 4) {
-                    shards += 25;
-                    updateCurrencyUI();
-                    setTimeout(() => showModal('Победа!', '+25 Осколков получено!'), 400);
-                    matches = 0;
-                }
-            } else {
-                lockGrid = true;
-                setTimeout(() => {
-                    firstCard.innerText = '?'; card.innerText = '?';
-                    firstCard.classList.remove('flipped'); card.classList.remove('flipped');
-                    firstCard = null; lockGrid = false;
-                }, 700);
-            }
-        }
-
-        let sequence = [], playerSequence = [], round = 0;
-
-        function startSequenceGame() {
-            const html = `
-                <div class="sequence-grid">
-                    <div class="seq-btn" id="seq-0" onclick="handleSeqClick(0)"></div>
-                    <div class="seq-btn" id="seq-1" onclick="handleSeqClick(1)"></div>
-                    <div class="seq-btn" id="seq-2" onclick="handleSeqClick(2)"></div>
-                    <div class="seq-btn" id="seq-3" onclick="handleSeqClick(3)"></div>
-                </div>
-                <div id="seq-status" style="color:var(--accent-cyan); font-weight:600; font-size:0.85rem;">Запоминайте...</div>
-            `;
-            showModal('Взлом Сознания', 'Повторяйте за подсветкой.', html);
-            sequence = []; round = 0;
-            nextSeqRound();
-        }
-
-        function nextSeqRound() {
-            playerSequence = []; round++;
-            sequence.push(Math.floor(Math.random() * 4));
-            playSequence();
-        }
-
-        function playSequence() {
-            let i = 0;
-            const status = document.getElementById('seq-status');
-            if (status) status.innerText = `Уровень ${round} из 3`;
-
-            const interval = setInterval(() => {
-                if (i >= sequence.length) { clearInterval(interval); return; }
-                flashBtn(sequence[i]); i++;
-            }, 600);
-        }
-
-        function flashBtn(id) {
-            const btn = document.getElementById(`seq-${id}`);
-            if (btn) {
-                btn.classList.add('active');
-                setTimeout(() => btn.classList.remove('active'), 300);
-            }
-        }
-
-        function handleSeqClick(id) {
-            flashBtn(id);
-            playerSequence.push(id);
-            const index = playerSequence.length - 1;
-
-            if (playerSequence[index] !== sequence[index]) {
-                showModal('Ошибка', 'Цепочка разорвана!');
-                return;
-            }
-
-            if (playerSequence.length === sequence.length) {
-                if (round === 3) {
-                    lumens += 1;
-                    updateCurrencyUI();
-                    showModal('Успех!', 'Вы заработали +1 Люмен!');
-                } else {
-                    setTimeout(nextSeqRound, 800);
-                }
-            }
+            showModal('Опции', 'Настройки звука и уведомлений.');
         }
     </script>
 </body>
