@@ -8,13 +8,13 @@
 </head>
 <body>
 
-    <!-- ВЕРХНЯЯ ПАНЕЛЬ С ВАЛЮТОЙ (ВИДНА ВЕЗДЕ, КРОМЕ ИГРЫ) -->
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ С ВАЛЮТОЙ -->
     <div id="global-top-bar" class="top-bar">
         <div class="resource"><span>💎</span> <span id="diamond-count">25</span></div>
         <div class="resource"><span>☕</span> <span id="energy-count">3</span></div>
     </div>
 
-    <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ / КАТАЛОГ ИСТОРIЙ (ОТКРЫТ ПО УМОЛЧАНИЮ) -->
+    <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ / КАТАЛОГ ИСТОРIЙ -->
     <div id="main-menu" class="screen active">
         <header class="app-header">
             <h1 class="main-title">СНЫ НАЯВУ</h1>
@@ -22,24 +22,34 @@
         <main class="scrollable-content">
             <div class="section-divider">КАТАЛОГ ИСТОРIЙ</div>
             <div class="stories-grid">
-                <div class="story-card" data-story="vampire_story">
+                <!-- Карточка истории (клик теперь вызывает превью) -->
+                <div class="story-card" onclick="openStoryPreview('vampire_story')">
                     <div class="story-poster" style="background-image: url('images/vampire_poster.jpg');"></div>
                     <div class="story-info">
                         <h3>Клыки и Розы</h3>
                         <p>Загадочный граф меняет вашу жизнь.</p>
-                        <button class="play-btn">Читать ☕1</button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- ОКНО-ПРЕВЬЮ ИСТОРIИ (ПЕРЕД СТАРТОМ) -->
+    <div id="story-preview-modal" class="modal-overlay hidden">
+        <div class="preview-content polygon-shape">
+            <div id="preview-poster" class="preview-poster"></div>
+            <h2 id="preview-title" class="preview-title">Название</h2>
+            <p id="preview-desc" class="preview-desc">Описание...</p>
+            <div class="preview-buttons">
+                <button class="play-btn-large" id="start-story-confirm-btn">Читать ☕ 1</button>
+                <button class="close-text-btn" onclick="closeStoryPreview()">Назад</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ЭКРАН 2: ИГРОВОЙ ПРОЦЕСС -->
     <div id="game-screen" class="screen">
         <div id="game-bg"></div> 
-        <div id="stats-indicator" class="stats-indicator hidden">
-            <span id="stat-icon"></span> +1
-        </div>
         <div class="character-container">
             <div id="heroine" class="heroine-composite">
                 <img id="hero-body" src="images/hero_body.png" alt="">
@@ -47,12 +57,10 @@
             </div>
             <img id="char-right" class="sprite" src="" alt="">
         </div>
-        <!-- Всплывающий гардероб внутри сюжета -->
         <div id="wardrobe-screen" class="wardrobe-overlay hidden">
             <h2>Выбор наряда</h2>
             <div class="wardrobe-options" id="wardrobe-options"></div>
         </div>
-        <!-- Диалоговое окно -->
         <div class="dialogue-box" id="next-step">
             <div id="char-name" class="char-name"></div>
             <div id="dialogue-text" class="dialogue-text"></div>
@@ -61,33 +69,51 @@
         <div id="choices-container" class="choices-container hidden"></div>
     </div>
 
-    <!-- ЭКРАН 3: ПРОФИЛЬ + НАСТРОЙКИ (СКРЫТ ПРИ СТАРТЕ) -->
+    <!-- ЭКРАН 3: ПРОФИЛЬ + НАСТРОЙКИ -->
     <div id="profile-screen" class="screen">
         <div class="profile-carousel">
-            <!-- ЛЕВАЯ ПАНЕЛЬ: ДОСТИЖЕНИЯ (ЛИСТАТЬ ВБОК) -->
+            <!-- ЛЕВАЯ ПАНЕЛЬ: ДОСТИЖЕНИЯ -->
             <div class="profile-panel side-panel">
                 <h2 class="panel-title">ДОСТИЖЕНИЯ</h2>
                 <div class="achievements-large-grid" id="all-achievements"></div>
             </div>
 
-            <!-- ЦЕНТРАЛЬНАЯ ПАНЕЛЬ: ПРОФИЛЬ И НАСТРОЙКИ (ЛИСТАТЬ ВНИЗ) -->
+            <!-- ЦЕНТРАЛЬНАЯ ПАНЕЛЬ: ПРОФИЛЬ И НАСТРОЙКИ -->
             <div class="profile-panel main-panel vertical-scroll">
                 <div class="profile-main-content">
-                    <div class="avatar-container">
+                    
+                    <!-- Редактируемая Аватарка -->
+                    <div class="avatar-container" onclick="triggerAvatarChange()">
                         <div class="crystal-frame">
-                            <img src="images/avatar.jpg" alt="Аватар" class="user-avatar">
+                            <img id="profile-avatar-img" src="images/avatar.jpg" alt="Аватар" class="user-avatar">
+                            <div class="avatar-edit-hint">✏️</div>
                         </div>
                     </div>
+                    <!-- Скрытый инпут для загрузки фото -->
+                    <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+
+                    <!-- Редактируемый Никнейм -->
+                    <div class="nickname-container">
+                        <span id="player-nickname" class="player-nickname">Игрок</span>
+                        <button class="edit-small-btn" onclick="editNickname()">✏️</button>
+                    </div>
+
                     <div class="rank-name" id="player-rank-title">ЗАГРУЗКА...</div>
                     <div class="level-badge">УРОВЕНЬ <span id="player-level">1</span></div>
                     
+                    <!-- Редактируемый статус/описание -->
+                    <div class="bio-container">
+                        <p id="player-bio" class="player-bio">Нажмите на карандаш, чтобы добавить описание своего профиля...</p>
+                        <button class="edit-small-btn" onclick="editBio()">✏️</button>
+                    </div>
+
                     <div class="section-title">МЕДАЛИ</div>
                     <div class="mini-achievements" id="mini-achievements-container"></div>
 
                     <div class="scroll-down-hint">Настройки внизу ▽</div>
                 </div>
 
-                <!-- БЛОК НАСТРОЕК (ОТКРЫВАЕТСЯ ПРИ СКРОЛЛЕ ВНИЗ) -->
+                <!-- БЛОК НАСТРОЕК -->
                 <section class="settings-section">
                     <h2 class="panel-title">НАСТРОЙКИ</h2>
                     <div class="settings-options">
@@ -102,7 +128,7 @@
                 </section>
             </div>
 
-            <!-- ПРАВАЯ ПАНЕЛЬ: СТАТИСТИКА (ЛИСТАТЬ ВБОК) -->
+            <!-- ПРАВАЯ ПАНЕЛЬ: СТАТИСТИКА -->
             <div class="profile-panel side-panel">
                 <h2 class="panel-title">СТАТИСТИКА</h2>
                 <div class="stats-box">
@@ -114,7 +140,7 @@
         </div>
     </div>
 
-    <!-- СКВОЗНОЙ ТАБ-БАР НАВИГАЦИИ (ПРИЖАТ К НИЗУ ЭКРАНА) -->
+    <!-- ТАБ-БАР НАВИГАЦИИ -->
     <nav id="global-nav" class="bottom-navigation">
         <div class="nav-item" id="nav-settings-btn">
             <div class="nav-icon">⚙️</div><span class="nav-label">НАСТРОЙКИ</span>
