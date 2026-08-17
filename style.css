@@ -1,248 +1,110 @@
-/* Общие настройки для эффекта мобильного приложения */
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
 body, html {
-    margin: 0; padding: 0;
-    width: 100%; height: 100%;
+    width: 100%; height: 100%; overflow: hidden;
+    background: #020614; color: #e2f1ff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* СИСТЕМНАЯ ЛОГИКА ЭКРАНОВ — ОШИБКИ ИСПРАВЛЕНЫ */
+.screen {
+    position: absolute; width: 100%; height: 100%;
+    display: none !important; /* Все экраны строго скрыты */
     background: radial-gradient(circle at center, #0a1631 0%, #030712 100%);
-    font-family: 'Cinzel', 'Georgia', serif; /* Сказочный вытянутый шрифт */
-    color: #e2f1ff;
-    overflow: hidden;
 }
-
-/* Контейнер приложения с фиксированными границами под смартфон */
-.app-container {
-    display: flex;
+.screen.active {
+    display: flex !important; /* Показывается только экран с классом active */
     flex-direction: column;
-    width: 100%;
-    max-width: 450px; /* Симулируем экран телефона на ПК */
-    height: 100%;
-    margin: 0 auto;
-    position: relative;
-    background: linear-gradient(180deg, #091a3c 0%, #050d22 100%);
-    box-shadow: 0 0 30px rgba(0, 162, 255, 0.2);
 }
 
-/* Верхняя шапка */
-.app-header {
-    text-align: center;
-    padding: 20px 0 10px 0;
-    position: relative;
+/* ВЕРХНЯЯ ПАНЕЛЬ */
+.top-bar {
+    position: fixed; top: 10px; right: 20px;
+    display: flex; gap: 15px; z-index: 1000;
 }
-.main-title {
-    font-size: 1.8rem;
-    font-weight: 300;
-    letter-spacing: 4px;
-    color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+.top-bar.hidden { display: none !important; }
+.resource {
+    background: rgba(3, 10, 29, 0.85); color: #fff;
+    padding: 5px 15px; border-radius: 20px;
+    font-weight: bold; border: 1px solid #00bfff;
 }
 
-/* Скролл контента */
-.scrollable-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px 20px 100px 20px; /* Отступ снизу для таб-бара */
-}
-.scrollable-content::-webkit-scrollbar { display: none; } /* Скрываем стандартный скроллбар */
+/* ЗАГОЛОВКИ И МЕНЮ */
+.app-header { text-align: center; padding: 20px 0; }
+.main-title { font-size: 1.8rem; letter-spacing: 4px; text-shadow: 0 0 10px #00bfff; }
+.scrollable-content { flex: 1; overflow-y: auto; padding: 0 20px 90px 20px; }
+.section-divider { text-align: center; color: #8daed6; margin: 15px 0; letter-spacing: 2px; }
 
-/* СЕКЦИЯ 1: Карусель крупных историй */
-.main-stories-carousel {
-    display: flex;
-    gap: 15px;
-    padding: 10px 0;
-    overflow-x: auto; /* Горизонтальный скролл карт */
-    scroll-snap-type: x mandatory;
-}
-.main-stories-carousel::-webkit-scrollbar { display: none; }
+/* КАРТОЧКИ ИСТОРIЙ */
+.stories-grid { display: flex; flex-direction: column; gap: 20px; }
+.story-card { background: #050d22; border: 1px solid #1c355e; border-radius: 10px; overflow: hidden; }
+.story-poster { height: 200px; background-size: cover; background-position: center; }
+.story-info { padding: 15px; }
+.play-btn { background: #ff4a75; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
 
-/* Форма кристалла / многоугольника для главных карточек */
-.polygon-shape {
-    clip-path: polygon(15% 0%, 85% 0%, 100% 20%, 100% 80%, 85% 100%, 15% 100%, 0% 80%, 0% 20%);
-}
+/* ИГРОВОЙ ПРОЦЕСС */
+#game-bg { position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center; }
+.character-container { position: absolute; bottom: 180px; width: 100%; display: flex; justify-content: space-around; }
+.sprite { max-height: 55vh; display: none; }
+.sprite.active { display: block; }
+.heroine-composite { position: relative; height: 55vh; width: 200px; }
+.heroine-composite img { position: absolute; bottom: 0; left: 0; height: 100%; }
 
-.story-card-large {
-    min-width: 240px;
-    height: 340px;
-    background-size: cover;
-    background-position: center;
-    border: 1px solid rgba(0, 191, 255, 0.3);
-    position: relative;
-    scroll-snap-align: center;
-    filter: drop-shadow(0 0 15px rgba(0, 132, 255, 0.4));
+.dialogue-box {
+    position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+    width: 90%; height: 130px; background: rgba(3, 10, 29, 0.9);
+    border: 2px solid #ff4a75; border-radius: 10px; padding: 15px; z-index: 100;
 }
+.char-name { font-weight: bold; color: #ff4a75; margin-bottom: 5px; }
 
-.card-overlay {
-    position: absolute;
-    width: 100%; height: 100%;
-    background: linear-gradient(360deg, rgba(5, 17, 44, 0.9) 0%, rgba(0,0,0,0) 60%);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    padding-bottom: 30px;
-    box-sizing: border-box;
+/* ГОРИЗОНТАЛЬНАЯ КАРУСЕЛЬ ПРОФИЛЯ */
+.profile-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; flex: 1; width: 100%; }
+.profile-carousel::-webkit-scrollbar { display: none; }
+.profile-panel { min-width: 100%; height: 100%; padding: 20px; scroll-snap-align: center; }
+
+/* ВЕРТИКАЛЬНЫЙ СКРОЛЛ НАСТРОЕК */
+.vertical-scroll { overflow-y: auto; display: flex; flex-direction: column; scroll-behavior: smooth; }
+.vertical-scroll::-webkit-scrollbar { display: none; }
+.profile-main-content { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+/* КРИСТАЛЬНЫЙ АВАТАР */
+.avatar-container { margin-bottom: 15px; }
+.crystal-frame {
+    width: 110px; height: 110px; background: #00bfff;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    padding: 3px; filter: drop-shadow(0 0 10px #00bfff);
 }
+.user-avatar { width: 100%; height: 100%; object-fit: cover; clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }
+.rank-name { font-size: 1.3rem; color: #fff; text-shadow: 0 0 8px #00bfff; }
+.level-badge { color: #8daed6; margin-top: 5px; }
+.scroll-down-hint { margin-top: 40px; color: #00bfff; font-size: 0.8rem; animation: pulse 2s infinite; }
 
-.story-title-large {
-    font-size: 1.3rem;
-    text-align: center;
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    line-height: 1.3;
-}
+/* БЛОК НАСТРОЕК СНИЗУ */
+.settings-section { min-height: 85%; background: rgba(5, 13, 34, 0.95); border: 1px solid #00bfff; padding: 20px; margin-top: 50px; border-radius: 10px; }
+.setting-row { display: flex; justify-content: space-between; margin: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+.settings-select, .reset-btn { background: #020614; border: 1px solid #00bfff; color: white; padding: 5px; }
 
-/* Кнопка Плей */
-.play-circle-btn {
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    background: rgba(0, 119, 255, 0.6);
-    border: 2px solid #00bfff;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 0 10px #00bfff;
-    transition: 0.2s;
-    display: flex; justify-content: center; align-items: center;
-}
-.play-circle-btn:hover { transform: scale(1.1); background: #00bfff; }
-
-/* Текст-разделитель */
-.section-divider {
-    text-align: center;
-    letter-spacing: 3px;
-    font-size: 0.9rem;
-    color: #8daed6;
-    margin: 30px 0 20px 0;
-}
-
-/* СЕКЦИЯ 2: Сетка маленьких миров */
-.worlds-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding-bottom: 20px;
-}
-
-.polygon-mini {
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-}
-
-.world-node {
-    height: 130px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    border: 1px solid rgba(0, 255, 234, 0.2);
-    cursor: pointer;
-}
-
-.node-title {
-    position: absolute;
-    width: 100%; height: 100%;
-    background: rgba(3, 10, 29, 0.6);
-    display: flex; justify-content: center; align-items: center;
-    text-align: center;
-    font-size: 0.8rem;
-    padding: 10px;
-    box-sizing: border-box;
-    letter-spacing: 1px;
-}
-
-/* СЕКЦИЯ 3: Нижнее фиксированное меню */
+/* ТАБ-БАР НАВИГАЦИИ */
 .bottom-navigation {
-    position: absolute;
-    bottom: 0; left: 0; width: 100%;
-    height: 75px;
-    background: linear-gradient(360deg, #020614 0%, rgba(5, 16, 41, 0.95) 100%);
-    border-top: 1px solid rgba(0, 162, 255, 0.25);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 100;
+    position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
+    background: #030712; border-top: 1px solid rgba(0, 191, 255, 0.2);
+    display: flex; justify-content: space-around; align-items: center; z-index: 2000;
 }
+.nav-item { display: flex; flex-direction: column; align-items: center; opacity: 0.5; cursor: pointer; }
+.nav-item.active { opacity: 1; filter: drop-shadow(0 0 5px #00bfff); }
+.nav-icon { font-size: 1.3rem; }
+.nav-label { font-size: 0.65rem; }
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    opacity: 0.6;
-    transition: 0.3s;
-}
-
-.nav-item.active {
-    opacity: 1;
-    filter: drop-shadow(0 0 8px #00bfff);
-}
-
-.nav-icon { font-size: 1.4rem; margin-bottom: 4px; }
-.nav-label { font-size: 0.65rem; letter-spacing: 1px; text-transform: uppercase; }
-
-/* Кастомная правая вкладка «Ловец Снов» со скриншота */
-.catcher-tab .nav-icon {
-    font-size: 1.8rem;
-    color: #00e5ff;
-}
-
-/* Включаем вертикальный скролл только для центральной панели */
-.vertical-scroll {
-    overflow-y: auto;
-    scroll-behavior: smooth; /* Чтобы при клике на кнопку меню экран листал плавно */
-    display: flex;
-    flex-direction: column;
-}
-.vertical-scroll::-webkit-scrollbar { display: none; } /* Прячем некрасивую полосу скролла */
-
-/* Контентная часть профиля занимает высоту экрана, чтобы настройки были скрыты ниже */
-.profile-main-content {
-    min-height: 100%; 
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 40px;
-    box-sizing: border-box;
-}
-
-/* Подсказка для игрока над настройками */
-.scroll-down-hint {
-    text-align: center;
-    color: #00e5ff;
-    font-size: 0.8rem;
-    margin-top: auto; /* Прижимает подсказку к самому низу блока профиля */
-    opacity: 0.6;
-    animation: pulse 2s infinite;
-}
-
-/* Стили встроенного блока настроек */
-.settings-section {
-    background: linear-gradient(180deg, rgba(9, 26, 60, 0.4) 0%, rgba(5, 13, 34, 0.9) 100%);
-    border: 1px solid rgba(0, 191, 255, 0.2);
-    padding: 30px 20px;
-    margin-top: 20px;
-    min-height: 80%; /* Настройки занимают почти весь экран при прокрутке */
-    box-sizing: border-box;
-    filter: drop-shadow(0 0 15px rgba(0, 191, 255, 0.1));
-}
-
-.setting-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 25px 0;
-    font-size: 1.05rem;
-    border-bottom: 1px solid rgba(141, 174, 214, 0.1);
-    padding-bottom: 10px;
-}
-
-/* Кастомный селектор и кнопка сброса */
-.settings-select, .reset-btn {
-    background: #050d22;
-    border: 1px solid #00bfff;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 4px;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0.3; }
-}
-
+/* ВСПОМОГАТЕЛЬНЫЕ КЛАССЫ */
+.choices-container { position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; gap: 10px; z-index: 200; }
+.choice-btn { padding: 12px 30px; background: #030712; color: white; border: 2px solid #ff4a75; border-radius: 5px; cursor: pointer; }
+.achievements-large-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+.achievement-card { background: #050d22; padding: 10px; border-radius: 5px; text-align: center; border: 1px solid #1c355e; }
+.achievement-card.locked { opacity: 0.4; }
+.mini-achievements { display: flex; gap: 10px; margin-top: 10px; font-size: 1.5rem; }
+.stats-box { display: flex; flex-direction: column; gap: 15px; margin-top: 20px; }
+.stat-row { display: flex; justify-content: space-between; border-bottom: 1px solid #1c355e; padding-bottom: 5px; }
+.wardrobe-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 300; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.wardrobe-options { display: flex; gap: 15px; margin-top: 20px; }
+.wardrobe-btn { padding: 15px; background: #050d22; border: 1px solid #fff; color: white; cursor: pointer; }
+.hidden { display: none !important; }
+@keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
