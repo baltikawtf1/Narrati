@@ -3,178 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сны Наяву - Главная</title>
+    <title>Визуальная Новелла</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- ГЛАВНЫЙ ЭКРАН ХАБА -->
-    <div id="app-hub" class="app-container">
-        
-        <!-- Заголовок приложения -->
-        <header class="app-header">
-            <div class="decorative-branches-left"></div>
-            <h1 class="main-title">СНЫ НАЯВУ</h1>
-            <div class="decorative-branches-right"></div>
-        </header>
-
-        <!-- Основной прокручиваемый контент -->
-        <main class="scrollable-content">
-            
-            <!-- СЕКЦИЯ 1: КАРУСЕЛЬ ГЛАВНЫХ ИСТОРIЙ (Крупные карточки) -->
-            <section class="main-stories-carousel">
-                <!-- Карточка 1: Звездная Гавань -->
-                <div class="story-card-large polygon-shape" style="background-image: url('images/space_bg.jpg');">
-                    <div class="card-overlay">
-                        <h2 class="story-title-large">ЗВЁЗДНАЯ<br>ГАВАНЬ</h2>
-                        <button class="play-circle-btn" onclick="startStory('space_harbor')">▶</button>
-                    </div>
-                </div>
-
-                <!-- Карточка 2: Тени Опала -->
-                <div class="story-card-large polygon-shape" style="background-image: url('images/opal_bg.jpg');">
-                    <div class="card-overlay">
-                        <h2 class="story-title-large">ТЕНИ<br>ОПАЛА</h2>
-                        <button class="play-circle-btn" onclick="startStory('opal_shadows')">▶</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Секция-разделитель -->
-            <div class="section-divider">ИССЛЕДУЙ МИРЫ</div>
-
-            <!-- СЕКЦИЯ 2: СЕТКА ДРУГИХ МИРОВ (Маленькие шестиугольные/ромбовидные плашки) -->
-            <section class="worlds-grid">
-                <div class="world-node polygon-mini" onclick="startStory('wind_keeper')" style="background-image: url('images/wind.jpg');">
-                    <div class="node-title">ХРАНИТЕЛЬ ВЕТРА</div>
-                </div>
-                <div class="world-node polygon-mini" onclick="startStory('ice_heart')" style="background-image: url('images/ice.jpg');">
-                    <div class="node-title">СЕРДЦЕ ЛЬДА</div>
-                </div>
-                <div class="world-node polygon-mini" onclick="startStory('poison_bastion')" style="background-image: url('images/poison.jpg');">
-                    <div class="node-title">БАСТИОН ЯДА</div>
-                </div>
-            </section>
-
-        </main>
-        <!-- ЭКРАН ПРОФИЛЯ -->
-<div id="game-screen" class="screen app-container">
-    
-    <header class="app-header">
-        <h1 class="main-title">МОЙ ПРОФИЛЬ</h1>
-    </header>
-
-    <!-- ГОРИЗОНТАЛЬНАЯ КАРУСЕЛЬ (Для Достижений и Статистики) -->
-    <div class="profile-carousel">
-        
-        <!-- ЛЕВАЯ ПАНЕЛЬ: ДОСТИЖЕНИЯ (Листается вбок) -->
-        <div class="profile-panel side-panel">
-            <h2 class="panel-title">ДОСТИЖЕНИЯ</h2>
-            <div class="achievements-large-grid" id="all-achievements"></div>
-        </div>
-
-        <!-- ЦЕНТРАЛЬНАЯ ПАНЕЛЬ: ПРОФИЛЬ + НАСТРОЙКИ ВНИЗУ (Листается вверх/вниз) -->
-        <div class="profile-panel main-panel vertical-scroll">
-            
-            <!-- [ВЕРХНИЙ БЛОК: САМ ПРОФИЛЬ] -->
-            <div class="profile-main-content">
-                <div class="avatar-container">
-                    <div class="crystal-frame">
-                        <img src="images/avatar.jpg" alt="Аватар" class="user-avatar">
-                    </div>
-                </div>
-
-                <div class="rank-name" id="player-rank-title">ЗВЁЗДНЫЙ СТРАННИК</div>
-                <div class="level-badge">УРОВЕНЬ <span id="player-level">45</span></div>
-
-                <div class="section-title">ДОСТИЖЕНИЯ</div>
-                <div class="mini-achievements" id="mini-achievements-container"></div>
-
-                <div class="section-title">ИСТОРИЯ ЧТЕНИЯ</div>
-                <div class="reading-history-list" id="profile-reading-history">
-                    <!-- Здесь карточки книг -->
-                </div>
-                
-                <!-- Стрелочка-подсказка, что внизу что-то есть -->
-                <div class="scroll-down-hint">Листайте вниз к настройкам ▽</div>
-            </div>
-
-            <!-- [НИЖНИЙ БЛОК: НАСТРОЙКИ] -->
-            <!-- Игрок увидит этот блок, когда прокрутит центральную страницу вниз -->
-            <section class="settings-section polygon-shape">
-                <h2 class="panel-title">НАСТРОЙКИ ИГРЫ</h2>
-                
-                <div class="settings-options">
-                    <div class="setting-row">
-                        <span>🎵 Музыка</span>
-                        <input type="checkbox" id="setting-music" checked>
-                    </div>
-                    <div class="setting-row">
-                        <span>🔊 Звуковые эффекты</span>
-                        <input type="checkbox" id="setting-sounds" checked>
-                    </div>
-                    <div class="setting-row">
-                        <span>🌐 Язык приложения</span>
-                        <select class="settings-select">
-                            <option>Русский</option>
-                            <option>English</option>
-                        </select>
-                    </div>
-                    <div class="setting-row">
-                        <span>👤 Сбросить прогресс</span>
-                        <button class="reset-btn" onclick="resetGameProgress()">Сброс</button>
-                    </div>
-                </div>
-            </section>
-
-        </div>
-
-        <!-- ПРАВАЯ ПАНЕЛЬ: СТАТИСТИКА (Листается вбок) -->
-        <div class="profile-panel side-panel">
-            <h2 class="panel-title">СТАТИСТИКА И КОЛЛЕКЦИИ</h2>
-            <div class="stats-box">
-                <div class="stat-row"><span>Пройдено глав:</span> <span id="stat-chapters">0</span></div>
-            </div>
-        </div>
-
+    <!-- ВЕРХНЯЯ ПАНЕЛЬ С ВАЛЮТОЙ (ВИДНА ВЕЗДЕ, КРОМЕ ИГРЫ) -->
+    <div id="global-top-bar" class="top-bar">
+        <div class="resource"><span>💎</span> <span id="diamond-count">25</span></div>
+        <div class="resource"><span>☕</span> <span id="energy-count">3</span></div>
     </div>
 
-    <!-- ТАБ-БАР СНИЗУ -->
-    <nav class="bottom-navigation">
-        <!-- Кнопка Настройки теперь просто плавно скроллит центральный экран до самого низа -->
+    <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ / КАТАЛОГ ИСТОРIЙ (ОТКРЫТ ПО УМОЛЧАНИЮ) -->
+    <div id="main-menu" class="screen active">
+        <header class="app-header">
+            <h1 class="main-title">СНЫ НАЯВУ</h1>
+        </header>
+        <main class="scrollable-content">
+            <div class="section-divider">КАТАЛОГ ИСТОРIЙ</div>
+            <div class="stories-grid">
+                <div class="story-card" data-story="vampire_story">
+                    <div class="story-poster" style="background-image: url('images/vampire_poster.jpg');"></div>
+                    <div class="story-info">
+                        <h3>Клыки и Розы</h3>
+                        <p>Загадочный граф меняет вашу жизнь.</p>
+                        <button class="play-btn">Читать ☕1</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ЭКРАН 2: ИГРОВОЙ ПРОЦЕСС -->
+    <div id="game-screen" class="screen">
+        <div id="game-bg"></div> 
+        <div id="stats-indicator" class="stats-indicator hidden">
+            <span id="stat-icon"></span> +1
+        </div>
+        <div class="character-container">
+            <div id="heroine" class="heroine-composite">
+                <img id="hero-body" src="images/hero_body.png" alt="">
+                <img id="hero-dress" src="images/hero_dress_default.png" alt="">
+            </div>
+            <img id="char-right" class="sprite" src="" alt="">
+        </div>
+        <!-- Всплывающий гардероб внутри сюжета -->
+        <div id="wardrobe-screen" class="wardrobe-overlay hidden">
+            <h2>Выбор наряда</h2>
+            <div class="wardrobe-options" id="wardrobe-options"></div>
+        </div>
+        <!-- Диалоговое окно -->
+        <div class="dialogue-box" id="next-step">
+            <div id="char-name" class="char-name"></div>
+            <div id="dialogue-text" class="dialogue-text"></div>
+            <div class="click-hint">Нажмите для продолжения...</div>
+        </div>
+        <div id="choices-container" class="choices-container hidden"></div>
+    </div>
+
+    <!-- ЭКРАН 3: ПРОФИЛЬ + НАСТРОЙКИ (СКРЫТ ПРИ СТАРТЕ) -->
+    <div id="profile-screen" class="screen">
+        <div class="profile-carousel">
+            <!-- ЛЕВАЯ ПАНЕЛЬ: ДОСТИЖЕНИЯ (ЛИСТАТЬ ВБОК) -->
+            <div class="profile-panel side-panel">
+                <h2 class="panel-title">ДОСТИЖЕНИЯ</h2>
+                <div class="achievements-large-grid" id="all-achievements"></div>
+            </div>
+
+            <!-- ЦЕНТРАЛЬНАЯ ПАНЕЛЬ: ПРОФИЛЬ И НАСТРОЙКИ (ЛИСТАТЬ ВНИЗ) -->
+            <div class="profile-panel main-panel vertical-scroll">
+                <div class="profile-main-content">
+                    <div class="avatar-container">
+                        <div class="crystal-frame">
+                            <img src="images/avatar.jpg" alt="Аватар" class="user-avatar">
+                        </div>
+                    </div>
+                    <div class="rank-name" id="player-rank-title">ЗАГРУЗКА...</div>
+                    <div class="level-badge">УРОВЕНЬ <span id="player-level">1</span></div>
+                    
+                    <div class="section-title">МЕДАЛИ</div>
+                    <div class="mini-achievements" id="mini-achievements-container"></div>
+
+                    <div class="scroll-down-hint">Настройки внизу ▽</div>
+                </div>
+
+                <!-- БЛОК НАСТРОЕК (ОТКРЫВАЕТСЯ ПРИ СКРОЛЛЕ ВНИЗ) -->
+                <section class="settings-section">
+                    <h2 class="panel-title">НАСТРОЙКИ</h2>
+                    <div class="settings-options">
+                        <div class="setting-row"><span>🎵 Музыка</span><input type="checkbox" checked></div>
+                        <div class="setting-row"><span>🔊 Звуки</span><input type="checkbox" checked></div>
+                        <div class="setting-row">
+                            <span>🌐 Язык</span>
+                            <select class="settings-select"><option>Русский</option><option>English</option></select>
+                        </div>
+                        <div class="setting-row"><span>👤 Данные</span><button class="reset-btn" onclick="resetGameProgress()">Сброс прогресса</button></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ПРАВАЯ ПАНЕЛЬ: СТАТИСТИКА (ЛИСТАТЬ ВБОК) -->
+            <div class="profile-panel side-panel">
+                <h2 class="panel-title">СТАТИСТИКА</h2>
+                <div class="stats-box">
+                    <div class="stat-row"><span>Пройдено глав:</span> <span id="stat-chapters">0</span></div>
+                    <div class="stat-row"><span>Романтика:</span> <span id="stat-romance">0</span></div>
+                    <div class="stat-row"><span>Драма:</span> <span id="stat-drama">0</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- СКВОЗНОЙ ТАБ-БАР НАВИГАЦИИ (ПРИЖАТ К НИЗУ ЭКРАНА) -->
+    <nav id="global-nav" class="bottom-navigation">
         <div class="nav-item" id="nav-settings-btn">
             <div class="nav-icon">⚙️</div><span class="nav-label">НАСТРОЙКИ</span>
         </div>
-        <div class="nav-item" onclick="showScreen('hub')">
+        <div class="nav-item active" id="nav-hub-btn" onclick="showScreen('hub')">
             <div class="nav-icon">📖</div><span class="nav-label">ГЛАВНАЯ</span>
         </div>
-        <div class="nav-item active" onclick="showScreen('profile')">
+        <div class="nav-item" id="nav-profile-btn" onclick="showScreen('profile')">
             <div class="nav-icon">👤</div><span class="nav-label">ПРОФИЛЬ</span>
         </div>
     </nav>
-</div>
-
-        <!-- СЕКЦИЯ 3: НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (ТАБ-БАР) -->
-        <nav class="bottom-navigation">
-            <div class="nav-item" onclick="switchTab('settings')">
-                <div class="nav-icon icon-settings">⚙️</div>
-                <span class="nav-label">НАСТРОЙКИ</span>
-            </div>
-            <div class="nav-item active" onclick="switchTab('main')">
-                <div class="nav-icon icon-main">📖</div>
-                <span class="nav-label">ГЛАВНАЯ</span>
-            </div>
-            <div class="nav-item" onclick="switchTab('profile')">
-                <div class="nav-icon icon-profile">👤</div>
-                <span class="nav-label">ПРОФИЛЬ</span>
-            </div>
-            <div class="nav-item catcher-tab" onclick="switchTab('dream-catcher')">
-                <div class="nav-icon icon-catcher">🕸️</div>
-                <span class="nav-label">Ловец Снов</span>
-            </div>
-        </nav>
-
-    </div>
 
     <script src="script.js"></script>
 </body>
