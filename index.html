@@ -3,114 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>СНЫ НАЯВУ</title>
-    <!-- Подключаем шрифты (Google Fonts - Cinzel для заголовка, Roboto для текста) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-    <!-- Подключаем FontAwesome для иконок -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Подключаем стили -->
+    <title>Моя Визуальная Новелла</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- SVG Clip-paths для форм глав -->
-    <svg width="0" height="0">
-        <defs>
-            <clipPath id="hexagon-large" clipPathUnits="objectBoundingBox">
-                <path d="M0.2,0.05 Q0,0 0,0.15 V0.85 Q0,1 0.2,0.95 L0.8,0.7 Q1,0.65 1,0.5 V0.3 Q1,0.15 0.8,0.2 L0.2,0.05 Z"/>
-            </clipPath>
-            <clipPath id="hexagon-small" clipPathUnits="objectBoundingBox">
-                <path d="M0.1,0.05 L0.9,0 L1,0.4 V0.6 L0.9,0.95 L0.1,1 L0,0.6 V0.4 L0.1,0.05 Z"/>
-            </clipPath>
-        </defs>
-    </svg>
+    <!-- Звуковое сопровождение (музыка) -->
+    <audio id="bg-music" src="audio/main_theme.mp3" loop></audio>
+    <audio id="click-sound" src="audio/click.mp3"></audio>
 
-    <div class="app-container">
-        
-        <!-- Заголовок -->
-        <header class="header">
-            <h1 class="title">СНЫ НАЯВУ</h1>
-        </header>
-
-        <!-- Основной блок с главными историями -->
-        <main class="main-stories">
-            <div class="chapter large left" style="--bg-url: url('images/main_ch_left.jpg');">
-                <div class="chapter-content">
-                    <h2>ЗВЁЗДНАЯ ГАВАНЬ</h2>
-                    <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-                </div>
+    <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ -->
+    <div id="main-menu" class="screen active">
+        <div class="overlay">
+            <h1 class="game-title">Название Новеллы</h1>
+            <div class="menu-buttons">
+                <button id="btn-start" class="menu-btn">Новая игра</button>
+                <button id="btn-load" class="menu-btn">Загрузить</button>
+                <button id="btn-settings" class="menu-btn">Настройки</button>
             </div>
-
-            <div class="chapter large center active" style="--bg-url: url('images/main_ch_center.jpg');">
-                <div class="chapter-content">
-                    <h2>ЗВЁЗДНАЯ ГАВАНЬ</h2>
-                    <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-                </div>
-                <div class="dots-indicator">
-                    <span class="dot"></span>
-                    <span class="dot active"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
-
-            <div class="chapter large right" style="--bg-url: url('images/main_ch_right.jpg');">
-                <div class="chapter-content">
-                    <h2>ТЕНИ ОПАЛА</h2>
-                    <button class="play-btn"><i class="fa-solid fa-play"></i></button>
-                </div>
-            </div>
-        </main>
-
-        <!-- Секция "Исследуй миры" -->
-        <section class="explore-worlds">
-            <h3 class="section-title">ИССЛЕДУЙ МИРЫ</h3>
-            <div class="worlds-grid">
-                <div class="world small top-left" style="--bg-url: url('images/world_1.jpg');">
-                    <div class="world-mask"></div>
-                    <p class="world-title">ХРАНИТЕЛЬ ВЕТРА</p>
-                </div>
-                <div class="world small bottom-left" style="--bg-url: url('images/world_2.jpg');">
-                    <div class="world-mask"></div>
-                    <p class="world-title">МАГИЯ ЛЬДА</p>
-                </div>
-                <div class="world small top-right" style="--bg-url: url('images/world_3.jpg');">
-                    <div class="world-mask"></div>
-                    <p class="world-title">СЕРДЦЕ ЛЬДА</p>
-                </div>
-                <div class="world small bottom-right" style="--bg-url: url('images/world_4.jpg');">
-                    <div class="world-mask"></div>
-                    <p class="world-title">ПЯТОЕ ИЗМЕРЕНИЕ</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Контейнер для анимированных перьев -->
-        <div id="feather-container"></div>
-
-        <!-- Нижняя навигация -->
-        <nav class="bottom-nav">
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>НАСТРОЙКИ</span>
-            </a>
-            <a href="#" class="nav-item active">
-                <i class="fa-solid fa-book-open"></i>
-                <span>ГЛАВНАЯ</span>
-            </a>
-            <a href="#" class="nav-item">
-                <i class="fa-solid fa-circle-user"></i>
-                <span>ПРОФИЛЬ</span>
-            </a>
-            <div class="nav-item dreamcatcher-item">
-                <img src="images/dreamcatcher.svg" alt="Ловец Снов" class="dreamcatcher-icon">
-                <span>Ловец Снов</span>
-            </div>
-        </nav>
+        </div>
     </div>
 
-    <!-- Подключаем скрипт -->
+    <!-- ЭКРАН 2: ИГРОВОЙ ПРОЦЕСС -->
+    <div id="game-screen" class="screen">
+        <!-- Задний фон игры контролируется через JS -->
+        <div id="game-bg"></div> 
+        
+        <!-- Спрайты персонажей -->
+        <div class="character-container">
+            <img id="char-left" class="sprite" src="" alt="">
+            <img id="char-center" class="sprite" src="" alt="">
+            <img id="char-right" class="sprite" src="" alt="">
+        </div>
+
+        <!-- Окно диалога -->
+        <div class="dialogue-box" id="next-step">
+            <div id="char-name" class="char-name">Имя</div>
+            <div id="dialogue-text" class="dialogue-text">Текст диалога...</div>
+            <div class="click-hint">Нажмите для продолжения...</div>
+        </div>
+
+        <!-- Окно выбора (появляется при развилках) -->
+        <div id="choices-container" class="choices-container hidden"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
