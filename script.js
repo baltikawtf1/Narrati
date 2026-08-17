@@ -1,4 +1,11 @@
-// Состояние игрока (сохраняется в браузере)
+ let player = {
+    diamonds: parseInt(localStorage.getItem('diamonds')) || 25,
+    energy: parseInt(localStorage.getItem('energy')) || 3,
+    completedChapters: parseInt(localStorage.getItem('completedChapters')) || 0, // новое
+    stats: { romance: 0, drama: 0 },
+    currentStory: null,
+    currentStep: 'start'
+};
 let player = {
     diamonds: parseInt(localStorage.getItem('diamonds')) || 25,
     energy: parseInt(localStorage.getItem('energy')) || 3,
