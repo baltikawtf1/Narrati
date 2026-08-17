@@ -1,52 +1,66 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моя Визуальная Новелла</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ (ХАБ ИСТОРIЙ) -->
+<div id="main-menu" class="screen active">
+    <!-- Панель ресурсов сверху (как в Клубе Романтики) -->
+    <div class="top-bar">
+        <div class="resource"><span class="icon">💎</span> <span id="diamond-count">25</span></div>
+        <div class="resource"><span class="icon">☕</span> <span id="energy-count">3</span></div>
+    </div>
 
-    <!-- Звуковое сопровождение (музыка) -->
-    <audio id="bg-music" src="audio/main_theme.mp3" loop></audio>
-    <audio id="click-sound" src="audio/click.mp3"></audio>
-
-    <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ -->
-    <div id="main-menu" class="screen active">
-        <div class="overlay">
-            <h1 class="game-title">Название Новеллы</h1>
-            <div class="menu-buttons">
-                <button id="btn-start" class="menu-btn">Новая игра</button>
-                <button id="btn-load" class="menu-btn">Загрузить</button>
-                <button id="btn-settings" class="menu-btn">Настройки</button>
+    <h1 class="hub-title">Каталог Историй</h1>
+    
+    <!-- Список историй (карточки) -->
+    <div class="stories-grid">
+        <div class="story-card" data-story="vampire_story">
+            <div class="story-poster" style="background-image: url('images/posters/vampire.jpg')"></div>
+            <div class="story-info">
+                <h3>Клыки и Розы</h3>
+                <p>Таинственный незнакомец меняет вашу жизнь...</p>
+                <button class="play-btn">Играть</button>
+            </div>
+        </div>
+        
+        <div class="story-card" data-story="space_story">
+            <div class="story-poster" style="background-image: url('images/posters/space.jpg')"></div>
+            <div class="story-info">
+                <h3>Завеса Звезд</h3>
+                <p>Вы — капитан корабля на краю галактики.</p>
+                <button class="play-btn">Играть</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- ЭКРАН 2: ИГРОВОЙ ПРОЦЕСС -->
-    <div id="game-screen" class="screen">
-        <!-- Задний фон игры контролируется через JS -->
-        <div id="game-bg"></div> 
-        
-        <!-- Спрайты персонажей -->
-        <div class="character-container">
-            <img id="char-left" class="sprite" src="" alt="">
-            <img id="char-center" class="sprite" src="" alt="">
-            <img id="char-right" class="sprite" src="" alt="">
-        </div>
-
-        <!-- Окно диалога -->
-        <div class="dialogue-box" id="next-step">
-            <div id="char-name" class="char-name">Имя</div>
-            <div id="dialogue-text" class="dialogue-text">Текст диалога...</div>
-            <div class="click-hint">Нажмите для продолжения...</div>
-        </div>
-
-        <!-- Окно выбора (появляется при развилках) -->
-        <div id="choices-container" class="choices-container hidden"></div>
+<!-- ЭКРАН 2: ИГРОВОЙ ЭКРАН (С ОДЕЖДОЙ И СТАТАМИ) -->
+<div id="game-screen" class="screen">
+    <div id="game-bg"></div> 
+    
+    <!-- Индикатор заработанных статов во время игры -->
+    <div id="stats-indicator" class="stats-indicator hidden">
+        <span id="stat-icon"></span> +1
     </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <div class="character-container">
+        <!-- Спрайт главной героини состоит из слоев: тело + платье + прическа -->
+        <div id="heroine" class="heroine-composite">
+            <img id="hero-body" src="images/hero/body_default.png">
+            <img id="hero-dress" src="images/hero/dress_default.png">
+            <img id="hero-hair" src="images/hero/hair_default.png">
+        </div>
+        <img id="char-right" class="sprite" src="" alt="">
+    </div>
+
+    <!-- Окно гардероба (всплывает по сюжету) -->
+    <div id="wardrobe-screen" class="wardrobe-overlay hidden">
+        <h2>Выбор наряда</h2>
+        <div class="wardrobe-options" id="wardrobe-options">
+            <!-- Кнопки одежды сгенерируются через JS -->
+        </div>
+    </div>
+
+    <div class="dialogue-box" id="next-step">
+        <div id="char-name" class="char-name"></div>
+        <div id="dialogue-text" class="dialogue-text"></div>
+    </div>
+
+    <div id="choices-container" class="choices-container hidden"></div>
+</div>
