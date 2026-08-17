@@ -10,19 +10,25 @@
 
     <!-- ВЕРХНЯЯ ПАНЕЛЬ С ВАЛЮТОЙ -->
     <div id="global-top-bar" class="top-bar">
-        <div class="resource"><span>💎</span> <span id="diamond-count">25</span></div>
-        <div class="resource"><span>☕</span> <span id="energy-count">3</span></div>
+        <div class="resource">
+            <span aria-hidden="true">💎</span>
+            <span id="diamond-count">25</span>
+        </div>
+        <div class="resource">
+            <span aria-hidden="true">☕</span>
+            <span id="energy-count">3</span>
+        </div>
     </div>
 
-    <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ / КАТАЛОГ ИСТОРIЙ -->
+    <!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ / КАТАЛОГ ИСТОРИЙ -->
     <div id="main-menu" class="screen active">
         <header class="app-header">
             <h1 class="main-title">СНЫ НАЯВУ</h1>
         </header>
         <main class="scrollable-content">
-            <div class="section-divider">КАТАЛОГ ИСТОРIЙ</div>
+            <div class="section-divider">КАТАЛОГ ИСТОРИЙ</div>
             <div class="stories-grid">
-                <!-- Карточка истории (клик теперь вызывает превью) -->
+                <!-- Карточка истории -->
                 <div class="story-card" onclick="openStoryPreview('vampire_story')">
                     <div class="story-poster" style="background-image: url('images/vampire_poster.jpg');"></div>
                     <div class="story-info">
@@ -34,15 +40,15 @@
         </main>
     </div>
 
-    <!-- ОКНО-ПРЕВЬЮ ИСТОРIИ (ПЕРЕД СТАРТОМ) -->
-    <div id="story-preview-modal" class="modal-overlay hidden">
+    <!-- ОКНО-ПРЕВЬЮ ИСТОРИИ (ПЕРЕД СТАРТОМ) -->
+    <div id="story-preview-modal" class="modal-overlay hidden" aria-hidden="true">
         <div class="preview-content polygon-shape">
             <div id="preview-poster" class="preview-poster"></div>
             <h2 id="preview-title" class="preview-title">Название</h2>
             <p id="preview-desc" class="preview-desc">Описание...</p>
             <div class="preview-buttons">
-                <button class="play-btn-large" id="start-story-confirm-btn">Читать ☕ 1</button>
-                <button class="close-text-btn" onclick="closeStoryPreview()">Назад</button>
+                <button type="button" class="play-btn-large" id="start-story-confirm-btn">Читать ☕ 1</button>
+                <button type="button" class="close-text-btn" onclick="closeStoryPreview()">Назад</button>
             </div>
         </div>
     </div>
@@ -52,10 +58,10 @@
         <div id="game-bg"></div> 
         <div class="character-container">
             <div id="heroine" class="heroine-composite">
-                <img id="hero-body" src="images/hero_body.png" alt="">
-                <img id="hero-dress" src="images/hero_dress_default.png" alt="">
+                <img id="hero-body" src="images/hero_body.png" alt="Тело героини">
+                <img id="hero-dress" src="images/hero_dress_default.png" alt="Наряд героини">
             </div>
-            <img id="char-right" class="sprite" src="" alt="">
+            <img id="char-right" class="sprite" src="" alt="Собеседник">
         </div>
         <div id="wardrobe-screen" class="wardrobe-overlay hidden">
             <h2>Выбор наряда</h2>
@@ -82,20 +88,20 @@
             <div class="profile-panel main-panel vertical-scroll">
                 <div class="profile-main-content">
                     
-                    <!-- Редактируемая Аватарка -->
+                    <!-- Редактируемый Аватар -->
                     <div class="avatar-container" onclick="triggerAvatarChange()">
                         <div class="crystal-frame">
-                            <img id="profile-avatar-img" src="images/avatar.jpg" alt="Аватар" class="user-avatar">
+                            <img id="profile-avatar-img" src="images/avatar.jpg" alt="Аватар игрока" class="user-avatar">
                             <div class="avatar-edit-hint">✏️</div>
                         </div>
                     </div>
                     <!-- Скрытый инпут для загрузки фото -->
-                    <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)">
+                    <input type="file" id="avatar-file-input" accept="image/*" class="hidden-input" style="display: none;" onchange="handleAvatarUpload(event)">
 
                     <!-- Редактируемый Никнейм -->
                     <div class="nickname-container">
                         <span id="player-nickname" class="player-nickname">Игрок</span>
-                        <button class="edit-small-btn" onclick="editNickname()">✏️</button>
+                        <button type="button" class="edit-small-btn" onclick="editNickname()" title="Изменить никнейм">✏️</button>
                     </div>
 
                     <div class="rank-name" id="player-rank-title">ЗАГРУЗКА...</div>
@@ -104,7 +110,7 @@
                     <!-- Редактируемый статус/описание -->
                     <div class="bio-container">
                         <p id="player-bio" class="player-bio">Нажмите на карандаш, чтобы добавить описание своего профиля...</p>
-                        <button class="edit-small-btn" onclick="editBio()">✏️</button>
+                        <button type="button" class="edit-small-btn" onclick="editBio()" title="Изменить описание">✏️</button>
                     </div>
 
                     <div class="section-title">МЕДАЛИ</div>
@@ -114,16 +120,28 @@
                 </div>
 
                 <!-- БЛОК НАСТРОЕК -->
-                <section class="settings-section">
+                <section class="settings-section" id="settings-block">
                     <h2 class="panel-title">НАСТРОЙКИ</h2>
                     <div class="settings-options">
-                        <div class="setting-row"><span>🎵 Музыка</span><input type="checkbox" checked></div>
-                        <div class="setting-row"><span>🔊 Звуки</span><input type="checkbox" checked></div>
                         <div class="setting-row">
-                            <span>🌐 Язык</span>
-                            <select class="settings-select"><option>Русский</option><option>English</option></select>
+                            <span>🎵 Музыка</span>
+                            <input type="checkbox" id="setting-music" checked>
                         </div>
-                        <div class="setting-row"><span>👤 Данные</span><button class="reset-btn" onclick="resetGameProgress()">Сброс прогресса</button></div>
+                        <div class="setting-row">
+                            <span>🔊 Звуки</span>
+                            <input type="checkbox" id="setting-sound" checked>
+                        </div>
+                        <div class="setting-row">
+                            <label for="settings-lang">🌐 Язык</label>
+                            <select id="settings-lang" class="settings-select">
+                                <option value="ru">Русский</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <div class="setting-row">
+                            <span>👤 Данные</span>
+                            <button type="button" class="reset-btn" onclick="resetGameProgress()">Сброс прогресса</button>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -142,15 +160,18 @@
 
     <!-- ТАБ-БАР НАВИГАЦИИ -->
     <nav id="global-nav" class="bottom-navigation">
-        <div class="nav-item" id="nav-settings-btn">
-            <div class="nav-icon">⚙️</div><span class="nav-label">НАСТРОЙКИ</span>
-        </div>
-        <div class="nav-item active" id="nav-hub-btn" onclick="showScreen('hub')">
-            <div class="nav-icon">📖</div><span class="nav-label">ГЛАВНАЯ</span>
-        </div>
-        <div class="nav-item" id="nav-profile-btn" onclick="showScreen('profile')">
-            <div class="nav-icon">👤</div><span class="nav-label">ПРОФИЛЬ</span>
-        </div>
+        <button type="button" class="nav-item" id="nav-settings-btn" onclick="showScreen('profile'); document.getElementById('settings-block').scrollIntoView({behavior: 'smooth'});">
+            <div class="nav-icon">⚙️</div>
+            <span class="nav-label">НАСТРОЙКИ</span>
+        </button>
+        <button type="button" class="nav-item active" id="nav-hub-btn" onclick="showScreen('hub')">
+            <div class="nav-icon">📖</div>
+            <span class="nav-label">ГЛАВНАЯ</span>
+        </button>
+        <button type="button" class="nav-item" id="nav-profile-btn" onclick="showScreen('profile')">
+            <div class="nav-icon">👤</div>
+            <span class="nav-label">ПРОФИЛЬ</span>
+        </button>
     </nav>
 
     <script src="script.js"></script>
