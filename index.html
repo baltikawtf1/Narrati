@@ -57,6 +57,102 @@
             </section>
 
         </main>
+        <!-- ЭКРАН ПРОФИЛЯ -->
+<div id="profile-screen" class="screen app-container">
+    
+    <header class="app-header">
+        <h1 class="main-title">МОЙ ПРОФИЛЬ</h1>
+    </header>
+
+    <!-- ГОРИЗОНТАЛЬНАЯ КАРУСЕЛЬ (Для Достижений и Статистики) -->
+    <div class="profile-carousel">
+        
+        <!-- ЛЕВАЯ ПАНЕЛЬ: ДОСТИЖЕНИЯ (Листается вбок) -->
+        <div class="profile-panel side-panel">
+            <h2 class="panel-title">ДОСТИЖЕНИЯ</h2>
+            <div class="achievements-large-grid" id="all-achievements"></div>
+        </div>
+
+        <!-- ЦЕНТРАЛЬНАЯ ПАНЕЛЬ: ПРОФИЛЬ + НАСТРОЙКИ ВНИЗУ (Листается вверх/вниз) -->
+        <div class="profile-panel main-panel vertical-scroll">
+            
+            <!-- [ВЕРХНИЙ БЛОК: САМ ПРОФИЛЬ] -->
+            <div class="profile-main-content">
+                <div class="avatar-container">
+                    <div class="crystal-frame">
+                        <img src="images/avatar.jpg" alt="Аватар" class="user-avatar">
+                    </div>
+                </div>
+
+                <div class="rank-name" id="player-rank-title">ЗВЁЗДНЫЙ СТРАННИК</div>
+                <div class="level-badge">УРОВЕНЬ <span id="player-level">45</span></div>
+
+                <div class="section-title">ДОСТИЖЕНИЯ</div>
+                <div class="mini-achievements" id="mini-achievements-container"></div>
+
+                <div class="section-title">ИСТОРИЯ ЧТЕНИЯ</div>
+                <div class="reading-history-list" id="profile-reading-history">
+                    <!-- Здесь карточки книг -->
+                </div>
+                
+                <!-- Стрелочка-подсказка, что внизу что-то есть -->
+                <div class="scroll-down-hint">Листайте вниз к настройкам ▽</div>
+            </div>
+
+            <!-- [НИЖНИЙ БЛОК: НАСТРОЙКИ] -->
+            <!-- Игрок увидит этот блок, когда прокрутит центральную страницу вниз -->
+            <section class="settings-section polygon-shape">
+                <h2 class="panel-title">НАСТРОЙКИ ИГРЫ</h2>
+                
+                <div class="settings-options">
+                    <div class="setting-row">
+                        <span>🎵 Музыка</span>
+                        <input type="checkbox" id="setting-music" checked>
+                    </div>
+                    <div class="setting-row">
+                        <span>🔊 Звуковые эффекты</span>
+                        <input type="checkbox" id="setting-sounds" checked>
+                    </div>
+                    <div class="setting-row">
+                        <span>🌐 Язык приложения</span>
+                        <select class="settings-select">
+                            <option>Русский</option>
+                            <option>English</option>
+                        </select>
+                    </div>
+                    <div class="setting-row">
+                        <span>👤 Сбросить прогресс</span>
+                        <button class="reset-btn" onclick="resetGameProgress()">Сброс</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ПРАВАЯ ПАНЕЛЬ: СТАТИСТИКА (Листается вбок) -->
+        <div class="profile-panel side-panel">
+            <h2 class="panel-title">СТАТИСТИКА И КОЛЛЕКЦИИ</h2>
+            <div class="stats-box">
+                <div class="stat-row"><span>Пройдено глав:</span> <span id="stat-chapters">0</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ТАБ-БАР СНИЗУ -->
+    <nav class="bottom-navigation">
+        <!-- Кнопка Настройки теперь просто плавно скроллит центральный экран до самого низа -->
+        <div class="nav-item" id="nav-settings-btn">
+            <div class="nav-icon">⚙️</div><span class="nav-label">НАСТРОЙКИ</span>
+        </div>
+        <div class="nav-item" onclick="showScreen('hub')">
+            <div class="nav-icon">📖</div><span class="nav-label">ГЛАВНАЯ</span>
+        </div>
+        <div class="nav-item active" onclick="showScreen('profile')">
+            <div class="nav-icon">👤</div><span class="nav-label">ПРОФИЛЬ</span>
+        </div>
+    </nav>
+</div>
 
         <!-- СЕКЦИЯ 3: НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (ТАБ-БАР) -->
         <nav class="bottom-navigation">
