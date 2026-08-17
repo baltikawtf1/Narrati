@@ -2,626 +2,357 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Narrati — Вселенная Снов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сны Наяву — Визуальные Новеллы</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #060b19;
-            --bg-card: rgba(13, 27, 62, 0.7);
-            --cyan-glow: #00f2fe;
-            --blue-glow: #4facfe;
-            --blue-dark: #0a1128;
-            --vk-color: #0077ff;
-            --text-light: #f0f8ff;
-            --text-dim: #7b9acc;
-            --shard-color: #00d2ff;
-            --lumen-color: #80e5ff;
-            --border-neon: rgba(0, 242, 254, 0.35);
+            --bg-dark: #040817;
+            --cyan-glow: #00f0ff;
+            --blue-glow: #2d82ff;
+            --crystal-border: rgba(0, 240, 255, 0.4);
+            --panel-bg: rgba(8, 18, 41, 0.75);
+            --panel-border: rgba(64, 150, 255, 0.3);
+            --gold-accent: #ffd700;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            -webkit-tap-highlight-color: transparent;
             user-select: none;
         }
 
         body {
-            background-color: #02040a;
-            color: var(--text-light);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: var(--bg-dark);
+            color: #e0f2fe;
+            font-family: 'Montserrat', sans-serif;
             min-height: 100vh;
-            min-height: 100dvh;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 430px;
-            height: 100vh;
-            height: 100dvh;
-            background: radial-gradient(circle at 50% 0%, #0d1f47 0%, #040814 100%);
             display: flex;
-            flex-direction: column;
-            position: relative;
-            box-shadow: 0 0 60px rgba(0, 242, 254, 0.15);
-            overflow: hidden;
-        }
-
-        /* --- ЗАГРУЗОЧНЫЙ ЭКРАН --- */
-        #splash-screen {
-            position: absolute;
-            inset: 0;
-            background: #040814;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            overflow-x: hidden;
+            background: radial-gradient(circle at 50% 30%, #102a56 0%, #050b1e 60%, #02040a 100%);
         }
 
-        .portal-ring {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 3px solid transparent;
-            border-top-color: var(--cyan-glow);
-            border-bottom-color: var(--blue-glow);
-            animation: spin 2s linear infinite;
-            box-shadow: 0 0 30px var(--cyan-glow);
-            margin-bottom: 20px;
+        /* Звёздный фон */
+        .stars-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            background: 
+                radial-gradient(2px 2px at 20px 30px, #ffffff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 40px 70px, #00f0ff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 90px 40px, #ffffff, rgba(0,0,0,0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.6;
         }
 
-        .splash-title {
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: 6px;
-            background: linear-gradient(135deg, #ffffff, var(--cyan-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(0,242,254,0.6);
+        /* Контейнер приложения */
+        .app-viewport {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            height: 100vh;
+            max-height: 850px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1;
+            padding: 20px 10px;
         }
 
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* --- ХЕДЕР --- */
-        header {
-            padding: 14px 20px;
+        /* Шапка */
+        .top-bar {
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(6, 11, 25, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--border-neon);
-            z-index: 10;
+            padding: 0 30px;
         }
 
-        .app-title { font-size: 1.3rem; font-weight: 900; letter-spacing: 2px; color: var(--cyan-glow); text-shadow: 0 0 10px var(--border-neon); }
-        .currencies { display: flex; gap: 10px; }
-        .currency-badge {
-            background: rgba(0, 242, 254, 0.08);
-            border: 1px solid var(--border-neon);
-            padding: 5px 12px; border-radius: 20px;
-            display: flex; align-items: center; gap: 6px;
-            font-size: 0.8rem; font-weight: 700;
+        .dream-catcher-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        /* --- КОНТЕНТ --- */
-        main {
-            flex: 1; padding: 16px; overflow-y: auto;
+        .dream-icon {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            border: 2px solid var(--cyan-glow);
+            box-shadow: 0 0 15px var(--cyan-glow);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 20px; background: rgba(0, 240, 255, 0.1);
+        }
+
+        .brand-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 700; font-size: 22px;
+            letter-spacing: 3px; color: #ffffff;
+            text-shadow: 0 0 10px var(--cyan-glow);
+        }
+
+        /* 3D Карусель Экранов */
+        .screens-container {
+            position: relative;
+            width: 100%; height: 560px;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .screen-panel {
+            position: absolute;
+            width: 360px; height: 520px;
+            background: var(--panel-bg);
+            border: 2px solid var(--panel-border);
+            border-radius: 28px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 240, 255, 0.15);
+            backdrop-filter: blur(12px);
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            overflow: hidden;
+            display: flex; flex-direction: column;
+            opacity: 0; transform: scale(0.8) translateX(0);
+            pointer-events: none;
+        }
+
+        .screen-panel.active {
+            opacity: 1; transform: scale(1) translateX(0);
+            z-index: 10; pointer-events: auto;
+            border-color: rgba(0, 240, 255, 0.7);
+            box-shadow: 0 0 35px rgba(0, 240, 255, 0.3), inset 0 0 25px rgba(0, 240, 255, 0.2);
+        }
+
+        .screen-panel.left {
+            opacity: 0.65; transform: scale(0.85) translateX(-340px) rotateY(12deg);
+            z-index: 5; pointer-events: auto; cursor: pointer;
+        }
+
+        .screen-panel.right {
+            opacity: 0.65; transform: scale(0.85) translateX(340px) rotateY(-12deg);
+            z-index: 5; pointer-events: auto; cursor: pointer;
+        }
+
+        /* Заголовки и карточки */
+        .screen-header {
+            padding: 16px 20px; text-align: center;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+            background: linear-gradient(180deg, rgba(0, 240, 255, 0.1) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .screen-header h2 {
+            font-family: 'Cinzel', serif; font-size: 18px;
+            letter-spacing: 2px; color: #e0f2fe;
+            text-shadow: 0 0 8px var(--cyan-glow);
+            text-transform: uppercase;
+        }
+
+        .screen-content {
+            padding: 16px; overflow-y: auto; flex-grow: 1;
             display: flex; flex-direction: column; gap: 16px;
         }
 
-        .tab-content { display: none; flex-direction: column; gap: 16px; }
-        .tab-content.active { display: flex; }
-
-        /* КНОПКИ СТИЛЬ */
-        .btn-neon {
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            color: #fff; border: none; padding: 10px 16px; border-radius: 12px;
-            font-weight: 700; font-size: 0.8rem; cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
-            transition: 0.2s;
-        }
-        .btn-neon:active { transform: scale(0.95); }
-
-        .btn-vk {
-            background: linear-gradient(135deg, #0077ff, #0055cc);
-            color: #fff; border: none; padding: 10px 16px; border-radius: 12px;
-            font-weight: 700; font-size: 0.8rem; cursor: pointer;
-            box-shadow: 0 0 15px rgba(0, 119, 255, 0.4);
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%;
+        .novel-card {
+            background: linear-gradient(135deg, rgba(13, 30, 65, 0.8) 0%, rgba(5, 12, 30, 0.9) 100%);
+            border: 1.5px solid var(--crystal-border);
+            border-radius: 16px; padding: 12px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
         }
 
-        .btn-outline {
-            background: rgba(0, 242, 254, 0.05);
-            border: 1px solid var(--border-neon);
-            color: var(--text-light); padding: 8px 14px; border-radius: 12px;
-            font-size: 0.8rem; font-weight: 600; cursor: pointer;
-        }
-
-        /* --- ПРОФИЛЬ --- */
-        .profile-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-neon);
-            border-radius: 20px; padding: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            display: flex; flex-direction: column; gap: 14px;
-        }
-
-        .profile-header-top { display: flex; gap: 16px; align-items: center; }
-        .profile-avatar-box { position: relative; width: 85px; height: 85px; flex-shrink: 0; }
-        .profile-avatar {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+        .novel-card-featured {
             border: 2px solid var(--cyan-glow);
-            box-shadow: 0 0 20px var(--cyan-glow);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
         }
 
-        .profile-main-info { display: flex; flex-direction: column; gap: 4px; flex: 1; }
-        .profile-name { font-size: 1.2rem; font-weight: 800; color: #fff; }
-        .profile-id { font-size: 0.75rem; color: var(--cyan-glow); font-weight: 700; letter-spacing: 1px; }
-        
-        .profile-rank-badge {
-            background: linear-gradient(90deg, rgba(0,242,254,0.2), rgba(79,172,254,0.1));
-            border: 1px solid var(--cyan-glow);
-            padding: 4px 8px; border-radius: 8px; font-size: 0.7rem;
-            color: #fff; font-weight: 700; width: fit-content; margin-top: 2px;
+        .novel-img-wrapper {
+            width: 100%; height: 180px;
+            border-radius: 12px; overflow: hidden; margin-bottom: 10px;
         }
 
-        .profile-bio-box {
-            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px; padding: 10px 12px; font-size: 0.85rem;
-            color: var(--text-dim); font-style: italic; line-height: 1.3;
+        .novel-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .novel-title {
+            font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700;
+            margin-bottom: 6px; color: #ffffff;
         }
 
-        .profile-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .rating-stars { color: var(--gold-accent); font-size: 12px; margin-bottom: 8px; }
 
-        .cards-section-title { font-size: 0.85rem; color: var(--cyan-glow); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .postcards-list { display: flex; flex-direction: column; gap: 8px; max-height: 150px; overflow-y: auto; }
-        .postcard-item {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(0,242,254,0.15);
-            border-radius: 10px; padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
+        .progress-bar-container {
+            width: 100%; height: 6px;
+            background: rgba(255, 255, 255, 0.1); border-radius: 3px; margin-bottom: 12px;
         }
 
-        /* --- ЛОВЕЦ СНОВ --- */
-        .catcher-box { display: flex; flex-direction: column; align-items: center; gap: 15px; text-align: center; }
-        .catcher-circle {
-            width: 180px; height: 180px; border-radius: 50%;
-            border: 3px solid var(--cyan-glow);
-            background: radial-gradient(circle, rgba(0,242,254,0.15) 0%, transparent 70%);
-            box-shadow: 0 0 25px var(--cyan-glow);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 3rem; transition: transform 3s cubic-bezier(0.15, 0.85, 0.35, 1.2);
+        .progress-bar-fill {
+            height: 100%; background: linear-gradient(90deg, var(--blue-glow), var(--cyan-glow));
+            box-shadow: 0 0 8px var(--cyan-glow);
         }
 
-        /* --- НИЖНЕЕ МЕНЮ --- */
-        nav {
-            background: rgba(4, 8, 20, 0.95);
-            border-top: 1px solid var(--border-neon);
-            display: flex; justify-content: space-around;
-            padding: 12px 0 calc(10px + env(safe-area-inset-bottom, 10px)) 0;
+        .btn-crystal {
+            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(45, 130, 255, 0.4) 100%);
+            border: 1px solid var(--cyan-glow); color: #ffffff;
+            padding: 8px 24px; border-radius: 20px;
+            font-family: 'Cinzel', serif; font-weight: 700; font-size: 13px;
+            cursor: pointer; transition: all 0.3s ease; text-transform: uppercase;
+        }
+
+        .btn-crystal:hover {
+            box-shadow: 0 0 20px var(--cyan-glow); transform: translateY(-2px);
+        }
+
+        /* Навигационная панель */
+        .bottom-nav-container {
+            width: 100%; display: flex; justify-content: center;
+        }
+
+        .magic-pedestal {
+            display: flex; align-items: center; gap: 15px;
+            background: linear-gradient(180deg, rgba(8, 20, 48, 0.8) 0%, rgba(3, 8, 20, 0.95) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.3); border-radius: 40px;
+            padding: 10px 25px; backdrop-filter: blur(15px);
         }
 
         .nav-item {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-            color: var(--text-dim); font-size: 0.75rem; cursor: pointer; width: 20%;
-        }
-        .nav-item.active { color: var(--cyan-glow); text-shadow: 0 0 10px var(--cyan-glow); }
-
-        /* --- МОДАЛЬНЫЕ ОКНА --- */
-        .modal {
-            position: absolute; inset: 0; background: rgba(2, 4, 10, 0.95);
-            backdrop-filter: blur(15px); z-index: 50; display: flex;
-            justify-content: center; align-items: center; padding: 20px;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
-        .modal.active { opacity: 1; pointer-events: auto; }
-        .modal-card {
-            background: #0b1426; border: 1px solid var(--cyan-glow);
-            border-radius: 20px; padding: 20px; width: 100%; max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 0 40px rgba(0,242,254,0.2);
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            cursor: pointer; padding: 8px 16px; border-radius: 20px; color: #94a3b8;
+            transition: all 0.3s ease;
         }
 
-        .app-input {
-            width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border-neon);
-            border-radius: 10px; padding: 10px; color: #fff; font-size: 0.85rem; outline: none; margin-top: 4px;
-        }
-        .avatar-picker { display: flex; gap: 10px; overflow-x: auto; padding: 8px 0; }
-        .avatar-opt { width: 55px; height: 55px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; flex-shrink: 0; }
-        .avatar-opt.selected { border-color: var(--cyan-glow); box-shadow: 0 0 12px var(--cyan-glow); }
+        .nav-item.active { color: var(--cyan-glow); text-shadow: 0 0 8px var(--cyan-glow); }
 
-        /* ЧИТАЛКА */
-        #reader-screen { position: absolute; inset: 0; z-index: 80; display: none; flex-direction: column; justify-content: flex-end; background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop') center/cover; }
-        #reader-screen.active { display: flex; }
-        .dialog-box { background: rgba(4, 8, 20, 0.92); border-top: 2px solid var(--cyan-glow); padding: 18px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; }
+        .center-dreamcatcher {
+            position: relative; top: -15px; width: 70px; height: 70px;
+            background: radial-gradient(circle, rgba(0, 240, 255, 0.3) 0%, rgba(5, 12, 30, 0.9) 100%);
+            border: 2px solid var(--cyan-glow); border-radius: 50%;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            box-shadow: 0 0 25px var(--cyan-glow); cursor: pointer;
+        }
+
+        .center-dreamcatcher span {
+            font-family: 'Cinzel', serif; font-size: 8px; text-align: center; color: #ffffff; font-weight: 700;
+        }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="stars-bg"></div>
 
-        <!-- 1. SPLASH SCREEN -->
-        <div id="splash-screen">
-            <div class="portal-ring"></div>
-            <div class="splash-title">Narrati</div>
-        </div>
-
-        <!-- 2. HEADER -->
-        <header>
-            <div class="app-title">Narrati</div>
-            <div class="currencies">
-                <div class="currency-badge">
-                    <span style="color:var(--lumen-color);">💧</span>
-                    <span id="lumens-count">10</span>
-                </div>
-                <div class="currency-badge">
-                    <span style="color:var(--shard-color);">💎</span>
-                    <span id="shards-count">100</span>
-                </div>
+    <div class="app-viewport">
+        <!-- Шапка -->
+        <header class="top-bar">
+            <div class="dream-catcher-logo">
+                <div class="dream-icon">☸</div>
+                <div class="brand-title">СНЫ НАЯВУ</div>
+            </div>
+            <div style="font-family: 'Cinzel', serif; font-size: 14px; color: var(--cyan-glow);">
+                💎 215 Осколков
             </div>
         </header>
 
-        <!-- 3. MAIN CONTENT -->
-        <main>
-            <!-- ТАБ: КАТАЛОГ -->
-            <div id="tab-stories" class="tab-content active">
-                <div style="font-size:0.85rem; color:var(--text-dim); text-transform:uppercase;">Каталог снов</div>
-                <div style="background:var(--bg-card); border:1px solid var(--border-neon); border-radius:18px; overflow:hidden;">
-                    <div style="height:160px; background:url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop') center/cover;"></div>
-                    <div style="padding:14px;">
-                        <div style="font-size:1.2rem; font-weight:800;">REMnant</div>
-                        <div style="font-size:0.8rem; color:var(--text-dim); margin:6px 0 12px 0;">Грань между снами и реальностью начинает рушиться...</div>
-                        <button class="btn-neon" style="width:100%;" onclick="openStoryEpisodes()">Читать Сезон 1</button>
+        <!-- Карусель экранов -->
+        <div class="screens-container">
+            <!-- ЭКРАН НАСТРОЕК -->
+            <div class="screen-panel left" id="screen-settings" onclick="switchTab('settings')">
+                <div class="screen-header"><h2>Настройки</h2></div>
+                <div class="screen-content">
+                    <div style="background: rgba(15,23,42,0.5); padding: 12px; border-radius: 12px;">
+                        <div style="font-size: 12px; color: #7dd3fc; margin-bottom: 8px;">Громкость музыки</div>
+                        <input type="range" value="60" style="width:100%;">
                     </div>
                 </div>
             </div>
 
-            <!-- ТАБ: ЛОВЕЦ СНОВ -->
-            <div id="tab-catcher" class="tab-content">
-                <div class="catcher-box">
-                    <div style="font-size:0.85rem; color:var(--text-dim); text-transform:uppercase;">Оракул Снов</div>
-                    <div class="catcher-circle" id="catcher-wheel">🔮</div>
-                    <button class="btn-neon" onclick="spinCatcher()">Испытать судьбу</button>
-                    <div style="background:var(--bg-card); border:1px solid var(--border-neon); padding:14px; border-radius:14px; font-style:italic; font-size:0.85rem;" id="pred-text">
-                        Испытайте Ловец Снов, чтобы получить предсказание и Осколки...
+            <!-- ГЛАВНЫЙ ЭКРАН -->
+            <div class="screen-panel active" id="screen-home">
+                <div class="screen-header"><h2>Главная</h2></div>
+                <div class="screen-content">
+                    <div class="novel-card novel-card-featured">
+                        <div class="novel-img-wrapper">
+                            <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80" class="novel-img">
+                        </div>
+                        <div class="novel-title">СЕРДЦЕ ОКЕАНА</div>
+                        <div class="rating-stars">★ ★ ★ ★ ☆</div>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" style="width: 45%;"></div></div>
+                        <button class="btn-crystal">Читать</button>
                     </div>
                 </div>
             </div>
 
-            <!-- ТАБ: ПРОФИЛЬ -->
-            <div id="tab-profile" class="tab-content">
-                <div class="profile-card">
-                    <div class="profile-header-top">
-                        <div class="profile-avatar-box">
-                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" id="p-avatar" class="profile-avatar">
+            <!-- ЭКРАН ПРОФИЛЯ -->
+            <div class="screen-panel right" id="screen-profile" onclick="switchTab('profile')">
+                <div class="screen-header"><h2>Мой Профиль</h2></div>
+                <div class="screen-content">
+                    <div style="text-align: center; margin: 10px 0;">
+                        <div style="width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--cyan-glow); margin: 0 auto; overflow: hidden;">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" style="width:100%; height:100%; object-fit:cover;">
                         </div>
-                        <div class="profile-main-info">
-                            <div class="profile-name" id="p-name">Странник Снов</div>
-                            <div class="profile-id" id="p-id">ID: #NR-849201</div>
-                            <div class="profile-rank-badge" id="p-rank">Ранг: Искатель (Ур. 1)</div>
-                        </div>
-                    </div>
-
-                    <div class="profile-bio-box" id="p-bio">
-                        «Исследую неизведанные миры и собираю осколки сновидений...»
-                    </div>
-
-                    <div class="profile-actions-grid">
-                        <button class="btn-outline" onclick="openEditProfile()">Редактировать</button>
-                        <button class="btn-outline" onclick="openFriendsList()">Друзья (<span id="friends-count">2</span>)</button>
-                        <button class="btn-outline" onclick="openFindFriendModal()">Поиск по ID</button>
-                        <button class="btn-outline" onclick="openRandomProfiles()">Рандом анкеты</button>
-                    </div>
-
-                    <button class="btn-neon" style="background:linear-gradient(135deg, #ff416c, #ff4b2b);" onclick="switchAccount()">Сменить профиль</button>
-
-                    <div style="margin-top:6px; display:flex; flex-direction:column; gap:8px;">
-                        <div class="cards-section-title">Открытки от друзей</div>
-                        <div class="postcards-list">
-                            <div class="postcard-item">
-                                <span style="font-size:0.8rem;">💌 <b>Алиса:</b> Удачи в новом сезоне!</span>
-                                <span style="font-size:0.7rem; color:var(--cyan-glow);">+5 💎</span>
-                            </div>
-                        </div>
+                        <div style="font-family: 'Cinzel'; font-size: 14px; margin-top: 6px;">Звездный Странник</div>
+                        <div style="font-size: 12px; color: #94a3b8;">Уровень 45</div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <!-- 4. BOTTOM NAV -->
-        <nav>
-            <div class="nav-item active" id="nav-stories" onclick="switchTab('stories')">
-                <span style="font-size:1.2rem;">📖</span><span>Истории</span>
-            </div>
-            <div class="nav-item" id="nav-catcher" onclick="switchTab('catcher')">
-                <span style="font-size:1.2rem;">🔮</span><span>Ловец</span>
-            </div>
-            <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">
-                <span style="font-size:1.2rem;">👤</span><span>Профиль</span>
+        <!-- Нижняя навигация -->
+        <nav class="bottom-nav-container">
+            <div class="magic-pedestal">
+                <div class="nav-item" id="nav-settings" onclick="switchTab('settings')">
+                    <div>⚙️</div>
+                    <div style="font-size:10px;">Настройки</div>
+                </div>
+                <div class="nav-item active" id="nav-home" onclick="switchTab('home')">
+                    <div>🌀</div>
+                    <div style="font-size:10px;">Главная</div>
+                </div>
+                <div class="center-dreamcatcher" onclick="switchTab('home')">
+                    <div style="font-size:20px; color: var(--cyan-glow);">☸</div>
+                    <span>ЛО ВЕЦ<br>СНОВ</span>
+                </div>
+                <div class="nav-item" onclick="alert('Раздел Магазин')">
+                    <div>🪷</div>
+                    <div style="font-size:10px;">Магазин</div>
+                </div>
+                <div class="nav-item" id="nav-profile" onclick="switchTab('profile')">
+                    <div>👑</div>
+                    <div style="font-size:10px;">Профиль</div>
+                </div>
             </div>
         </nav>
-
-        <!-- МОДАЛКИ -->
-        <div class="modal" id="main-modal">
-            <div class="modal-card">
-                <div style="font-size:1.1rem; font-weight:800; color:var(--cyan-glow); margin-bottom:12px;" id="m-title">Заголовок</div>
-                <div id="m-body"></div>
-                <button class="btn-outline" style="width:100%; margin-top:14px;" onclick="closeModal()">Закрыть</button>
-            </div>
-        </div>
-
-        <!-- ОКНО РЕГИСТРАЦИИ И ВХОДА -->
-        <div class="modal" id="auth-modal">
-            <div class="modal-card">
-                <div style="font-size:1.3rem; font-weight:800; color:var(--cyan-glow); margin-bottom:12px; text-align:center;">Вход в Narrati</div>
-                
-                <button class="btn-vk" style="margin-bottom:14px;" onclick="loginWithVK()">
-                    <span>🔵</span> Войти через ВКонтакте
-                </button>
-
-                <div style="text-align:center; font-size:0.75rem; color:var(--text-dim); margin-bottom:12px;">— или по почте —</div>
-
-                <div style="display:flex; flex-direction:column; gap:8px;">
-                    <input type="email" id="auth-email" class="app-input" placeholder="Ваша почта (example@mail.com)">
-                    <input type="password" id="auth-pass" class="app-input" placeholder="Пароль">
-                    <button class="btn-neon" style="margin-top:6px;" onclick="loginWithEmail()">Войти / Зарегистрироваться</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- ЧИТАЛКА -->
-        <div id="reader-screen">
-            <div style="position:absolute; top:15px; right:15px;">
-                <button class="btn-neon" onclick="closeReader()">Выйти</button>
-            </div>
-            <div class="dialog-box">
-                <div>
-                    <div style="font-weight:700; color:var(--cyan-glow);" id="char-name">Персонаж</div>
-                    <div style="font-size:0.9rem; margin-top:6px;" id="dialog-text">Текст...</div>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:8px; margin-top:12px;" id="dialog-choices"></div>
-            </div>
-        </div>
-
     </div>
 
     <script>
-        // Стандартная структура данных профиля
-        let user = {
-            isLoggedIn: false,
-            id: "#NR-849201",
-            name: "Странник Снов",
-            bio: "Исследую неизведанные миры и собираю осколки сновидений...",
-            avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
-            lumens: 10,
-            shards: 100,
-            chaptersPassed: 0,
-            friends: ["#NR-102938", "#NR-554123"]
-        };
-
-        const presetAvatars = [
-            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
-            "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=200&auto=format&fit=crop"
-        ];
-
-        let selectedAvatarTemp = user.avatar;
-
-        window.addEventListener('load', () => {
-            loadUserData(); // Загрузка данных из LocalStorage
-
-            setTimeout(() => {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.visibility = 'hidden';
-                    if (!user.isLoggedIn) {
-                        document.getElementById('auth-modal').classList.add('active');
-                    }
-                }, 800);
-            }, 1800);
-
-            updateProfileUI();
-        });
-
-        // СОХРАНЕНИЕ И ЗАГРУЗКА ДАННЫХ (Закрепление за ID)
-        function saveUserData() {
-            localStorage.setItem(`narrati_user_${user.id}`, JSON.stringify(user));
-            localStorage.setItem('narrati_current_user_id', user.id);
-        }
-
-        function loadUserData() {
-            const currentId = localStorage.getItem('narrati_current_user_id');
-            if (currentId) {
-                const saved = localStorage.getItem(`narrati_user_${currentId}`);
-                if (saved) {
-                    user = JSON.parse(saved);
-                }
-            }
-        }
-
-        function updateProfileUI() {
-            document.getElementById('p-name').innerText = user.name;
-            document.getElementById('p-id').innerText = `ID: ${user.id}`;
-            document.getElementById('p-bio').innerText = `«${user.bio}»`;
-            document.getElementById('p-avatar').src = user.avatar;
-            document.getElementById('friends-count').innerText = user.friends.length;
-            document.getElementById('shards-count').innerText = user.shards;
-            document.getElementById('lumens-count').innerText = user.lumens;
-
-            let rankText = "Искатель (Ур. 1)";
-            if (user.chaptersPassed >= 3) rankText = "Хранитель Снов (Ур. 2)";
-            if (user.chaptersPassed >= 10) rankText = "Повелитель Астрала (Ур. 3)";
-            document.getElementById('p-rank').innerText = `Ранг: ${rankText}`;
-        }
-
-        // АВТОРИЗАЦИЯЧЕРЕЗ VK И EMAIL
-        function loginWithVK() {
-            user.isLoggedIn = true;
-            user.id = "#VK-" + Math.floor(100000 + Math.random() * 900000);
-            user.name = "Игрок VK";
-            user.bio = "Профиль авторизован через ВКонтакте ✨";
-            
-            saveUserData();
-            updateProfileUI();
-            document.getElementById('auth-modal').classList.remove('active');
-        }
-
-        function loginWithEmail() {
-            const email = document.getElementById('auth-email').value;
-            if (!email) {
-                alert("Введите email!");
-                return;
-            }
-            user.isLoggedIn = true;
-            user.id = "#NR-" + Math.floor(100000 + Math.random() * 900000);
-            user.name = email.split('@')[0];
-            
-            saveUserData();
-            updateProfileUI();
-            document.getElementById('auth-modal').classList.remove('active');
-        }
-
         function switchTab(tab) {
-            document.querySelectorAll('.tab-content').forEach(e => e.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
-            document.getElementById(`tab-${tab}`).classList.add('active');
-            document.getElementById(`nav-${tab}`).classList.add('active');
+            const screenHome = document.getElementById('screen-home');
+            const screenSettings = document.getElementById('screen-settings');
+            const screenProfile = document.getElementById('screen-profile');
+
+            const navHome = document.getElementById('nav-home');
+            const navSettings = document.getElementById('nav-settings');
+            const navProfile = document.getElementById('nav-profile');
+
+            [navHome, navSettings, navProfile].forEach(el => el && el.classList.remove('active'));
+
+            if (tab === 'home') {
+                screenHome.className = 'screen-panel active';
+                screenSettings.className = 'screen-panel left';
+                screenProfile.className = 'screen-panel right';
+                navHome.classList.add('active');
+            } else if (tab === 'settings') {
+                screenSettings.className = 'screen-panel active';
+                screenHome.className = 'screen-panel right';
+                screenProfile.className = 'screen-panel left';
+                navSettings.classList.add('active');
+            } else if (tab === 'profile') {
+                screenProfile.className = 'screen-panel active';
+                screenHome.className = 'screen-panel left';
+                screenSettings.className = 'screen-panel right';
+                navProfile.classList.add('active');
+            }
         }
-
-        // РЕДАКТИРОВАНИЕ ПРОФИЛЯ
-        function openEditProfile() {
-            selectedAvatarTemp = user.avatar;
-            let avs = '<div class="avatar-picker">';
-            presetAvatars.forEach(url => {
-                avs += `<img src="${url}" class="avatar-opt ${url === selectedAvatarTemp ? 'selected':''}" onclick="selAv(this, '${url}')">`;
-            });
-            avs += '</div>';
-
-            const html = `
-                ${avs}
-                <div style="font-size:0.75rem; color:var(--text-dim); margin-top:8px;">Имя профиля</div>
-                <input type="text" id="e-name" class="app-input" value="${user.name}">
-                <div style="font-size:0.75rem; color:var(--text-dim); margin-top:8px;">Описание / Статус</div>
-                <textarea id="e-bio" class="app-input" rows="3">${user.bio}</textarea>
-                <button class="btn-neon" style="width:100%; margin-top:12px;" onclick="saveProfile()">Сохранить</button>
-            `;
-            showModal("Редактирование анкеты", html);
-        }
-
-        function selAv(el, url) {
-            document.querySelectorAll('.avatar-opt').forEach(a => a.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedAvatarTemp = url;
-        }
-
-        function saveProfile() {
-            user.name = document.getElementById('e-name').value || user.name;
-            user.bio = document.getElementById('e-bio').value;
-            user.avatar = selectedAvatarTemp;
-            saveUserData();
-            updateProfileUI();
-            closeModal();
-        }
-
-        // ЛОВЕЦ СНОВ (С СОХРАНЕНИЕМ ВАЛЮТЫ)
-        function spinCatcher() {
-            const wheel = document.getElementById('catcher-wheel');
-            wheel.style.transform = 'rotate(1080deg)';
-            setTimeout(() => {
-                const reward = Math.floor(15 + Math.random() * 35);
-                user.shards += reward;
-                saveUserData(); // Закрепление за ID
-                updateProfileUI();
-
-                document.getElementById('pred-text').innerText = `«Сегодня звезды сулят вам силу астрала... (+${reward} 💎)»`;
-                wheel.style.transform = 'rotate(0deg)';
-            }, 3000);
-        }
-
-        // СОЦИАЛЬНЫЕ ФУНКЦИИ
-        function openFindFriendModal() {
-            const html = `
-                <div style="font-size:0.8rem; color:var(--text-dim);">Введите ID друга:</div>
-                <input type="text" id="find-id-input" class="app-input" placeholder="#NR-XXXXXX или #VK-XXXXXX">
-                <button class="btn-neon" style="width:100%; margin-top:10px;" onclick="searchFriend()">Найти профиль</button>
-            `;
-            showModal("Поиск друзей", html);
-        }
-
-        function searchFriend() {
-            const id = document.getElementById('find-id-input').value;
-            if(!id) return;
-            alert(`Заявка пользователю ${id} отправлена!`);
-            closeModal();
-        }
-
-        function openRandomProfiles() {
-            const randomUsers = [
-                { name: "ЛунныйКот", id: "#VK-304911", bio: "Фанат визуальных новелл 🌙", avatar: presetAvatars[1] },
-                { name: "Phantom", id: "#NR-992104", bio: "Тёмный фэнтези фанат 🔥", avatar: presetAvatars[2] }
-            ];
-            const r = randomUsers[Math.floor(Math.random() * randomUsers.length)];
-
-            const html = `
-                <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px;">
-                    <img src="${r.avatar}" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--cyan-glow);">
-                    <div style="font-weight:800; font-size:1.1rem;">${r.name}</div>
-                    <div style="font-size:0.75rem; color:var(--cyan-glow);">${r.id}</div>
-                    <div style="font-size:0.85rem; font-style:italic; color:var(--text-dim);">«${r.bio}»</div>
-                    
-                    <div style="display:flex; gap:10px; margin-top:10px; width:100%;">
-                        <button class="btn-outline" style="flex:1;" onclick="sendGift('😊')">😊 Смайлик</button>
-                        <button class="btn-outline" style="flex:1;" onclick="sendGift('💎 10')">💎 10 Осколков</button>
-                    </div>
-                </div>
-            `;
-            showModal("Случайная анкета", html);
-        }
-
-        function sendGift(gift) {
-            alert(`Вы отправили ${gift}!`);
-            closeModal();
-        }
-
-        function openFriendsList() {
-            showModal("Список друзей", `<div style='font-size:0.85rem; color:var(--text-dim);'>Ваши друзья: ${user.friends.join(', ')}</div>`);
-        }
-
-        function switchAccount() {
-            user.isLoggedIn = false;
-            document.getElementById('auth-modal').classList.add('active');
-        }
-
-        // ЧИТАЛКА
-        function openStoryEpisodes() {
-            showModal("REMnant", "<button class='btn-neon' style='width:100%;' onclick='startReader()'>1 Серия: Пробуждение</button>");
-        }
-
-        function startReader() {
-            closeModal();
-            user.chaptersPassed++;
-            saveUserData();
-            updateProfileUI();
-            document.getElementById('reader-screen').classList.add('active');
-            document.getElementById('char-name').innerText = 'Неизвестный';
-            document.getElementById('dialog-text').innerText = 'Ты открываешь глаза. Город погружен в голубой туман...';
-            document.getElementById('dialog-choices').innerHTML = `<button class="btn-neon" onclick="closeReader()">Завершить главу</button>`;
-        }
-
-        function closeReader() { document.getElementById('reader-screen').classList.remove('active'); }
-        function showModal(title, content) {
-            document.getElementById('m-title').innerText = title;
-            document.getElementById('m-body').innerHTML = content;
-            document.getElementById('main-modal').classList.add('active');
-        }
-        function closeModal() { document.getElementById('main-modal').classList.remove('active'); }
     </script>
 </body>
 </html>
