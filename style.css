@@ -181,3 +181,68 @@ body, html {
     font-size: 1.8rem;
     color: #00e5ff;
 }
+
+/* Включаем вертикальный скролл только для центральной панели */
+.vertical-scroll {
+    overflow-y: auto;
+    scroll-behavior: smooth; /* Чтобы при клике на кнопку меню экран листал плавно */
+    display: flex;
+    flex-direction: column;
+}
+.vertical-scroll::-webkit-scrollbar { display: none; } /* Прячем некрасивую полосу скролла */
+
+/* Контентная часть профиля занимает высоту экрана, чтобы настройки были скрыты ниже */
+.profile-main-content {
+    min-height: 100%; 
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+}
+
+/* Подсказка для игрока над настройками */
+.scroll-down-hint {
+    text-align: center;
+    color: #00e5ff;
+    font-size: 0.8rem;
+    margin-top: auto; /* Прижимает подсказку к самому низу блока профиля */
+    opacity: 0.6;
+    animation: pulse 2s infinite;
+}
+
+/* Стили встроенного блока настроек */
+.settings-section {
+    background: linear-gradient(180deg, rgba(9, 26, 60, 0.4) 0%, rgba(5, 13, 34, 0.9) 100%);
+    border: 1px solid rgba(0, 191, 255, 0.2);
+    padding: 30px 20px;
+    margin-top: 20px;
+    min-height: 80%; /* Настройки занимают почти весь экран при прокрутке */
+    box-sizing: border-box;
+    filter: drop-shadow(0 0 15px rgba(0, 191, 255, 0.1));
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(141, 174, 214, 0.1);
+    padding-bottom: 10px;
+}
+
+/* Кастомный селектор и кнопка сброса */
+.settings-select, .reset-btn {
+    background: #050d22;
+    border: 1px solid #00bfff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0.3; }
+}
+
