@@ -1,66 +1,85 @@
-<!-- ЭКРАН 1: ГЛАВНОЕ МЕНЮ (ХАБ ИСТОРIЙ) -->
-<div id="main-menu" class="screen active">
-    <!-- Панель ресурсов сверху (как в Клубе Романтики) -->
-    <div class="top-bar">
-        <div class="resource"><span class="icon">💎</span> <span id="diamond-count">25</span></div>
-        <div class="resource"><span class="icon">☕</span> <span id="energy-count">3</span></div>
-    </div>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сны Наяву - Главная</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <h1 class="hub-title">Каталог Историй</h1>
-    
-    <!-- Список историй (карточки) -->
-    <div class="stories-grid">
-        <div class="story-card" data-story="vampire_story">
-            <div class="story-poster" style="background-image: url('images/posters/vampire.jpg')"></div>
-            <div class="story-info">
-                <h3>Клыки и Розы</h3>
-                <p>Таинственный незнакомец меняет вашу жизнь...</p>
-                <button class="play-btn">Играть</button>
-            </div>
-        </div>
+    <!-- ГЛАВНЫЙ ЭКРАН ХАБА -->
+    <div id="app-hub" class="app-container">
         
-        <div class="story-card" data-story="space_story">
-            <div class="story-poster" style="background-image: url('images/posters/space.jpg')"></div>
-            <div class="story-info">
-                <h3>Завеса Звезд</h3>
-                <p>Вы — капитан корабля на краю галактики.</p>
-                <button class="play-btn">Играть</button>
+        <!-- Заголовок приложения -->
+        <header class="app-header">
+            <div class="decorative-branches-left"></div>
+            <h1 class="main-title">СНЫ НАЯВУ</h1>
+            <div class="decorative-branches-right"></div>
+        </header>
+
+        <!-- Основной прокручиваемый контент -->
+        <main class="scrollable-content">
+            
+            <!-- СЕКЦИЯ 1: КАРУСЕЛЬ ГЛАВНЫХ ИСТОРIЙ (Крупные карточки) -->
+            <section class="main-stories-carousel">
+                <!-- Карточка 1: Звездная Гавань -->
+                <div class="story-card-large polygon-shape" style="background-image: url('images/space_bg.jpg');">
+                    <div class="card-overlay">
+                        <h2 class="story-title-large">ЗВЁЗДНАЯ<br>ГАВАНЬ</h2>
+                        <button class="play-circle-btn" onclick="startStory('space_harbor')">▶</button>
+                    </div>
+                </div>
+
+                <!-- Карточка 2: Тени Опала -->
+                <div class="story-card-large polygon-shape" style="background-image: url('images/opal_bg.jpg');">
+                    <div class="card-overlay">
+                        <h2 class="story-title-large">ТЕНИ<br>ОПАЛА</h2>
+                        <button class="play-circle-btn" onclick="startStory('opal_shadows')">▶</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция-разделитель -->
+            <div class="section-divider">ИССЛЕДУЙ МИРЫ</div>
+
+            <!-- СЕКЦИЯ 2: СЕТКА ДРУГИХ МИРОВ (Маленькие шестиугольные/ромбовидные плашки) -->
+            <section class="worlds-grid">
+                <div class="world-node polygon-mini" onclick="startStory('wind_keeper')" style="background-image: url('images/wind.jpg');">
+                    <div class="node-title">ХРАНИТЕЛЬ ВЕТРА</div>
+                </div>
+                <div class="world-node polygon-mini" onclick="startStory('ice_heart')" style="background-image: url('images/ice.jpg');">
+                    <div class="node-title">СЕРДЦЕ ЛЬДА</div>
+                </div>
+                <div class="world-node polygon-mini" onclick="startStory('poison_bastion')" style="background-image: url('images/poison.jpg');">
+                    <div class="node-title">БАСТИОН ЯДА</div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- СЕКЦИЯ 3: НИЖНЯЯ ПАНЕЛЬ НАВИГАЦИИ (ТАБ-БАР) -->
+        <nav class="bottom-navigation">
+            <div class="nav-item" onclick="switchTab('settings')">
+                <div class="nav-icon icon-settings">⚙️</div>
+                <span class="nav-label">НАСТРОЙКИ</span>
             </div>
-        </div>
-    </div>
-</div>
+            <div class="nav-item active" onclick="switchTab('main')">
+                <div class="nav-icon icon-main">📖</div>
+                <span class="nav-label">ГЛАВНАЯ</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('profile')">
+                <div class="nav-icon icon-profile">👤</div>
+                <span class="nav-label">ПРОФИЛЬ</span>
+            </div>
+            <div class="nav-item catcher-tab" onclick="switchTab('dream-catcher')">
+                <div class="nav-icon icon-catcher">🕸️</div>
+                <span class="nav-label">Ловец Снов</span>
+            </div>
+        </nav>
 
-<!-- ЭКРАН 2: ИГРОВОЙ ЭКРАН (С ОДЕЖДОЙ И СТАТАМИ) -->
-<div id="game-screen" class="screen">
-    <div id="game-bg"></div> 
-    
-    <!-- Индикатор заработанных статов во время игры -->
-    <div id="stats-indicator" class="stats-indicator hidden">
-        <span id="stat-icon"></span> +1
-    </div>
-
-    <div class="character-container">
-        <!-- Спрайт главной героини состоит из слоев: тело + платье + прическа -->
-        <div id="heroine" class="heroine-composite">
-            <img id="hero-body" src="images/hero/body_default.png">
-            <img id="hero-dress" src="images/hero/dress_default.png">
-            <img id="hero-hair" src="images/hero/hair_default.png">
-        </div>
-        <img id="char-right" class="sprite" src="" alt="">
     </div>
 
-    <!-- Окно гардероба (всплывает по сюжету) -->
-    <div id="wardrobe-screen" class="wardrobe-overlay hidden">
-        <h2>Выбор наряда</h2>
-        <div class="wardrobe-options" id="wardrobe-options">
-            <!-- Кнопки одежды сгенерируются через JS -->
-        </div>
-    </div>
-
-    <div class="dialogue-box" id="next-step">
-        <div id="char-name" class="char-name"></div>
-        <div id="dialogue-text" class="dialogue-text"></div>
-    </div>
-
-    <div id="choices-container" class="choices-container hidden"></div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
