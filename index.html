@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Narrati — Визуальные новеллы</title>
+    <title>Narrati — REMnant</title>
     <style>
         :root {
             --bg-deep: #070B14;
@@ -35,7 +35,6 @@
             overflow: hidden;
         }
 
-        /* Контейнер приложения */
         .app-container {
             width: 100%;
             max-width: 430px;
@@ -95,7 +94,7 @@
             font-weight: 600;
         }
 
-        /* Страницы (переключение) */
+        /* Страницы */
         .page {
             display: none;
             flex: 1;
@@ -119,41 +118,167 @@
         .hero-banner {
             height: 190px;
             border-radius: 20px;
-            background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%);
+            background: linear-gradient(135deg, #1E1B4B 0%, #0F172A 100%);
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
             margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+        .hero-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; z-index: 2; }
         
         .play-btn {
             background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
             color: white; border: none; padding: 10px 20px;
             border-radius: 12px; font-weight: 700; cursor: pointer;
-            width: fit-content;
+            width: fit-content; z-index: 2;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 12px;
         }
 
         .stories-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
         }
 
         .story-card {
-            background: var(--bg-card); border-radius: 16px;
-            overflow: hidden; border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
             cursor: pointer;
+            transition: transform 0.2s;
         }
 
+        .story-card:active { transform: scale(0.96); }
+
         .story-poster {
-            height: 140px;
+            height: 150px;
             background: radial-gradient(circle, #3b82f644, #070b14);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            color: var(--accent-cyan);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .story-info { padding: 10px; }
         .story-name { font-size: 13px; font-weight: 700; }
+
+        /* --- МОДАЛЬНОЕ ОКНО ИСТОРИИ (ПРЕДПРОСМОТР) --- */
+        .story-modal-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(7, 11, 20, 0.8);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+        }
+
+        .story-modal-overlay.active {
+            display: flex;
+        }
+
+        .story-modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 340px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            animation: scaleIn 0.25s ease-out;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-story-modal {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .close-story-modal:active { background: rgba(255, 255, 255, 0.15); }
+
+        .modal-story-poster {
+            width: 130px;
+            height: 180px;
+            background: radial-gradient(circle, #3b82f644, #070b14);
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+            color: var(--accent-cyan);
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .modal-story-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .modal-story-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .modal-play-btn {
+            background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            transition: opacity 0.2s;
+        }
+
+        .modal-play-btn:active { opacity: 0.85; }
 
         /* --- ЭКРАН 2: ЧТЕНИЕ НОВЕЛЛЫ --- */
         #page-reader {
@@ -174,7 +299,6 @@
         .character-sprite {
             height: 75%;
             max-height: 480px;
-            transition: all 0.3s ease;
             filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
         }
 
@@ -248,7 +372,7 @@
             background: linear-gradient(90deg, rgba(236, 72, 153, 0.15), var(--bg-card));
         }
 
-        /* --- ЭКРАН 3: ПРОФИЛЬ И TELEGRAM-ВХОД --- */
+        /* --- ЭКРАН 3: ПРОФИЛЬ --- */
         .profile-container { padding: 20px; padding-bottom: 90px; }
 
         .profile-card {
@@ -344,19 +468,32 @@
         <div id="page-catalog" class="page active">
             <div class="catalog-content">
                 <div class="hero-banner">
-                    <div class="hero-title">Хранители Эфира</div>
-                    <button class="play-btn" onclick="startStory()">Читать историю</button>
+                    <div class="hero-title">REMnant</div>
+                    <button class="play-btn" onclick="openStoryModal()">Читать историю</button>
                 </div>
-                <div style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">Популярные новеллы</div>
+                
+                <div class="section-title">Все истории</div>
+                
                 <div class="stories-grid">
-                    <div class="story-card" onclick="startStory()">
-                        <div class="story-poster"></div>
+                    <div class="story-card" onclick="openStoryModal()">
+                        <div class="story-poster">REMnant</div>
                         <div class="story-info">
-                            <div class="story-name">Хранители Эфира</div>
-                            <div style="font-size: 11px; color: var(--text-muted);">Фэнтези, Романтика</div>
+                            <div class="story-name">REMnant</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Триллер, Сны</div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- МОДАЛЬНОЕ ОКНО ИСТОРИИ (ПРЕДПРОСМОТР) -->
+        <div class="story-modal-overlay" id="storyModal">
+            <div class="story-modal-card">
+                <button class="close-story-modal" onclick="closeStoryModal()">✕</button>
+                <div class="modal-story-poster">REMnant</div>
+                <div class="modal-story-title">REMnant</div>
+                <div class="modal-story-desc">Грань между снами и реальностью начинает рушиться. Что скрывается в глубинах человеческого сознания?</div>
+                <button class="modal-play-btn" onclick="startStory()">Играть</button>
             </div>
         </div>
 
@@ -369,7 +506,7 @@
                 </svg>
 
                 <div class="dialogue-box">
-                    <div class="speaker-name" id="speaker-name">Ария</div>
+                    <div class="speaker-name" id="speaker-name">Незнакомец</div>
                     <div class="dialogue-text" id="dialogue-text">...</div>
                     <div class="tap-hint">Нажмите для продолжения ➔</div>
                 </div>
@@ -388,7 +525,6 @@
                     <div class="user-name" id="profile-name">Гость Narrati</div>
                     <div class="user-id" id="profile-status">Авторизуйтесь через Telegram</div>
 
-                    <!-- Официальный Telegram Widget с вашим ботом narrati_bot -->
                     <div id="tg-widget-wrap" style="margin-top: 10px;">
                         <script async src="https://telegram.org/js/telegram-widget.js?22" 
                                 data-telegram-login="narrati_bot" 
@@ -409,7 +545,7 @@
                             👗 Синее платье
                         </div>
                         <div class="wardrobe-item" id="outfit-2" onclick="changeOutfit('premium', 'outfit-2')">
-                            ✨ Платье Эфира
+                            ✨ Костюм Сна
                         </div>
                     </div>
                 </div>
@@ -440,17 +576,17 @@
         };
 
         const script = [
-            { speaker: 'Ария', text: 'Ночной воздух Академии всегда казался мне особенным...' },
-            { speaker: 'Эйден', text: 'Опять не спишь? Скоро зажгутся эфирные кристаллы.' },
+            { speaker: 'Голос', text: 'Грань между снами и реальностью начинает рушиться...' },
+            { speaker: 'Ария', text: 'Где я? Это снова сон или реальность?' },
             { 
                 choices: [
-                    { text: 'Ответить с улыбкой (Бесплатно)', nextStep: 3, cost: 0 },
-                    { text: 'Прижаться к нему (💎 10)', nextStep: 4, cost: 10, premium: true }
+                    { text: 'Оглядеться по сторонам (Бесплатно)', nextStep: 3, cost: 0 },
+                    { text: 'Вспомнить, как я сюда попала (💎 10)', nextStep: 4, cost: 10, premium: true }
                 ]
             },
-            { speaker: 'Ария', text: 'Просто наслаждаюсь тишиной.', nextStep: 5 },
-            { speaker: 'Ария', text: 'Я оперлась о его плечо. В его глазах блеснули искры эфира...', nextStep: 5 },
-            { speaker: 'Эйден', text: 'Пойдем, история только начинается!' }
+            { speaker: 'Ария', text: 'Вокруг темнота, пронизанная неоновыми вспышками сознания.', nextStep: 5 },
+            { speaker: 'Ария', text: 'Память услужливо подкинула обрывки прошлого сна...', nextStep: 5 },
+            { speaker: 'Голос', text: 'Добро пожаловать в REMnant. Просыпаться уже поздно.' }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -471,7 +607,17 @@
             document.getElementById(`nav-${pageName}`).classList.add('active');
         }
 
+        // Управление модальным окном истории
+        function openStoryModal() {
+            document.getElementById('storyModal').classList.add('active');
+        }
+
+        function closeStoryModal() {
+            document.getElementById('storyModal').classList.remove('active');
+        }
+
         function startStory() {
+            closeStoryModal();
             showPage('reader');
             state.dialogueStep = 0;
             renderDialogue();
@@ -525,7 +671,6 @@
             renderDialogue();
         }
 
-        // Авторизация Telegram
         function onTelegramAuth(user) {
             localStorage.setItem('narrati_tg_user', JSON.stringify(user));
             renderProfile(user);
