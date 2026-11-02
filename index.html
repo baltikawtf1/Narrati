@@ -8,7 +8,7 @@
         :root {
             --bg-deep: #070B14;
             --bg-card: #0F172A;
-            --bg-glass: rgba(15, 23, 42, 0.7);
+            --bg-glass: rgba(15, 23, 42, 0.85);
             --primary: #3B82F6;
             --accent-cyan: #38BDF8;
             --text-main: #F8FAFC;
@@ -32,10 +32,10 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
-        /* Контейнер мобильного экрана */
+        /* Контейнер приложения */
         .app-container {
             width: 100%;
             max-width: 430px;
@@ -62,11 +62,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
+            padding: 14px 20px;
             background: var(--bg-glass);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
-            z-index: 10;
+            z-index: 20;
         }
 
         .logo {
@@ -75,7 +75,7 @@
             background: linear-gradient(90deg, var(--accent-cyan), var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 0.5px;
+            cursor: pointer;
         }
 
         .user-stats {
@@ -87,353 +87,237 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            background: rgba(15, 23, 42, 0.8);
+            background: rgba(15, 23, 42, 0.9);
             border: 1px solid var(--border-color);
-            padding: 5px 10px;
+            padding: 5px 12px;
             border-radius: 20px;
             font-size: 13px;
             font-weight: 600;
         }
 
-        .stat-badge span {
-            color: var(--text-main);
-        }
-
-        .add-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-        }
-
-        .add-btn:active {
-            transform: scale(0.9);
-        }
-
-        /* Прокручиваемый контент */
-        .content {
+        /* Страницы (переключение) */
+        .page {
+            display: none;
             flex: 1;
+            flex-direction: column;
             overflow-y: auto;
+            position: relative;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        .page::-webkit-scrollbar { display: none; }
+
+        /* --- ЭКРАН 1: КАТАЛОГ --- */
+        .catalog-content {
             padding: 20px;
             padding-bottom: 90px;
         }
 
-        .content::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Баннер главной истории */
         .hero-banner {
-            position: relative;
-            height: 200px;
-            border-radius: 24px;
-            overflow: hidden;
+            height: 190px;
+            border-radius: 20px;
             background: linear-gradient(135deg, #1E3A8A 0%, #0F172A 100%);
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3);
+            margin-bottom: 20px;
         }
 
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.2), transparent 70%);
-            z-index: 1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-tag {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.2);
-            color: var(--accent-cyan);
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .hero-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-
+        .hero-title { font-size: 20px; font-weight: 700; margin-bottom: 10px; }
+        
         .play-btn {
             background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 13px;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-            transition: opacity 0.2s;
-        }
-
-        .play-btn:active {
-            opacity: 0.8;
-        }
-
-        /* Фильтры жанров */
-        .genres-scroll {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            margin-bottom: 24px;
-            padding-bottom: 4px;
-        }
-
-        .genres-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .genre-chip {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 8px 16px;
-            border-radius: 16px;
-            font-size: 13px;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .genre-chip.active {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
-        }
-
-        /* Каталог историй */
-        .section-title {
-            font-size: 17px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            color: white; border: none; padding: 10px 20px;
+            border-radius: 12px; font-weight: 700; cursor: pointer;
+            width: fit-content;
         }
 
         .stories-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px;
         }
 
         .story-card {
-            background: var(--bg-card);
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
+            background: var(--bg-card); border-radius: 16px;
+            overflow: hidden; border: 1px solid var(--border-color);
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .story-card:active {
-            transform: scale(0.96);
         }
 
         .story-poster {
-            height: 160px;
-            background-color: #1E293B;
+            height: 140px;
+            background: radial-gradient(circle, #3b82f644, #070b14);
+        }
+
+        .story-info { padding: 10px; }
+        .story-name { font-size: 13px; font-weight: 700; }
+
+        /* --- ЭКРАН 2: ЧТЕНИЕ НОВЕЛЛЫ --- */
+        #page-reader {
+            background: #000;
+            overflow: hidden;
+        }
+
+        .game-scene {
+            flex: 1;
             position: relative;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .story-poster.p1 { background-image: radial-gradient(circle, #3b82f644, #070b14); }
-        .story-poster.p2 { background-image: radial-gradient(circle, #ec489944, #070b14); }
-        .story-poster.p3 { background-image: radial-gradient(circle, #10b98144, #070b14); }
-        .story-poster.p4 { background-image: radial-gradient(circle, #8b5cf644, #070b14); }
-
-        .story-status {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 10px;
-            color: var(--accent-cyan);
-            font-weight: 600;
-        }
-
-        .story-info {
-            padding: 12px;
+            background: linear-gradient(180deg, #1E1B4B 0%, #070B14 100%);
             display: flex;
-            flex-direction: column;
-            gap: 4px;
+            justify-content: center;
+            align-items: flex-end;
+            overflow: hidden;
         }
 
-        .story-name {
+        /* Спрайт персонажа */
+        .character-sprite {
+            height: 75%;
+            max-height: 480px;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
+        }
+
+        /* Диалоговый блок */
+        .dialogue-box {
+            position: absolute;
+            bottom: 20px;
+            left: 15px;
+            right: 15px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .speaker-name {
             font-size: 14px;
             font-weight: 700;
-            color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: var(--accent-cyan);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .story-genre {
-            font-size: 11px;
+        .dialogue-text {
+            font-size: 14px;
+            line-height: 1.4;
+            color: var(--text-main);
+            min-height: 42px;
+        }
+
+        .tap-hint {
+            text-align: right;
+            font-size: 10px;
             color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* Окно выборов */
+        .choices-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(7, 11, 20, 0.7);
+            backdrop-filter: blur(6px);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            padding: 25px;
+            gap: 12px;
+            z-index: 20;
+        }
+
+        .choices-overlay.active { display: flex; }
+
+        .choice-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .choice-btn.premium {
+            border-color: var(--diamond-color);
+            background: linear-gradient(90deg, rgba(236, 72, 153, 0.15), var(--bg-card));
+        }
+
+        .choice-btn:active { transform: scale(0.98); }
+
+        /* --- ЭКРАН 3: ПРОФИЛЬ И ГАРДЕРОБ --- */
+        .profile-container { padding: 20px; padding-bottom: 90px; }
+
+        .auth-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .wardrobe-section { margin-top: 20px; }
+        .wardrobe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+
+        .wardrobe-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .wardrobe-item.equipped {
+            border-color: var(--accent-cyan);
+            background: rgba(56, 189, 248, 0.15);
         }
 
         /* Нижнее меню */
         .bottom-nav {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 75px;
+            bottom: 0; left: 0; right: 0;
+            height: 70px;
             background: var(--bg-glass);
             backdrop-filter: blur(16px);
             border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            z-index: 10;
+            z-index: 30;
         }
 
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: var(--text-muted);
-            font-size: 10px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            transition: color 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 3px;
+            color: var(--text-muted); font-size: 10px; background: none; border: none; cursor: pointer;
         }
 
-        .nav-item.active {
-            color: var(--accent-cyan);
-        }
-
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-        }
-
-        /* Модальное окно магазина */
-        .modal-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(7, 11, 20, 0.8);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center;
-            align-items: flex-end;
-            z-index: 100;
-        }
-
-        .modal-overlay.open {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--bg-card);
-            width: 100%;
-            border-top-left-radius: 28px;
-            border-top-right-radius: 28px;
-            padding: 24px;
-            border-top: 1px solid var(--border-color);
-            animation: slideUp 0.3s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .close-modal {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        .pack-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .pack-item {
-            background: rgba(59, 130, 246, 0.05);
-            border: 1px solid var(--border-color);
-            padding: 12px 16px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .pack-item:active {
-            background: rgba(59, 130, 246, 0.15);
-        }
-
-        .pack-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .pack-price {
-            background: var(--primary);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 700;
-        }
+        .nav-item.active { color: var(--accent-cyan); }
+        .nav-item svg { width: 22px; height: 22px; fill: currentColor; }
     </style>
 </head>
 <body>
@@ -441,153 +325,234 @@
     <div class="app-container">
         <!-- Шапка -->
         <header>
-            <div class="logo">Narrati</div>
+            <div class="logo" onclick="showPage('catalog')">Narrati</div>
             <div class="user-stats">
                 <div class="stat-badge">
-                    <span>⚡ 15</span>
-                </div>
-                <div class="stat-badge">
                     <span style="color: var(--diamond-color);">💎</span>
-                    <span id="diamond-count">45</span>
-                    <button class="add-btn" onclick="openShop()">+</button>
+                    <span id="user-diamonds">45</span>
                 </div>
             </div>
         </header>
 
-        <!-- Основной экран -->
-        <div class="content">
-            <!-- Главный баннер -->
-            <div class="hero-banner">
-                <div class="hero-content">
-                    <div class="hero-tag">Хит сезона</div>
+        <!-- 1. КАТАЛОГ ИСТОРИЙ -->
+        <div id="page-catalog" class="page active">
+            <div class="catalog-content">
+                <div class="hero-banner">
                     <div class="hero-title">Хранители Эфира</div>
-                    <button class="play-btn" onclick="alert('Запуск новеллы...')">Читать историю</button>
+                    <button class="play-btn" onclick="startStory()">Читать историю</button>
                 </div>
-            </div>
-
-            <!-- Жанры -->
-            <div class="genres-scroll">
-                <div class="genre-chip active" onclick="filterGenre(this)">Все</div>
-                <div class="genre-chip" onclick="filterGenre(this)">Романтика</div>
-                <div class="genre-chip" onclick="filterGenre(this)">Мистика</div>
-                <div class="genre-chip" onclick="filterGenre(this)">Фэнтези</div>
-                <div class="genre-chip" onclick="filterGenre(this)">Драма</div>
-            </div>
-
-            <!-- Список новелл -->
-            <div class="section-title">
-                <span>Истории</span>
-            </div>
-            
-            <div class="stories-grid">
-                <div class="story-card" onclick="alert('Открытие новеллы: Тени Сентфора')">
-                    <div class="story-poster p1">
-                        <div class="story-status">Новая глава</div>
-                    </div>
-                    <div class="story-info">
-                        <div class="story-name">Тени Сентфора</div>
-                        <div class="story-genre">Мистика, Детектив</div>
-                    </div>
-                </div>
-
-                <div class="story-card" onclick="alert('Открытие новеллы: Сердце Океана')">
-                    <div class="story-poster p2">
-                        <div class="story-status">Завершено</div>
-                    </div>
-                    <div class="story-info">
-                        <div class="story-name">Сердце Океана</div>
-                        <div class="story-genre">Романтика, Приключения</div>
-                    </div>
-                </div>
-
-                <div class="story-card" onclick="alert('Открытие новеллы: Академия Магии')">
-                    <div class="story-poster p3">
-                        <div class="story-status">Хит</div>
-                    </div>
-                    <div class="story-info">
-                        <div class="story-name">Академия Магии</div>
-                        <div class="story-genre">Фэнтези</div>
-                    </div>
-                </div>
-
-                <div class="story-card" onclick="alert('Открытие новеллы: Цена Успеха')">
-                    <div class="story-poster p4">
-                        <div class="story-status">В процессе</div>
-                    </div>
-                    <div class="story-info">
-                        <div class="story-name">Цена Успеха</div>
-                        <div class="story-genre">Драма, Карьера</div>
+                <div style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">Популярные новеллы</div>
+                <div class="stories-grid">
+                    <div class="story-card" onclick="startStory()">
+                        <div class="story-poster"></div>
+                        <div class="story-info">
+                            <div class="story-name">Хранители Эфира</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Фэнтези, Романтика</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Нижнее меню навигации -->
+        <!-- 2. ЭКРАН ЧТЕНИЯ -->
+        <div id="page-reader" class="page">
+            <div class="game-scene" id="scene-click-area" onclick="nextDialogue()">
+                <!-- Спрайт героини/персонажа (SVG-заглушка) -->
+                <svg class="character-sprite" id="char-sprite" viewBox="0 0 200 400" fill="none">
+                    <path d="M100 80C122 80 140 62 140 40C140 18 122 0 100 0C78 0 60 18 60 40C60 62 78 80 100 80Z" fill="#38BDF8"/>
+                    <path d="M40 400C40 220 70 120 100 120C130 120 160 220 160 400H40Z" fill="#1E3A8A" id="char-outfit"/>
+                </svg>
+
+                <div class="dialogue-box">
+                    <div class="speaker-name" id="speaker-name">Ария</div>
+                    <div class="dialogue-text" id="dialogue-text">...</div>
+                    <div class="tap-hint">Нажмите для продолжения ➔</div>
+                </div>
+            </div>
+
+            <!-- Экран выборов -->
+            <div class="choices-overlay" id="choices-overlay"></div>
+        </div>
+
+        <!-- 3. ПРОФИЛЬ И ГАРДЕРОБ -->
+        <div id="page-profile" class="page">
+            <div class="profile-container">
+                <div class="auth-card" id="auth-box">
+                    <div style="font-weight: 700; font-size: 16px;" id="user-name-display">Гость Narrati</div>
+                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Прогресс сохраняется локально</div>
+                    <button class="auth-btn" id="auth-action-btn" onclick="toggleAuth()">Войти через Telegram</button>
+                </div>
+
+                <div class="wardrobe-section">
+                    <div style="font-weight: 700; font-size: 16px;">Гардероб героини</div>
+                    <div class="wardrobe-grid">
+                        <div class="wardrobe-item equipped" id="outfit-1" onclick="changeOutfit('default', 'outfit-1')">
+                            👗 Синее платье
+                        </div>
+                        <div class="wardrobe-item" id="outfit-2" onclick="changeOutfit('premium', 'outfit-2')">
+                            ✨ Платье Эфира
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Нижнее меню -->
         <nav class="bottom-nav">
-            <button class="nav-item active">
+            <button class="nav-item active" id="nav-catalog" onclick="showPage('catalog')">
                 <svg viewBox="0 0 24 24"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>
-                <span>Истории</span>
+                <span>Главная</span>
             </button>
-            <button class="nav-item" onclick="alert('Раздел гардероба и профиля в разработке')">
+            <button class="nav-item" id="nav-reader" onclick="showPage('reader')">
+                <svg viewBox="0 0 24 24"><path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.2 20.4 5.3 20 7 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.85-.75-3-1z"/></svg>
+                <span>Читать</span>
+            </button>
+            <button class="nav-item" id="nav-profile" onclick="showPage('profile')">
                 <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
                 <span>Профиль</span>
             </button>
-            <button class="nav-item" onclick="alert('Сообщество Narrati: скоро здесь появится чат')">
-                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
-                <span>Клуб</span>
-            </button>
         </nav>
-
-        <!-- Модальное окно магазина алмазов -->
-        <div class="modal-overlay" id="shopModal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="modal-title">Магазин Narrati 💎</div>
-                    <button class="close-modal" onclick="closeShop()">✕</button>
-                </div>
-                <div class="pack-list">
-                    <div class="pack-item" onclick="buyDiamonds(50)">
-                        <div class="pack-info">💎 50 алмазов</div>
-                        <div class="pack-price">99 ₽</div>
-                    </div>
-                    <div class="pack-item" onclick="buyDiamonds(150)">
-                        <div class="pack-info">💎 150 алмазов</div>
-                        <div class="pack-price">249 ₽</div>
-                    </div>
-                    <div class="pack-item" onclick="buyDiamonds(500)">
-                        <div class="pack-info">💎 500 алмазов</div>
-                        <div class="pack-price">699 ₽</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
-        // Интерактив для магазина
-        function openShop() {
-            document.getElementById('shopModal').classList.add('open');
+        // --- СОСТОЯНИЕ ИГРЫ (LOCAL STORAGE) ---
+        let state = {
+            diamonds: parseInt(localStorage.getItem('narrati_diamonds')) || 45,
+            isAuth: localStorage.getItem('narrati_auth') === 'true',
+            userName: localStorage.getItem('narrati_user') || 'Гость Narrati',
+            currentOutfit: localStorage.getItem('narrati_outfit') || 'default',
+            dialogueStep: 0
+        };
+
+        // Сценарий 1 главы
+        const script = [
+            { speaker: 'Ария', text: 'Ночной воздух Академии всегда казался мне особенным...', outfitColor: '#1E3A8A' },
+            { speaker: 'Эйден', text: 'Опять не спишь? Скоро зажгутся эфирные кристаллы.', outfitColor: '#1E3A8A' },
+            { 
+                choices: [
+                    { text: 'Ответить с улыбкой (Бесплатно)', nextStep: 3, cost: 0 },
+                    { text: 'Прижаться к нему (💎 10)', nextStep: 4, cost: 10, premium: true }
+                ]
+            },
+            { speaker: 'Ария', text: 'Просто наслаждаюсь тишиной.', nextStep: 5 },
+            { speaker: 'Ария', text: 'Я оперлась о его плечо. В его глазах блеснули искры эфира...', nextStep: 5 },
+            { speaker: 'Эйден', text: 'Пойдем, история только начинается!' }
+        ];
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+        });
+
+        function updateUI() {
+            document.getElementById('user-diamonds').innerText = state.diamonds;
+            document.getElementById('user-name-display').innerText = state.userName;
+            document.getElementById('auth-action-btn').innerText = state.isAuth ? 'Выйти из аккаунта' : 'Войти через Telegram';
+            saveState();
         }
 
-        function closeShop() {
-            document.getElementById('shopModal').classList.remove('open');
+        function saveState() {
+            localStorage.setItem('narrati_diamonds', state.diamonds);
+            localStorage.setItem('narrati_auth', state.isAuth);
+            localStorage.setItem('narrati_user', state.userName);
+            localStorage.setItem('narrati_outfit', state.currentOutfit);
         }
 
-        // Тестовая покупка (добавляет алмазы на баланс)
-        function buyDiamonds(amount) {
-            let diamondElement = document.getElementById('diamond-count');
-            let currentDiamonds = parseInt(diamondElement.innerText);
-            diamondElement.innerText = currentDiamonds + amount;
+        // Переключение страниц
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             
-            closeShop();
-            alert(`Успешно! Вам зачислено +${amount} алмазов 💎`);
+            document.getElementById(`page-${pageName}`).classList.add('active');
+            document.getElementById(`nav-${pageName}`).classList.add('active');
         }
 
-        // Фильтрация жанров
-        function filterGenre(element) {
-            let chips = document.querySelectorAll('.genre-chip');
-            chips.forEach(chip => chip.classList.remove('active'));
-            element.classList.add('active');
+        // Запуск новеллы
+        function startStory() {
+            showPage('reader');
+            state.dialogueStep = 0;
+            renderDialogue();
+        }
+
+        // Рендер реплик
+        function renderDialogue() {
+            const current = script[state.dialogueStep];
+            const overlay = document.getElementById('choices-overlay');
+
+            if (!current) {
+                state.dialogueStep = 0;
+                showPage('catalog');
+                return;
+            }
+
+            if (current.choices) {
+                overlay.innerHTML = '';
+                overlay.classList.add('active');
+                
+                current.choices.forEach(choice => {
+                    const btn = document.createElement('button');
+                    btn.className = `choice-btn ${choice.premium ? 'premium' : ''}`;
+                    btn.innerHTML = `<span>${choice.text}</span>`;
+                    btn.onclick = () => makeChoice(choice);
+                    overlay.appendChild(btn);
+                });
+            } else {
+                overlay.classList.remove('active');
+                document.getElementById('speaker-name').innerText = current.speaker;
+                document.getElementById('dialogue-text').innerText = current.text;
+            }
+        }
+
+        function nextDialogue() {
+            const current = script[state.dialogueStep];
+            if (current && current.choices) return; // Не перелистывать при выборе
+            
+            if (current && current.nextStep !== undefined) {
+                state.dialogueStep = current.nextStep;
+            } else {
+                state.dialogueStep++;
+            }
+            renderDialogue();
+        }
+
+        function makeChoice(choice) {
+            if (choice.cost > 0) {
+                if (state.diamonds < choice.cost) {
+                    alert('Недостаточно алмазов 💎!');
+                    return;
+                }
+                state.diamonds -= choice.cost;
+                updateUI();
+            }
+            state.dialogueStep = choice.nextStep;
+            renderDialogue();
+        }
+
+        // Авторизация
+        function toggleAuth() {
+            if (state.isAuth) {
+                state.isAuth = false;
+                state.userName = 'Гость Narrati';
+            } else {
+                state.isAuth = true;
+                state.userName = 'Ария_Player';
+            }
+            updateUI();
+        }
+
+        // Смена одежды
+        function changeOutfit(type, elementId) {
+            document.querySelectorAll('.wardrobe-item').forEach(i => i.classList.remove('equipped'));
+            document.getElementById(elementId).classList.add('equipped');
+            
+            const spritePath = document.getElementById('char-outfit');
+            if (type === 'premium') {
+                spritePath.setAttribute('fill', '#EC4899');
+            } else {
+                spritePath.setAttribute('fill', '#1E3A8A');
+            }
+            state.currentOutfit = type;
+            saveState();
         }
     </script>
 </body>
