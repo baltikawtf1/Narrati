@@ -171,7 +171,6 @@
             overflow: hidden;
         }
 
-        /* Спрайт персонажа */
         .character-sprite {
             height: 75%;
             max-height: 480px;
@@ -179,7 +178,6 @@
             filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
         }
 
-        /* Диалоговый блок */
         .dialogue-box {
             position: absolute;
             bottom: 20px;
@@ -200,7 +198,6 @@
             color: var(--accent-cyan);
             margin-bottom: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .dialogue-text {
@@ -217,7 +214,6 @@
             margin-top: 6px;
         }
 
-        /* Окно выборов */
         .choices-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -245,7 +241,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.2s;
         }
 
         .choice-btn.premium {
@@ -253,30 +248,41 @@
             background: linear-gradient(90deg, rgba(236, 72, 153, 0.15), var(--bg-card));
         }
 
-        .choice-btn:active { transform: scale(0.98); }
-
-        /* --- ЭКРАН 3: ПРОФИЛЬ И ГАРДЕРОБ --- */
+        /* --- ЭКРАН 3: ПРОФИЛЬ И TELEGRAM-ВХОД --- */
         .profile-container { padding: 20px; padding-bottom: 90px; }
 
-        .auth-card {
+        .profile-card {
             background: var(--bg-card);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 24px;
+            padding: 24px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
             margin-bottom: 20px;
         }
 
-        .auth-btn {
+        .avatar {
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 2px solid var(--accent-cyan);
+            object-fit: cover; display: none;
+        }
+
+        .guest-icon {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: rgba(56, 189, 248, 0.1); border: 2px dashed var(--accent-cyan);
+            display: flex; align-items: center; justify-content: center; font-size: 32px;
+        }
+
+        .user-name { font-size: 18px; font-weight: 700; }
+        .user-id { font-size: 12px; color: var(--text-muted); }
+
+        .logout-btn {
+            background: rgba(239, 68, 68, 0.2); border: 1px solid #EF4444; color: #FCA5A5;
+            padding: 10px 20px; border-radius: 12px; font-weight: 600; cursor: pointer; display: none;
             width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            font-weight: 700;
-            margin-top: 10px;
-            cursor: pointer;
         }
 
         .wardrobe-section { margin-top: 20px; }
@@ -357,7 +363,6 @@
         <!-- 2. ЭКРАН ЧТЕНИЯ -->
         <div id="page-reader" class="page">
             <div class="game-scene" id="scene-click-area" onclick="nextDialogue()">
-                <!-- Спрайт героини/персонажа (SVG-заглушка) -->
                 <svg class="character-sprite" id="char-sprite" viewBox="0 0 200 400" fill="none">
                     <path d="M100 80C122 80 140 62 140 40C140 18 122 0 100 0C78 0 60 18 60 40C60 62 78 80 100 80Z" fill="#38BDF8"/>
                     <path d="M40 400C40 220 70 120 100 120C130 120 160 220 160 400H40Z" fill="#1E3A8A" id="char-outfit"/>
@@ -370,17 +375,31 @@
                 </div>
             </div>
 
-            <!-- Экран выборов -->
             <div class="choices-overlay" id="choices-overlay"></div>
         </div>
 
-        <!-- 3. ПРОФИЛЬ И ГАРДЕРОБ -->
+        <!-- 3. ПРОФИЛЬ И TELEGRAM ВХОД -->
         <div id="page-profile" class="page">
             <div class="profile-container">
-                <div class="auth-card" id="auth-box">
-                    <div style="font-weight: 700; font-size: 16px;" id="user-name-display">Гость Narrati</div>
-                    <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Прогресс сохраняется локально</div>
-                    <button class="auth-btn" id="auth-action-btn" onclick="toggleAuth()">Войти через Telegram</button>
+                <div class="profile-card">
+                    <img id="user-avatar" class="avatar" src="" alt="Аватар">
+                    <div id="guest-avatar" class="guest-icon">👤</div>
+
+                    <div class="user-name" id="profile-name">Гость Narrati</div>
+                    <div class="user-id" id="profile-status">Авторизуйтесь через Telegram</div>
+
+                    <!-- Официальный Telegram Widget с вашим ботом narrati_bot -->
+                    <div id="tg-widget-wrap" style="margin-top: 10px;">
+                        <script async src="https://telegram.org/js/telegram-widget.js?22" 
+                                data-telegram-login="narrati_bot" 
+                                data-size="large" 
+                                data-radius="12"
+                                data-onauth="onTelegramAuth(user)" 
+                                data-request-access="write">
+                        </script>
+                    </div>
+
+                    <button class="logout-btn" id="logout-btn" onclick="logout()">Выйти из профиля</button>
                 </div>
 
                 <div class="wardrobe-section">
@@ -415,19 +434,14 @@
     </div>
 
     <script>
-        // --- СОСТОЯНИЕ ИГРЫ (LOCAL STORAGE) ---
         let state = {
             diamonds: parseInt(localStorage.getItem('narrati_diamonds')) || 45,
-            isAuth: localStorage.getItem('narrati_auth') === 'true',
-            userName: localStorage.getItem('narrati_user') || 'Гость Narrati',
-            currentOutfit: localStorage.getItem('narrati_outfit') || 'default',
             dialogueStep: 0
         };
 
-        // Сценарий 1 главы
         const script = [
-            { speaker: 'Ария', text: 'Ночной воздух Академии всегда казался мне особенным...', outfitColor: '#1E3A8A' },
-            { speaker: 'Эйден', text: 'Опять не спишь? Скоро зажгутся эфирные кристаллы.', outfitColor: '#1E3A8A' },
+            { speaker: 'Ария', text: 'Ночной воздух Академии всегда казался мне особенным...' },
+            { speaker: 'Эйден', text: 'Опять не спишь? Скоро зажгутся эфирные кристаллы.' },
             { 
                 choices: [
                     { text: 'Ответить с улыбкой (Бесплатно)', nextStep: 3, cost: 0 },
@@ -439,42 +453,30 @@
             { speaker: 'Эйден', text: 'Пойдем, история только начинается!' }
         ];
 
-        // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             updateUI();
+            const savedUser = localStorage.getItem('narrati_tg_user');
+            if (savedUser) renderProfile(JSON.parse(savedUser));
         });
 
         function updateUI() {
             document.getElementById('user-diamonds').innerText = state.diamonds;
-            document.getElementById('user-name-display').innerText = state.userName;
-            document.getElementById('auth-action-btn').innerText = state.isAuth ? 'Выйти из аккаунта' : 'Войти через Telegram';
-            saveState();
-        }
-
-        function saveState() {
             localStorage.setItem('narrati_diamonds', state.diamonds);
-            localStorage.setItem('narrati_auth', state.isAuth);
-            localStorage.setItem('narrati_user', state.userName);
-            localStorage.setItem('narrati_outfit', state.currentOutfit);
         }
 
-        // Переключение страниц
         function showPage(pageName) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
             document.getElementById(`page-${pageName}`).classList.add('active');
             document.getElementById(`nav-${pageName}`).classList.add('active');
         }
 
-        // Запуск новеллы
         function startStory() {
             showPage('reader');
             state.dialogueStep = 0;
             renderDialogue();
         }
 
-        // Рендер реплик
         function renderDialogue() {
             const current = script[state.dialogueStep];
             const overlay = document.getElementById('choices-overlay');
@@ -488,7 +490,6 @@
             if (current.choices) {
                 overlay.innerHTML = '';
                 overlay.classList.add('active');
-                
                 current.choices.forEach(choice => {
                     const btn = document.createElement('button');
                     btn.className = `choice-btn ${choice.premium ? 'premium' : ''}`;
@@ -505,13 +506,9 @@
 
         function nextDialogue() {
             const current = script[state.dialogueStep];
-            if (current && current.choices) return; // Не перелистывать при выборе
+            if (current && current.choices) return;
             
-            if (current && current.nextStep !== undefined) {
-                state.dialogueStep = current.nextStep;
-            } else {
-                state.dialogueStep++;
-            }
+            state.dialogueStep = (current && current.nextStep !== undefined) ? current.nextStep : state.dialogueStep + 1;
             renderDialogue();
         }
 
@@ -528,31 +525,36 @@
             renderDialogue();
         }
 
-        // Авторизация
-        function toggleAuth() {
-            if (state.isAuth) {
-                state.isAuth = false;
-                state.userName = 'Гость Narrati';
-            } else {
-                state.isAuth = true;
-                state.userName = 'Ария_Player';
-            }
-            updateUI();
+        // Авторизация Telegram
+        function onTelegramAuth(user) {
+            localStorage.setItem('narrati_tg_user', JSON.stringify(user));
+            renderProfile(user);
         }
 
-        // Смена одежды
+        function renderProfile(user) {
+            document.getElementById('profile-name').innerText = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            document.getElementById('profile-status').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
+            
+            if (user.photo_url) {
+                const avatar = document.getElementById('user-avatar');
+                avatar.src = user.photo_url;
+                avatar.style.display = 'block';
+                document.getElementById('guest-avatar').style.display = 'none';
+            }
+
+            document.getElementById('tg-widget-wrap').style.display = 'none';
+            document.getElementById('logout-btn').style.display = 'block';
+        }
+
+        function logout() {
+            localStorage.removeItem('narrati_tg_user');
+            location.reload();
+        }
+
         function changeOutfit(type, elementId) {
             document.querySelectorAll('.wardrobe-item').forEach(i => i.classList.remove('equipped'));
             document.getElementById(elementId).classList.add('equipped');
-            
-            const spritePath = document.getElementById('char-outfit');
-            if (type === 'premium') {
-                spritePath.setAttribute('fill', '#EC4899');
-            } else {
-                spritePath.setAttribute('fill', '#1E3A8A');
-            }
-            state.currentOutfit = type;
-            saveState();
+            document.getElementById('char-outfit').setAttribute('fill', type === 'premium' ? '#EC4899' : '#1E3A8A');
         }
     </script>
 </body>
