@@ -701,6 +701,23 @@
             document.getElementById(elementId).classList.add('equipped');
             document.getElementById('char-outfit').setAttribute('fill', type === 'premium' ? '#EC4899' : '#1E3A8A');
         }
+        <!-- Экран чтения новеллы -->
+<div id="game-scene" class="page">
+    <div class="scene-container">
+        <!-- Фон (background) -->
+        <img src="images/background_room.webp" class="game-background">
+
+        <!-- СПРАЙТ ГЕРОИНИ (добавлен сюда) -->
+        <img id="main-character-sprite" class="character-sprite sprite-hidden" src="images/characters/aria/esme_main.PNG" alt="Главная героиня">
+
+        <!-- Диалоговое окно -->
+        <div class="dialogue-box">
+            <h2 id="character-name">Ария</h2>
+            <p id="dialogue-text">...</p>
+        </div>
+    </div>
+</div>
+
     </script>
 </body>
 </html>
