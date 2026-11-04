@@ -1,1 +1,109 @@
- 
+ <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>REMnant — Narrati</title>
+    <link rel="stylesheet" href="../../assets/css/style.main.css">
+    <link rel="stylesheet" href="../../assets/css/style.story.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <div id="page-reader" class="page active" style="display: flex;">
+            <div class="game-scene" id="scene-click-area" onclick="nextDialogue()">
+                
+                <!-- Здесь можно сделать ссылку на обложку или картинку из этой же папки -->
+                <img src="cover.jpg" class="game-background" alt="Фон" onerror="this.style.display='none'">
+
+                <div class="dialogue-box">
+                    <div class="speaker-name" id="speaker-name">Незнакомец</div>
+                    <div class="dialogue-text" id="dialogue-text">...</div>
+                    <div class="tap-hint">Нажмите для продолжения ➔</div>
+                </div>
+            </div>
+
+            <div class="choices-overlay" id="choices-overlay"></div>
+        </div>
+    </div>
+
+    <script>
+        let state = {
+            diamonds: parseInt(localStorage.getItem('narrati_diamonds')) || 45,
+            dialogueStep: 0
+        };
+
+        const script = [
+            { speaker: 'Голос', text: 'Грань между снами и реальностью начинает рушиться...' },
+            { speaker: 'Ария', text: 'Где я? Это снова сон или реальность?' },
+            { 
+                choices: [
+                    { text: 'Оглядеться по сторонам (Бесплатно)', nextStep: 3, cost: 0 },
+                    { text: 'Вспомнить, как я сюда попала (💎 10)', nextStep: 4, cost: 10, premium: true }
+                ]
+            },
+            { speaker: 'Ария', text: 'Вокруг темнота, пронизанная неоновыми вспышками сознания.', nextStep: 5 },
+            { speaker: 'Ария', text: 'Память услужливо подкинула обрывки прошлого сна...', nextStep: 5 },
+            { speaker: 'Голос', text: 'Добро пожаловать в REMnant. Просыпаться уже поздно.' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDialogue();
+        });
+
+        function updateUI() {
+            localStorage.setItem('narrati_diamonds', state.diamonds);
+        }
+
+        function renderDialogue() {
+            const current = script[state.dialogueStep];
+            const overlay = document.getElementById('choices-overlay');
+
+            if (!current) {
+                location.href = '../../index.html'; // Возврат на главную
+                return;
+            }
+
+            if (current.choices) {
+                overlay.innerHTML = '';
+                overlay.classList.add('active');
+                current.choices.forEach(choice => {
+                    const btn = document.createElement('button');
+                    btn.className = `choice-btn ${choice.premium ? 'premium' : ''}`;
+                    btn.innerHTML = `<span>${choice.text}</span>`;
+                    btn.onclick = (e) => {
+                        e.stopPropagation();
+                        makeChoice(choice);
+                    };
+                    overlay.appendChild(btn);
+                });
+            } else {
+                overlay.classList.remove('active');
+                document.getElementById('speaker-name').innerText = current.speaker;
+                document.getElementById('dialogue-text').innerText = current.text;
+            }
+        }
+
+        function nextDialogue() {
+            const current = script[state.dialogueStep];
+            if (current && current.choices) return;
+            
+            state.dialogueStep = (current && current.nextStep !== undefined) ? current.nextStep : state.dialogueStep + 1;
+            renderDialogue();
+        }
+
+        function makeChoice(choice) {
+            if (choice.cost > 0) {
+                if (state.diamonds < choice.cost) {
+                    alert('Недостаточно алмазов 💎!');
+                    return;
+                }
+                state.diamonds -= choice.cost;
+                updateUI();
+            }
+            state.dialogueStep = choice.nextStep;
+            renderDialogue();
+        }
+    </script>
+</body>
+</html>
