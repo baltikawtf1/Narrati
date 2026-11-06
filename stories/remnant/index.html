@@ -1,44 +1,34 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>REMnant — Narrati</title>
+    <title>REMnant — Серия 1</title>
     <link rel="stylesheet" href="../../assets/css/style.main.css">
     <link rel="stylesheet" href="../../assets/css/style.story.css">
 </head>
 <body>
 
     <div class="app-container">
+        <!-- Экран чтения новеллы -->
         <div id="page-reader" class="page active" style="display: flex;">
             <div class="game-scene" id="scene-click-area" onclick="nextDialogue()">
-                <div class="game-scene" id="scene-click-area" onclick="nextDialogue()">
                 
-    <!-- 1. ФОН (берется из папки images) -->
-    <img src="images/room.webp" class="game-background" alt="Фон" onerror="this.style.display='none'">
+                <!-- ФОН (меняется динамически) -->
+                <img id="game-bg" src="images/foyer.webp" class="game-background" alt="Фон" onerror="this.style.display='none'">
 
-    <!-- 2. СПРАЙТ ГЕРОИНИ (берется из папки images) -->
-    <img id="char-sprite" class="character-sprite" src="images/Esme_main.PNG" alt="Эсме">
+                <!-- СПРАЙТ ЭСМЕ (Слева во весь экран) -->
+                <img id="char-sprite" class="character-sprite" src="images/Esme_main.PNG" alt="Эсме">
 
-    <!-- ДИАЛОГОВОЕ ОКНО -->
-    <div class="dialogue-box">
-        <div class="speaker-name" id="speaker-name">Эсме</div>
-        <div class="dialogue-text" id="dialogue-text">привет...</div>
-        <div class="tap-hint">Нажмите для продолжения ➔</div>
-    </div>
-</div>
-
-                
-                <!-- Здесь можно сделать ссылку на обложку или картинку из этой же папки -->
-                <img src="cover.jpg" class="game-background" alt="Фон" onerror="this.style.display='none'">
-
+                <!-- ДИАЛОГОВОЕ ОКНО -->
                 <div class="dialogue-box">
-                    <div class="speaker-name" id="speaker-name">Незнакомец</div>
+                    <div class="speaker-name" id="speaker-name">Эсме</div>
                     <div class="dialogue-text" id="dialogue-text">...</div>
                     <div class="tap-hint">Нажмите для продолжения ➔</div>
                 </div>
             </div>
 
+            <!-- ОВЕРЛЕЙ ВЫБОРОВ -->
             <div class="choices-overlay" id="choices-overlay"></div>
         </div>
     </div>
@@ -49,37 +39,117 @@
             dialogueStep: 0
         };
 
+        // Текст 1 серии и развилка
         const script = [
-            { speaker: 'Голос', text: 'Грань между снами и реальностью начинает рушиться...' },
-            { speaker: 'Ария', text: 'Где я? Это снова сон или реальность?' },
+            // СЦЕНА 1
+            { 
+                speaker: 'Автор', 
+                text: 'Тяжелый воздух закрытого клуба пахнет дорогой водкой, озоном и жженым сахаром — стандартным стабилизатором воздуха против ранних «осадков».',
+                bg: 'images/foyer.webp',
+                sprite: null 
+            },
+            { 
+                speaker: 'Автор', 
+                text: 'На часах три ночи, но ночь здесь условность. В мире, где никто не спит, время измеряется дозами синтетика.',
+                sprite: null 
+            },
+            { 
+                speaker: 'Автор', 
+                text: 'Эсме стоит у панорамного окна, глядя на неоновый дождь за стеклом. В отражении она видит собственные глаза — белые сосудики лопаются в уголках. 72 часа без искреннего сна. Только короткие перерывы под «Стерилином».',
+                sprite: 'images/Esme_main.png' 
+            },
+            { speaker: 'Ленн', text: '(Шум в правом наушнике) Эсме. Прием. Ты выглядишь так, будто готова раствориться прямо на паркете.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'Документы подписаны? Корпорация не любит, когда кураторы задерживаются в таких местах.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'Это «аукционы для богатых», а не благотворительная столовая для сомнамбул.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Эсме', text: 'Я просто смотрю на город, Ленн. Знаешь, что самое страшное в мире без снов?', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'То, что люди разучились видеть сны сами?', sprite: 'images/Esme_main.png' },
+            { speaker: 'Эсме', text: 'Нет. То, что улицы стали слишком громкими. Тишина умерла вместе с последней естественной фазой REM.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Эсме', text: 'Даже когда люди молчат, их головы звенят от усталости.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'Брось философию. Менеджер зала уже косится на твой бейдж SomnaCorp. Иди в главный зал.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'Торги начинаются через пять минут. Лот тяжелый — чей-то корпоративный кошмар класса «Бетта». Не забудь калибровать сканер.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Автор', text: 'Эсме вздыхает, потирая переносицу. Пальцы лежат на панели управления в кармане пальто.\n[ Порог бодрствования: 45% ]', sprite: 'images/Esme_main.png' },
+
+            // СЦЕНА 2
+            { 
+                speaker: 'Автор', 
+                text: 'Зал утопает в приглушенном багровом свете. Бархатные кресла заполнены людьми в дорогих масках — элита, способная платить за чужой адреналин.',
+                bg: 'images/main_hall.webp',
+                sprite: 'images/Esme_main.png'
+            },
+            { speaker: 'Автор', text: 'В центре зала на подиуме под защитным стеклом пульсирует сгусток фиолетовых кристаллов, сплетенных в подобие разорванной грудной клетки.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Аукционист', text: 'Лот номер четырнадцать, господа. Эксклюзив. Тематика: «Утро после неизбежного». Начальная ставка — сто тысяч кредитов.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Аукционист', text: 'Обратите внимание на чистоту граней. Никакой примеси бытовой паранойи. Чистая, элитарная тревога.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Мужчина в маске', text: 'Двести тысяч. Мне нужна эта эстетика распада для моего зимнего сада.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Эсме', text: '(Тихо) Идиот... Зимний сад ему подавай. Скоро этот распад прорастет сквозь твой паркет и выжрет тебе глаза.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'Эсме, не привлекай внимания. Просто сделай замеры. Если осадок нестабилен — мы обязаны его нейтрализовать.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Эсме', text: 'Замеры в норме... Стоп.', sprite: 'images/Esme_main.png' },
+
+            // СЦЕНА 3
+            { speaker: 'Автор', text: 'Экран сканера начинает мигать тревожным желтым светом. Кристаллы меняют цвет с фиолетового на холодный, мертвенно-белый.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Автор', text: 'Кристаллы выстраиваются в геометрическую матрицу. В центре формируется проекция: комната, треснувшая кружка, книга на странице 42 и... тени вокруг мертвого тела.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Мужчина в маске', text: 'Ого... А чей это почерк? Я не видел таких чистых линий на прошлых торгах.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Аукционист', text: 'Ммм... Странно. Система регистрации лотов не видит автора. Лот поступил из закрытого шлюза...', sprite: 'images/Esme_main.png' },
+            { speaker: 'Автор', text: 'Эсме делает шаг вперед. На полу проекции лежит женщина с ее собственным лицом.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'Эсме? Что там происходит? Датчики фиксируют аномальный всплеск нейро-активности! Чей это слепок?!', sprite: 'images/Esme_main.png' },
+            { speaker: 'Эсме', text: 'Это не абстракция, Ленн... Это не чужой страх.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Ленн', text: 'Тогда чей он?!', sprite: 'images/Esme_main.png' },
+            { speaker: 'Эсме', text: 'Это моя квартира. И... это я. Меня убивают. Через три часа.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Автор', text: 'Зал затихает. Проекция оживает: силуэт с ножом поворачивается. Лицо скрыто за зеркальной маской.', sprite: 'images/Esme_main.png' },
+            { speaker: 'Сканер', text: '⚠️ ВНИМАНИЕ. ОБНАРУЖЕНА СИНХРОНИЗАЦИЯ С ОПЕРАТОРОМ. ТРЕБУЕТСЯ НЕМЕДЛЕННОЕ ВМЕШАТЕЛЬСТВО.', sprite: 'images/Esme_main.png' },
+
+            // ПЕРВЫЙ ВЫБОР ДЛЯ ИГРОКА!
             { 
                 choices: [
-                    { text: 'Оглядеться по сторонам (Бесплатно)', nextStep: 3, cost: 0 },
-                    { text: 'Вспомнить, как я сюда попала (💎 10)', nextStep: 4, cost: 10, premium: true }
+                    { text: 'Взломать защитную систему подиума (💎 10)', nextStep: 30, cost: 10, premium: true },
+                    { text: 'Перегрузить сканер SomnaCorp (Бесплатно)', nextStep: 31, cost: 0 },
+                    { text: 'Крикнуть Ленну отрубить питание (Бесплатно)', nextStep: 32, cost: 0 }
                 ]
             },
-            { speaker: 'Ария', text: 'Вокруг темнота, пронизанная неоновыми вспышками сознания.', nextStep: 5 },
-            { speaker: 'Ария', text: 'Память услужливо подкинула обрывки прошлого сна...', nextStep: 5 },
-            { speaker: 'Голос', text: 'Добро пожаловать в REMnant. Просыпаться уже поздно.' }
+
+            // ВЕТКА: ПРЕМИУМ ВЗЛОМ (30)
+            { speaker: 'Эсме', text: 'Я активирую протокол экстренного перехвата прямо через персональный терминал.', nextStep: 33, sprite: 'images/Esme_main.png' },
+
+            // ВЕТКА: СКАНЕР (31)
+            { speaker: 'Эсме', text: 'Выкручиваю мощность сканера на максимум! Импульс должен сбить матрицу кристаллов.', nextStep: 33, sprite: 'images/Esme_main.png' },
+
+            // ВЕТКА: ЛЕНН (32)
+            { speaker: 'Эсме', text: 'Ленн, гаси этот чертов модуль связи! Живо!', nextStep: 33, sprite: 'images/Esme_main.png' },
+
+            // ФИНАЛ 1 СЕРИИ (33)
+            { speaker: 'Автор', text: 'Вспышка светящегося озона ослепляет зал. Стекло купола покрывается мелкими трещинами, а зеркальная маска убийцы в проекции разлетается на тысячи осколков...', sprite: 'images/Esme_main.png' },
+            { speaker: 'Автор', text: 'Конец 1 серии. Продолжение следует...', sprite: null }
         ];
 
         document.addEventListener('DOMContentLoaded', () => {
             renderDialogue();
         });
 
-        function updateUI() {
-            localStorage.setItem('narrati_diamonds', state.diamonds);
-        }
-
         function renderDialogue() {
             const current = script[state.dialogueStep];
             const overlay = document.getElementById('choices-overlay');
+            const spriteImg = document.getElementById('char-sprite');
+            const bgImg = document.getElementById('game-bg');
 
             if (!current) {
-                location.href = '../../index.html'; // Возврат на главную
+                location.href = '../../index.html';
                 return;
             }
 
+            // Динамическая смена фона
+            if (current.bg) {
+                bgImg.src = current.bg;
+                bgImg.style.display = 'block';
+            }
+
+            // Динамическая смена/скрытие спрайта
+            if (current.sprite) {
+                spriteImg.src = current.sprite;
+                spriteImg.style.display = 'block';
+            } else if (current.sprite === null) {
+                spriteImg.style.display = 'none';
+            }
+
+            // Выбор или диалог
             if (current.choices) {
                 overlay.innerHTML = '';
                 overlay.classList.add('active');
@@ -115,7 +185,7 @@
                     return;
                 }
                 state.diamonds -= choice.cost;
-                updateUI();
+                localStorage.setItem('narrati_diamonds', state.diamonds);
             }
             state.dialogueStep = choice.nextStep;
             renderDialogue();
