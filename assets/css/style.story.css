@@ -1,4 +1,4 @@
- #page-reader {
+#page-reader {
     background: #000;
     overflow: hidden;
 }
@@ -8,7 +8,7 @@
     position: relative;
     background: linear-gradient(180deg, #1E1B4B 0%, #070B14 100%);
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* Прижимаем всё к левому краю */
     align-items: flex-end;
     overflow: hidden;
 }
@@ -20,10 +20,15 @@
     z-index: 1;
 }
 
+/* Настройки спрайта: слева, почти во весь экран по высоте */
 .character-sprite {
-    height: 75%;
-    max-height: 480px;
+    height: 95%;           /* Занимает почти всю высоту экрана */
+    max-height: none;      /* Снимаем ограничение в 480px */
+    width: auto;           /* Сохраняем пропорции картинки */
+    position: relative;
+    left: -20px;           /* Чуть сдвигаем к самому левому краю (можно убрать, если не нужно) */
     z-index: 2;
+    object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
 }
 
