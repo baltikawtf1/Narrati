@@ -12,6 +12,22 @@
     <div class="app-container">
         <div id="page-reader" class="page active" style="display: flex;">
             <div class="game-scene" id="scene-click-area" onclick="nextDialogue()">
+                <div class="game-scene" id="scene-click-area" onclick="nextDialogue()">
+                
+    <!-- 1. ФОН (берется из папки images) -->
+    <img src="images/room.webp" class="game-background" alt="Фон" onerror="this.style.display='none'">
+
+    <!-- 2. СПРАЙТ ГЕРОИНИ (берется из папки images) -->
+    <img id="char-sprite" class="character-sprite" src="images/Esme_main.PNG" alt="Эсме">
+
+    <!-- ДИАЛОГОВОЕ ОКНО -->
+    <div class="dialogue-box">
+        <div class="speaker-name" id="speaker-name">Эсме</div>
+        <div class="dialogue-text" id="dialogue-text">привет...</div>
+        <div class="tap-hint">Нажмите для продолжения ➔</div>
+    </div>
+</div>
+
                 
                 <!-- Здесь можно сделать ссылку на обложку или картинку из этой же папки -->
                 <img src="cover.jpg" class="game-background" alt="Фон" onerror="this.style.display='none'">
