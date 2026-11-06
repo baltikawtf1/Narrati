@@ -8,8 +8,8 @@
     position: relative;
     background: linear-gradient(180deg, #1E1B4B 0%, #070B14 100%);
     display: flex;
-    justify-content: flex-start; /* Прижимаем всё к левому краю */
-    align-items: flex-end;
+    justify-content: flex-start; /* Прижимаем к левому краю */
+    align-items: flex-end;     /* Прижимаем к низу */
     overflow: hidden;
 }
 
@@ -20,13 +20,14 @@
     z-index: 1;
 }
 
-/* Настройки спрайта: слева, почти во весь экран по высоте */
+/* Настройки спрайта: нормальный размер, слева, снизу */
 .character-sprite {
-    height: 95%;           /* Занимает почти всю высоту экрана */
-    max-height: none;      /* Снимаем ограничение в 480px */
-    width: auto;           /* Сохраняем пропорции картинки */
-    position: relative;
-    left: -20px;           /* Чуть сдвигаем к самому левому краю (можно убрать, если не нужно) */
+    height: 75vh;          /* Занимает 75% от высоты экрана (идеально для телефона) */
+    max-height: 520px;     /* Ограничение, чтобы не был слишком огромным */
+    width: auto;           /* Сохраняем пропорции, чтобы не сплющило */
+    position: absolute;
+    left: 0px;             /* Сдвигаем строго к левому краю */
+    bottom: 0px;           /* Ставим на нижнюю границу (над диалоговым окном) */
     z-index: 2;
     object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
@@ -41,7 +42,7 @@
     border-radius: 20px;
     padding: 16px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    z-index: 10;
+    z-index: 10;           /* Диалог поверх спрайта */
 }
 
 .speaker-name {
