@@ -8,8 +8,8 @@
     position: relative;
     background: linear-gradient(180deg, #1E1B4B 0%, #070B14 100%);
     display: flex;
-    justify-content: flex-start; /* Прижимаем к левому краю */
-    align-items: flex-end;     /* Прижимаем к низу */
+    justify-content: flex-start;
+    align-items: flex-end;
     overflow: hidden;
 }
 
@@ -20,63 +20,104 @@
     z-index: 1;
 }
 
-/* Настройки спрайта: нормальный размер, слева, снизу */
+/* 1. Спрайт: крупный, смещен влево и прижат к низу */
 .character-sprite {
-    height: 75vh;          /* Занимает 75% от высоты экрана (идеально для телефона) */
-    max-height: 520px;     /* Ограничение, чтобы не был слишком огромным */
-    width: auto;           /* Сохраняем пропорции, чтобы не сплющило */
+    height: 90vh;          /* Делаем его значительно больше по высоте */
+    max-height: 700px;     /* Увеличиваем лимит */
+    width: auto;           
     position: absolute;
-    left: 0px;             /* Сдвигаем строго к левому краю */
-    bottom: 0px;           /* Ставим на нижнюю границу (над диалоговым окном) */
-    z-index: 2;
+    left: -30px;           /* Сдвигаем влево за край экрана для лучшей композиции */
+    bottom: -20px;         /* Чуть утапливаем вниз */
+    z-index: 5;            
     object-fit: contain;
-    filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.2));
+    filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.25));
 }
 
+/* 2. Полупрозрачное диалоговое окно */
 .dialogue-box {
     position: absolute;
-    bottom: 20px; left: 15px; right: 15px;
-    background: rgba(15, 23, 42, 0.92);
-    backdrop-filter: blur(16px);
-    border: 1px solid var(--border-color);
+    left: 15px; 
+    right: 15px;
+    /* Делаем окно полупрозрачным */
+    background: rgba(15, 23, 42, 0.65); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(56, 189, 248, 0.3);
     border-radius: 20px;
     padding: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    z-index: 10;           /* Диалог поверх спрайта */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    z-index: 10;
+}
+
+/* 3. Позиционирование окон по высоте экрана */
+/* Если говорит АВТОР (описание) — окно почти по середине экрана */
+.dialogue-box.author-mode {
+    top: 38%;              
+    bottom: auto;
+}
+
+/* Если говорит ПЕРСОНАЖ (реплика) — окно чуть ниже середины экрана */
+.dialogue-box.character-mode {
+    top: 52%;              
+    bottom: auto;
 }
 
 .speaker-name {
-    font-size: 14px; font-weight: 700; color: var(--accent-cyan);
-    margin-bottom: 6px; text-transform: uppercase;
+    font-size: 13px; 
+    font-weight: 700; 
+    color: var(--accent-cyan);
+    margin-bottom: 6px; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.dialogue-text { font-size: 14px; line-height: 1.4; color: var(--text-main); min-height: 42px; }
-.tap-hint { text-align: right; font-size: 10px; color: var(--text-muted); margin-top: 6px; }
+.dialogue-text { 
+    font-size: 14px; 
+    line-height: 1.45; 
+    color: var(--text-main); 
+    min-height: 40px; 
+}
 
+.tap-hint { 
+    text-align: right; 
+    font-size: 10px; 
+    color: var(--text-muted); 
+    margin-top: 6px; 
+}
+
+/* 4. Полупрозрачный оверлей для выборов */
 .choices-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(7, 11, 20, 0.7);
-    backdrop-filter: blur(6px);
+    background: rgba(7, 11, 20, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: none;
     flex-direction: column;
     justify-content: center;
-    padding: 25px; gap: 12px;
+    padding: 25px; 
+    gap: 12px;
     z-index: 20;
 }
 
 .choices-overlay.active { display: flex; }
 
 .choice-btn {
-    background: var(--bg-card);
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(4px);
     border: 1px solid var(--border-color);
     color: var(--text-main);
-    padding: 14px 18px; border-radius: 16px;
-    font-size: 14px; font-weight: 600; cursor: pointer;
-    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 18px; 
+    border-radius: 16px;
+    font-size: 14px; 
+    font-weight: 600; 
+    cursor: pointer;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
 }
 
 .choice-btn.premium {
     border-color: var(--diamond-color);
-    background: linear-gradient(90deg, rgba(236, 72, 153, 0.15), var(--bg-card));
+    background: linear-gradient(90deg, rgba(236, 72, 153, 0.25), rgba(15, 23, 42, 0.85));
 }
