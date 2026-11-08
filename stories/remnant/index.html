@@ -125,50 +125,63 @@
         });
 
         function renderDialogue() {
-            const current = script[state.dialogueStep];
-            const overlay = document.getElementById('choices-overlay');
-            const spriteImg = document.getElementById('char-sprite');
-            const bgImg = document.getElementById('game-bg');
+    const current = script[state.dialogueStep];
+    const overlay = document.getElementById('choices-overlay');
+    const spriteImg = document.getElementById('char-sprite');
+    const bgImg = document.getElementById('game-bg');
+    const dialogueBox = document.querySelector('.dialogue-box');
 
-            if (!current) {
-                location.href = '../../index.html';
-                return;
-            }
+    if (!current) {
+        location.href = '../../index.html';
+        return;
+    }
 
-            // Динамическая смена фона
-            if (current.bg) {
-                bgImg.src = current.bg;
-                bgImg.style.display = 'block';
-            }
+    // Динамическая смена фона
+    if (current.bg) {
+        bgImg.src = current.bg;
+        bgImg.style.display = 'block';
+    }
 
-            // Динамическая смена/скрытие спрайта
-            if (current.sprite) {
-                spriteImg.src = current.sprite;
-                spriteImg.style.display = 'block';
-            } else if (current.sprite === null) {
-                spriteImg.style.display = 'none';
-            }
-
-            // Выбор или диалог
-            if (current.choices) {
-                overlay.innerHTML = '';
-                overlay.classList.add('active');
-                current.choices.forEach(choice => {
-                    const btn = document.createElement('button');
-                    btn.className = `choice-btn ${choice.premium ? 'premium' : ''}`;
-                    btn.innerHTML = `<span>${choice.text}</span>`;
-                    btn.onclick = (e) => {
-                        e.stopPropagation();
-                        makeChoice(choice);
-                    };
-                    overlay.appendChild(btn);
-                });
-            } else {
-                overlay.classList.remove('active');
-                document.getElementById('speaker-name').innerText = current.speaker;
-                document.getElementById('dialogue-text').innerText = current.text;
-            }
+    // Управление спрайтом
+    if (current.sprite !== undefined) {
+        if (current.sprite === null) {
+            spriteImg.style.display = 'none';
+        } else {
+            spriteImg.src = current.sprite;
+            spriteImg.style.display = 'block';
         }
+    }
+
+    // Определяем, кто говорит, и двигаем окно по высоте
+    if (current.speaker === 'Автор' || current.speaker === 'Автор / Описание') {
+        dialogueBox.classList.remove('character-mode');
+        dialogueBox.classList.add('author-mode');
+    } else {
+        dialogueBox.classList.remove('author-mode');
+        dialogueBox.classList.add('character-mode');
+    }
+
+    // Выбор или диалог
+    if (current.choices) {
+        overlay.innerHTML = '';
+        overlay.classList.add('active');
+        current.choices.forEach(choice => {
+            const btn = document.createElement('button');
+            btn.className = `choice-btn ${choice.premium ? 'premium' : ''}`;
+            btn.innerHTML = `<span>${choice.text}</span>`;
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                makeChoice(choice);
+            };
+            overlay.appendChild(btn);
+        });
+    } else {
+        overlay.classList.remove('active');
+        document.getElementById('speaker-name').innerText = current.speaker;
+        document.getElementById('dialogue-text').innerText = current.text;
+    }
+}
+
 
         function nextDialogue() {
             const current = script[state.dialogueStep];
